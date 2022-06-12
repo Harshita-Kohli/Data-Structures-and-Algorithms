@@ -1,0 +1,34 @@
+class Solution
+{
+    public:
+    int t[1001][1001]; //2d dp array
+    //Function to return max value that can be put in knapsack of capacity W.
+    //Top down approach(Recursion+memoization)
+    int topDown(int W, int wt[], int val[], int n){
+       //base case:
+       if(n==0 || W==0){
+           return t[n][W] = 0;//no profit can be made if no of items is 0 or knapsack capacity is 0
+       }
+       
+       if(t[n][W] != -1){
+           return t[n][W];//because it is already computed
+       }
+       //recursive case:
+       if(wt[n-1]<=W){ //choice: either include the n-1th item or exclude it and take max
+           t[n][W] = max(val[n-1]+topDown(W-wt[n-1],wt,val,n-1),topDown(W,wt,val,n-1));
+       }
+       
+       else{ //we can't include the n-1 th item
+           t[n][W] = topDown(W,wt,val,n-1);
+       }
+       return t[n][W];
+    }
+    int knapSack(int W, int wt[], int val[], int n) 
+    { 
+       // Your code here
+       memset(t,-1,sizeof(t));
+       return topDown(W,wt,val,n);
+    }
+       
+};
+
