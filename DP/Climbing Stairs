@@ -1,0 +1,40 @@
+// class Solution {
+// public:
+//     int t[46];//1 d dp array
+//     //topdown approach:
+//     int topdown(int n){
+//         //base case:
+//         if(n==0 || n==1) 
+//         {
+//             t[n]=1;//1 way to stand at ground or at 1st step
+//         }
+//         //memoization wala check:
+//         if(t[n] !=-1){
+//             return t[n];
+//         }
+//         //recursive case:
+//         t[n] = topdown(n-1)+topdown(n-2);//we compute the no of ways to reach n-1th step and n-2 th step, and add these 2 answers because 
+//         return t[n];
+//     }
+//     int climbStairs(int n) {
+//         memset(t,-1,sizeof(t));
+//         return topdown(n);        
+//     }
+// };
+class Solution {
+    public:
+    //bottom up
+    int climbStairs(int n) {
+        int t[n+1];//1d dp array
+        
+        //initialisation:
+        t[0] = 1;//1 way to stand at ground and 1 way to stand at 1st step
+        t[1] = 1;
+        
+        //filling the rest of the matrix
+        for(int i = 2;i<=n;i++){
+            t[i] = t[i-1]+t[i-2];//we can reach the nth step from n-1th OR n-2th step ...becoz of OR, we add the 2 values
+        }
+    return t[n];
+    }
+};
