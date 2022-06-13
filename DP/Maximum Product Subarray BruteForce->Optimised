@@ -1,0 +1,77 @@
+The approach is to traverse the array by maintaining two variables min_so_far and max_so_far. Now while traversing if the present element at ith index is negative we swap the min_so_far and max_so_far so that by multiplying negative number with minimum value gives a maximum value.
+->The max_so_far depends on the maximum of current element and the product of current element with previous max_so_far.
+->The min_so_far depends on the minimum of current element and the product of current element with previous min_so_far.
+->Another variable max_product is maintained to find maximum product of sub arrays upto that iteration and max_product is finally returned after all iterations.
+This approach is of time complexity O(n) and space complexity of O(1).
+
+
+//-----------------------------------------------------------------------
+//Brute force approach: O(n^2) time complexity
+//We generate all subarrays and compute there products to find the maximum product
+// class Solution {
+// public:
+//     int maxProduct(vector<int>& nums) {
+//         
+//         int n = nums.size();
+//         int ans = INT_MIN;
+//         for(int i = 0;i<n;i++){
+//             int prod = 1;
+//             for(int j = i;j<n;j++){
+//                 prod*=nums[j];
+//                 ans = max(ans,prod);
+//             }
+//         }
+//         return ans;
+//     }
+// };
+//-----------------------------------------------------------------------
+//Optimised Approach: O(n) time and O(1) space complexity
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int min_so_far = nums[0]; //initially, min,max and prod are initialised to first element
+        int max_so_far = nums[0];
+        int prod = nums[0];
+        int n = nums.size();
+        
+        for(int i = 1;i<n;i++){
+            if(nums[i]<0){ //agar number negative hai, to min_so_far aur max_so_far ko swap karlo kyunki -ve number se multiply karke min_so_far maximum ho jayega, aur max_so_far minimum ho jayega
+                swap(min_so_far, max_so_far);
+            }
+            min_so_far = min(nums[i],nums[i]*min_so_far);//ya to current number minimum ha ya phir current number*min_so_far
+            max_so_far = max(nums[i],nums[i]*max_so_far);
+            prod = max(prod,max_so_far); //prod aur max_so_far me se jo bada hai wo prod me store karlo
+        }
+        return prod;
+    }
+};
+----------------------------------------------------------------
+2 Pass Kadane's Algorithm:
+// class Solution {
+// public:
+//     int maxProduct(vector<int>& nums) {
+//        int n = nums.size();
+//        int cur_prod = 1;
+//        int maxim = INT_MIN;//initially, ans is -infinity
+//        //Using 2 Pass Kadane's algo,
+//         //First pass from left to right:
+//        for (int i = 0;i<n;i++) {
+//            cur_prod = cur_prod * nums[i];
+//            maxim = max(cur_prod,maxim);
+//            if(cur_prod == 0) {//if product becomes 0, we reset it to 1
+//                cur_prod = 1;
+//            }
+//        }
+       
+//        cur_prod = 1;
+//        //Second pass from right to left to check if we get a better answer from this reverse iteration:
+//        for (int i = nums.size()-1; i>=0; i--) {
+//            cur_prod = cur_prod * nums[i];
+//            maxim = max(cur_prod, maxim);
+//            if(cur_prod == 0) {//if product becomes 0, we reset it to 1
+//                cur_prod = 1;
+//            }      
+//        }
+//        return maxim;
+//    }
+// };
