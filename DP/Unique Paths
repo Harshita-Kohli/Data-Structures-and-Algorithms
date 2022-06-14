@@ -1,0 +1,44 @@
+// class Solution {
+// public:
+// Bottom up approach:
+//     int uniquePaths(int m, int n) {
+//         int t[m][n];//2d dp array because m and n are 2 variable parameters
+//         for(int i = 0;i<m;i++){
+//             for(int j = 0;j<n;j++){
+//                 if(i==0 || j==0){
+//                     t[i][j] = 1;//for 1st row and 1st column, we have only 1 way to reach each cell...
+//                 }
+//             }
+//         }
+//         //filling the rest of the matrix:
+//         for(int i = 1;i<m;i++){
+//             for(int j = 1;j<n;j++){
+//                 t[i][j] = t[i-1][j]+t[i][j-1];//the no of ways to reach (i,j) = no of ways to reach (i-1,j)+(i,j-1)
+//             }
+//         }
+//         return t[m-1][n-1];//total no of ways to reach the bottom right corner
+//     }
+// };
+//----------------------------------------------------------------
+class Solution {
+public:
+    //Top Down Approach:
+    int t[100][100];//2d dp array
+    int topdown(int m, int n){
+        //base case:
+        if(m==0 || n==0){
+            return t[m][n] = 1;
+        }
+        //avoiding recomputation of overlapping subproblems
+        if(t[m][n] != -1) return t[m][n];
+        
+        //recursive case:
+        t[m][n] = topdown(m-1,n)+topdown(m,n-1);
+        return t[m][n];
+    }
+    
+    int uniquePaths(int m, int n) {
+       memset(t,-1,sizeof(t));
+        return topdown(m-1,n-1);
+    }
+};
