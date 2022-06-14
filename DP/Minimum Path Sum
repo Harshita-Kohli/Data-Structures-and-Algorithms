@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        //Bottom Up Approach
+        int m = grid.size();//no of rows
+        int n = grid[0].size();//no of columns
+        int t[m][n];//2d dp array
+        
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(i==0 && j==0){
+                    t[i][j] = grid[i][j];
+                }
+                else if(i==0)//for first row:
+                {
+                    t[i][j] = grid[i][j]+t[i][j-1];
+                }
+                else if(j==0) //for 1st column
+                {
+                    t[i][j] = grid[i][j]+t[i-1][j];
+                }
+            }
+        }
+        for(int i = 1;i<m;i++){
+            for(int j = 1;j<n;j++){
+                t[i][j] = grid[i][j]+min(t[i-1][j],t[i][j-1]);
+            }
+        }
+    return t[m-1][n-1];
+    }
+};
