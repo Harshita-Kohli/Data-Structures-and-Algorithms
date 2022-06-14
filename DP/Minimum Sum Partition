@@ -1,0 +1,49 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+  public:
+  
+  //This question is a variation of Equal sum partition
+	int minDifference(int arr[], int n)  { 
+	    // Your code goes here
+	    //bottom up approach:
+	    int sum = 0;
+	    for(int i = 0;i<n;i++){
+	        sum+=arr[i];
+	    }
+	    bool t[n+1][sum+1]; //2d dp array
+	    //initialisation:
+	    for(int i = 0;i<n+1;i++){
+	        for(int j = 0;j<sum+1;j++){
+	            if(i==0) t[i][j] = false;//no subset possible if size of array is 0
+	            if(j==0) t[i][j] = true;//one subset ie. null set is possible with sum=0
+	        }
+	    }
+	    for(int i = 1;i<n+1;i++){
+	        for(int j = 1;j<sum+1;j++){
+	            if(arr[i-1]<=j){ //choice either to include or exclude
+	                t[i][j] = t[i-1][j] || t[i-1][j-arr[i-1]];
+	            }
+	            else{ //exclude
+	                t[i][j] = t[i-1][j];
+	            }
+	        }
+	    }
+      
+	   int s1;
+	    int minim = INT_MAX;
+	    //find the range of the s1 sum 
+	    for(int j = 0;j<=(sum/2);j++){
+	        if(t[n][j] == true)//from all the true entries in the last row of the matrix, we get the range of the values of s1
+	        {
+	       //   range.push_back(j);//we push back the possible candidates for s1
+	        s1 = j;
+	        minim = min(minim,sum-(2*s1));
+	        }
+	    }
+	    return minim;
+	} 
+};
