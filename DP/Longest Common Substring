@@ -1,0 +1,40 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+ // } Driver Code Ends
+class Solution{
+    public:
+    
+    int longestCommonSubstr (string S1, string S2, int n, int m)
+    {
+        // your code here
+        //Bottom Up
+        int maxim = 0;
+        int t[n+1][m+1];//2d dp array
+        //initialisation:
+        for(int i = 0;i<n+1;i++){
+            for(int j = 0;j<m+1;j++){
+                if(i==0 || j==0){//agar koi bhi ek string empty hai to unme kuch bhi common nahi hai
+                    t[i][j] = 0 ;
+                }
+            }
+        }
+        //filling rest of the matrix
+        for(int i = 1;i<n+1;i++){
+            for(int j = 1;j<m+1;j++){
+                if(S1[i-1]==S2[j-1])//if the characters are common
+                {
+                    //step1: length increment karlo kyunki ek aur character common hai jo is continuous subarray ki continuity ko maintain kar raha hai 
+                    t[i][j] = 1+t[i-1][j-1];
+                    //step2: maxim ko update karlo
+                    maxim = max(maxim,t[i][j]);
+                }
+                else{
+                    t[i][j] = 0;//nahi to agar characters common nahi hain to length ko 0 karlo lyunki 
+                }
+            }
+        }
+        return maxim;
+    }
+};
