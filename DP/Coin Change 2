@@ -1,0 +1,27 @@
+class Solution {
+public:
+    //Bottom Up Approach:
+    int change(int amount, vector<int>& coins) {
+        int n = coins.size();
+        int t[n+1][amount+1];//2d dp array, where t[i][j] denotes the no of ways if no of coins=i and amount = j
+        //initialisation:
+            for(int j = 0;j<amount+1;j++){ //for 0th row, as no of coins = 0, so no of ways to make up the amount will be infinite
+                t[0][j] = 0;
+            }
+        for(int i = 0;i<n+1;i++){ //for 0th column,as the target amount is 0, so we have 1 way to make up 0 amount
+                t[i][0] = 1;
+            }
+        //filling the rest of the matrix:
+        for(int i = 1;i<n+1;i++){
+            for(int j = 1;j<amount+1;j++){
+                if(coins[i-1]<=j){ //if the coin ki value is less than target, then either we can include that coin or exclude it 
+                    t[i][j] = t[i][j-coins[i-1]]+t[i-1][j];
+                }
+                else{
+                    t[i][j] = t[i-1][j];
+                }
+            }
+        }
+    return t[n][amount];
+    }
+};
