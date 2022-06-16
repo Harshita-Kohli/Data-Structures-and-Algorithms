@@ -1,0 +1,39 @@
+s= "2265"
+for i=2-> single = 2 as 2>=1, so t[2] +=t[1] => t[2] = 1 (1 way to decode) ..agar 2 ko 2 ke baad laga do to 'bb' ban jayega..this is one way to decode
+double = 22 as 22>=10 && 22<=26, so t[2] +=t[0] =>t[2] = 1+1 = 2(2 ways to decode ho gayi ab kyunki ya to 'bb' ya phir 22 as a double digit hoga->'v'
+
+for i=3 -> single = 6 as 6>=1, so t[3] +=t[2] => t[3] = 2 (2 ways to decode) ..agar 6 ko 2 ke baad laga do to 'bbf' aur 'vf' ban jayenge..these are 2 ways to decode
+double = 26 as 26>=10 && 26<=26, so t[3] +=t[1] =>t[3] = 2+1 = 3(3 ways to decode ho gayi ab kyunki ya to 'bbf' aur 'vf' ya phir 26 as a double digit 2 ke baad laga sajkte hain ->'bv'
+
+for i = 4-> single = 5 as 5>=1, so t[4] +=t[3] => t[4] = 3 (3 ways to decode) ..agar 5 ko 6 ke baad laga do to 'bbfe' aur 'vfe' aur 'bve' ban jayenge..these are 3 ways to decode
+double = 65 as 65 is not in the range of allowed double digits( ie between 10 and 26), to hum 65 as a double digit 2 ke baad nahi laga sakte ->0 ways
+
+                             So t[4] = 3 ways to decode ->**bbfe, vfe, bve** This is the final answer
+ -----------------------------------------------------------------------------------------------
+
+class Solution {
+public:
+    int numDecodings(string s) {
+        int n = s.length();
+        //corner cases:
+        if(s[0] == '0') return 0;//if leading zero in the string, 0 way to decode
+        if(n==1) return 1;//only 1 way to decode for a single length wala string
+        
+        vector<int>t(n+1,0); //2d dp array where t[i] denotes the no of ways to decode till length = i
+        
+        t[0] = 1;
+        t[1] = 1;
+        //if length of the given string >=2, then starting from th 2nd index, we have 2 choices, either take that single charcter at 2nd index and attach it to previous word or
+        for(int i = 2;i<=n;i++){
+            int single = s[i-1]-'0';
+            int doubledig = (s[i-2]-'0')*10+(s[i-1]-'0');
+            if(single>=1){ //single should not be 0, because there is no valid decoding for 0
+                t[i] += t[i-1];
+            }
+            if(doubledig>=10 && doubledig<=26){ //ya to aap double digit ko hi s[i-1] ke baad laga do...so t[i-2] ki no of ways add ho jayengi
+                t[i] +=t[i-2];
+            }
+        }
+        return t[n];
+    }
+};
