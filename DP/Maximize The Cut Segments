@@ -1,0 +1,45 @@
+// { Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+ // } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to find the maximum number of cuts.
+    int maximizeTheCuts(int n, int x, int y, int z)
+    {
+        //Your code here
+        //Same as unbounded knapsack:
+        vector<int> lengths = {x,y,z};//the length array stores the possible lengths of the cut segments
+        int m = lengths.size();
+        
+        int t[m+1][n+1];//2d dp array where t[i][j] denotes the maximum no of cut segments if length of rod is j and no. of elements in length array is i
+        //initialisation:
+        for(int i = 0;i<m+1;i++){
+            for(int j = 0;j<n+1;j++){
+                if(i==0){ //if the total length of the rod = 0 or cut segments ki length wali array is empty, max number of cut segments will be -100000
+                    t[i][j] = -100000;
+                }
+                  if(j==0)//if the lengths array does not havew any lengths of cut segments, then we can have 0 segments
+                {
+                    t[i][j] = 0;
+                }
+            }
+        }
+        for(int i = 1;i<m+1;i++){
+            for(int j = 1;j<n+1;j++){
+                if(lengths[i-1]<=j){//if length of cut segment at present is <= total length of the rod at present(j), we have 2 choices,
+                //either cut with that length or don't 
+                t[i][j] = max(1+t[i][j-lengths[i-1]],t[i-1][j]);
+                    
+                }
+                else{ //if length of cut segment at present is greater than the total length of the rod at present(j_, then we can't cut the segment of that length
+                    t[i][j] = t[i-1][j];
+                }
+            }
+            
+        }
+      
+        return max(0,t[m][n]);
+    }
+};
