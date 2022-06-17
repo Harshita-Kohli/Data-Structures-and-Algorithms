@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int countSquares(vector<vector<int>>& matrix) {
+        int m = matrix.size();//rows
+        int n = matrix[0].size();//columns
+        int t[m][n];//2d dp array where t[i][j] denotes ki matrix[i][j] kitne square submatrices ka bottom right hai
+        int ans = 0;
+        //initialisation:
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(i==0 || j==0) //if first row or first column, then if matrix[i][j] = 0, then wo 0 square bana payega. Agar matrix[i][j] = 1, then wo sirf 1 hi square ka bottom right corner ho sakta hai
+                {
+                    t[i][j] = matrix[i][j];
+                }
+            }
+        }
+        //filling the rest of it:
+        for(int i = 1;i<m;i++){
+            for(int j = 1;j<n;j++){
+                if(matrix[i][j] == 0){ //0 cannot contribute to any square submatrix
+                   t[i][j] = 0; 
+                }
+                else //agar matrix[i][j] = 1, to wo ek to akele hi ek sqaure ka bottom right hai(so 1) 
+                    //phir wo yeh bhi dekhega ki upper, left or diagonal wale cells me se konsa sab se minimum no of square submatrices ka bottom right hai..aur t[i][j] = 1+minimum
+                {
+                    t[i][j] = 1 + min(t[i-1][j-1], min(t[i-1][j],t[i][j-1]));
+                }
+            }
+        }
+        for(int i = 0;i<m;i++){
+            for(int j = 0;j<n;j++){
+                if(t[i][j]!=0){
+                    ans+=t[i][j];
+                }
+            }
+        }
+        return ans; 
+    }
+};
