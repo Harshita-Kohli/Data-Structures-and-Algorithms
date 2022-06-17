@@ -1,0 +1,55 @@
+// class Solution {
+// public:
+//     //Topdown
+//     int t[1001][1001];//2d dp array where t[n][m] denotes the length of lcs if length of text1 = n and length of text2 = m
+//     int topdown(string &text1, string &text2, int n, int m){
+//         //base case:
+//         if(n==0 || m==0){
+//             return t[n][m] = 0; //if length of text1 or text2 is 0, nothing in common
+//         }
+//         if(t[n][m]!=-1){ //avoiding recomputation of overlapping subproblems
+//             return t[n][m];
+//         }
+//         //recursive case:
+//         if(text1[n-1]==text2[m-1]){ //if characters are common, then we have found one more common character
+//             t[n][m] =  1+topdown(text1, text2, n-1,m-1);
+//         }
+//        else{ //the characters are not common, so we use the maximum out of the choices
+//            t[n][m] = max(topdown(text1, text2,n-1,m),topdown(text1, text2,n,m-1));
+//        }
+//         return t[n][m];
+//     }
+//     int longestCommonSubsequence(string text1, string text2) {
+//         memset(t,-1,sizeof(t));
+//         int n = text1.length();
+//         int m = text2.length();
+//         return topdown(text1, text2,n,m);
+//     }
+// };
+//-----------------------------------------------------
+//Bottom Up:
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int n = text1.length();
+        int m = text2.length();
+        
+        int t[n+1][m+1];//2d dp array where t[i][j] denotes the length of lcs if length of strings is i and j respectively
+        for(int i = 0 ;i<n+1;i++)
+            for(int j = 0;j<m+1;j++){
+                if(i==0 || j==0){
+                    t[i][j] = 0;//nothing common if either of the strings is empty
+                }
+            }
+        for(int i = 1;i<n+1;i++)
+            for(int j = 1;j<m+1;j++){
+                if(text1[i-1]==text2[j-1]){
+                    t[i][j] = 1+t[i-1][j-1];
+                }
+                else{
+                    t[i][j] = max(t[i-1][j],t[i][j-1]);
+                }
+            }
+        return t[n][m];
+    }
+};
