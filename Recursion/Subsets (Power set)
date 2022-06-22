@@ -1,0 +1,48 @@
+Given an integer array nums of unique elements, return all possible subsets (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+Example 2:
+
+Input: nums = [0]
+Output: [[],[0]]
+ 
+
+Constraints:
+1 <= nums.length <= 10
+-10 <= nums[i] <= 10
+All the numbers of nums are unique.
+---------------------------------------------------
+class Solution {
+public:
+    vector<vector<int>>ans;//2d vector that will have all the subsets of the nums vector
+    //Backtracking method:
+    void solve(vector<int> ip, vector<int>op){
+        //base case:
+        if(ip.size()==0)//i/p empty ho gaya, to o/p is a subset 
+        {
+            ans.push_back(op);
+            return;
+        }
+        vector<int>op1,op2;
+        op1 = op;//agar exclude karna hai to op1 will be same as op
+        op2 = op;//agar include karna hai to op2 will have op and ip ka first index wala element
+        op2.push_back(ip[0]);
+        ip.erase(ip.begin()+0);//to remove the first element of ip becoz now we have made decisions for it
+        solve(ip,op1);
+        solve(ip,op2);
+        return;
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+            vector<int>curr;//empty vector
+            // vector<vector<int>>ans;//2d vector that will have all the subsets of the nums vector
+            solve(nums,curr); //ip and op
+            return ans;   
+    }
+};
