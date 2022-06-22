@@ -1,0 +1,41 @@
+Given an integer array nums that may contain duplicates, return all possible subsets (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+Example 1:
+Input: nums = [1,2,2]
+Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+--------------------------------------------------------------
+class Solution {
+public:
+    
+    set<vector<int>>s;//set will contain only unique subsets
+    void solve(vector<int>ip, vector<int> op){
+        //base case:
+        if(ip.size()==0){ //agar ip ka si
+            s.insert(op);//set me yeh subset daldo
+            return;
+        }
+        vector<int> op1 = op;
+        vector<int> op2 = op;
+        
+        op2.push_back(ip[0]);
+        ip.erase(ip.begin()+0);
+        
+        solve(ip,op1);
+        solve(ip,op2);
+        return;
+    }
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        vector<int> curr;
+        sort(nums.begin(),nums.end());
+        solve(nums,curr);
+        
+        vector<vector<int>>ans;
+        for(auto it:s){
+            ans.push_back(it);
+        }
+        // sort
+        return ans;
+    }
+};
