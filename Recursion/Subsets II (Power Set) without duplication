@@ -28,14 +28,13 @@ public:
     }
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         vector<int> curr;
-        sort(nums.begin(),nums.end());
+        sort(nums.begin(),nums.end()); //sort the given array first
         solve(nums,curr);
         
         vector<vector<int>>ans;
         for(auto it:s){
             ans.push_back(it);
         }
-        // sort
-        return ans;
+       return ans;
     }
 };
