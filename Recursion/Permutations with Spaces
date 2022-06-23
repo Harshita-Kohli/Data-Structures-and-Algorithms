@@ -16,8 +16,8 @@ vector<string>ans;
             return;
         }
         
-        string op1 = op+" "+ip[0];//include space
-        string op2 = op+ip[0];//exclude space
+        string op1 = op+" "+ip[0];//include prefix space before adding ip[0]
+        string op2 = op+ip[0];//exclude prefix space before adding ip[0]
         
         
         ip.erase(ip.begin()+0);//we have made the decision for this character
