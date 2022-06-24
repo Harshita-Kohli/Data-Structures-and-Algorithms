@@ -1,0 +1,65 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+ // } Driver Code Ends
+//User function template for C++
+class Solution{
+public:	
+    vector<string> ans;
+    void solve(int N, string op, int ones, int zeroes){
+        //base case:
+        if(N==0){
+            ans.push_back(op);
+            return;
+        }
+        //1st recursive call is for including 1
+        string op1 = op;
+        op1+="1";//include 1 in op1
+        solve(N-1,op1,ones+1,zeroes); //we decrement N because we have used 1, increment the no of 1s used
+        
+        
+        //2nd recursive call for including 0:
+        if(ones>zeroes){ //if ones>zeroes, we can include 0 in op string.
+        //Eg: if zeroes = 4, aur ip = 5, then we can take a 0, which will make no of 1 = no of 0
+            string op2 = op;
+            op2+="0";//include 0 in op2
+            solve(N-1,op2,ones,zeroes+1);//decrease N because we have included 0 and increase zeroes by 1
+        }
+        return;
+    }
+	vector<string> NBitBinary(int N)
+	{
+	    // Your code goes here
+	    string op = "";//initially empty op string
+	    int ones = 0;//denotes the no of 1s used till now
+	    int zeroes = 0;//denotes the no of 0s used till now
+	    solve(N,op,ones,zeroes);
+	    return ans;
+	}
+};
+
+// { Driver Code Starts.
+
+int main() 
+{
+   	ios_base::sync_with_stdio(0);
+    cin.tie(NULL);
+    cout.tie(NULL);
+   
+   	int t;
+   	cin >> t;
+   	while(t--)
+   	{
+   		int n;
+   		cin >> n;
+        Solution ob;
+   		vector<string> ans = ob.NBitBinary(n);
+
+   		for(auto i:ans)
+   			cout << i << " ";
+
+   		cout << "\n";
+   	}
+
+    return 0;
+}  // } Driver Code Ends
