@@ -1,0 +1,32 @@
+//Also refer to copy for handwritten notes on Recursion. There, I have written same code in simpler way. This is for GFG
+void insert(stack<int>&s, int temp)
+{
+    //base case:
+    if(s.empty() || s.top()<=temp){
+        s.push(temp);//simply push the temp into stack
+        return;
+    }
+    //hypothesis:
+    int val = s.top();
+    s.pop();
+    insert(s,temp);
+    //induction:
+    s.push(val);//it is our duty to push the val into stack becoz we had removed it earlier
+    return;
+}
+void SortedStack :: sort()
+{
+   //Your code here
+   //base case:
+   if(s.empty()) return;
+   if(s.size()==1){
+       return;//already sorted stack becoz it has single element
+   }
+   //hypothesis:
+   int temp = s.top();//save the top of the stack
+   s.pop();//pop the top of the stack
+   sort();
+   //induction:
+   insert(s,temp);
+   return;
+}
