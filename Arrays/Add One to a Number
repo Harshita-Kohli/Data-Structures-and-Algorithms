@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
+        int carry = 0;
+        vector<int>ans;
+        
+        ans.push_back((1+digits[n-1])%10); //%10 so as to get only single digit in sum, carry will be stored in the carry variable
+        carry = (1+digits[n-1])/10;
+        
+        //now add the carry produced upon adding 1 to the rightmost digit, to the left wale numbers of the array
+        for(int i = n-2;i>=0;i--){
+            ans.push_back((carry+digits[i])%10);
+            carry = (carry+digits[i])/10;
+        }
+        //if 999+1, then after i = 0, we still have a carry = 1, so we need to push it into the ans array
+        if(carry){
+            ans.push_back(carry);
+        }
+        //reverse the ans array
+        reverse(ans.begin(),ans.end());
+        //to remove any leading zeroes from the resultant answer array
+        // while(ans[0]==0){
+        //     ans.erase(ans.begin());
+        // }
+        return ans;
+    }
+};
