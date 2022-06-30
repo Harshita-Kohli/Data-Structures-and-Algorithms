@@ -1,0 +1,38 @@
+//Linear Search Approach: We will linearly search for the sqaure root of x starting from 0 till y^2<=x
+//Eg: x = 8, then the largest value of y will be 2, becoz 2*2 = 4 (which is 8) and 3*3 = 9(which is >8) 
+
+//O(underroot(x)) Time complexity
+// class Solution {
+// public:
+//     int mySqrt(int x) {
+//         long long y = 0;
+//         long long ans = 0;
+//         while(y*y<=x){ //jab tak y^2 is less than equal to x, tab tak ans ko y se update karte jao,....we need to find the largest value of y for which y^2<=x
+//             ans = y;
+//             y++;
+//         }
+//         return ans;
+//     }
+// };
+-----------------------------------------------------------------------
+//O(log underroot(x)) time complexity becoz we search from 0 to underroot x, and our search space is reduced to half becoz of linear search
+class Solution {
+public:
+    int mySqrt(int x) {
+      //Binary Search Approach:
+        long s = 0;
+        long e = INT_MAX;
+        long long ans = 0;
+        while(s<=e){
+            long long mid = s+(e-s)/2;
+            if(mid*mid<=x){
+                ans = mid;//we have a candidate answer
+                s = mid+1;//but we still want to find a better answer, so, shift s to mid+1
+            }
+            else{
+                e = mid-1;//if mid is not a square root, then no need to check on its right, simply shift e to mid-1
+            }
+        }
+        return ans;
+    }
+};
