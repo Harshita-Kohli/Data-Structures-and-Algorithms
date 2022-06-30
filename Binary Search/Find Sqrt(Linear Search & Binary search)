@@ -21,7 +21,8 @@ public:
     int mySqrt(int x) {
       //Binary Search Approach:
         long s = 0;
-        long e = INT_MAX;
+        long e = INT_MAX; 
+        //or long long e = x; //atmax, we can search sqaureroot uptill x itself. Eg: x = 1, its square root is also 1
         long long ans = 0;
         while(s<=e){
             long long mid = s+(e-s)/2;
