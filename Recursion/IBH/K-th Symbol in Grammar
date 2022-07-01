@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int kthGrammar(int n, int k) {
+        // int ans;
+        int size = pow(2,n-1); //size of each row will be 2^(n-1)
+        //base case:
+        if(n==1 && k==1)//this has already been given to us in the problem statement
+        {
+            return 0;
+        }
+        int mid = size/2; //mid will be the middle column of the 
+        //hypothesis: calling kthGrammar() for smaller input
+        
+        if(k<=mid){ //if k is less than or equal to mid
+            return kthGrammar(n-1,k);
+        }
+        else{
+            return !(kthGrammar(n-1,k-mid));//if k is in right of mid, then we return the complement of (n-1,k-mid)
+        }
+        // return ans;
+    }
+};
