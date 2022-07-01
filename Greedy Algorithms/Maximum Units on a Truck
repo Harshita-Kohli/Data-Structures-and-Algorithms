@@ -1,0 +1,29 @@
+//THIS WAS ASKED AS QUESTION 1 IN MY AMAZON OA 
+class Solution {
+public:
+    static bool cmp(vector<int>a, vector<int> b){
+        return a[1]>b[1];//we need to sort according to the second parameter ie the no of units. We sort the given vector of vectors in dec order of the no of units
+    }
+    int maximumUnits(vector<vector<int>>& boxTypes, int truckSize) {
+        int ans = 0;
+        sort(boxTypes.begin(),boxTypes.end(),cmp);
+        for(int i = 0;i<boxTypes.size();i++){
+            if(truckSize==0){
+                return ans;
+            }
+            if(boxTypes[i][0]<=truckSize)//include all these units of the boxes of type i
+            {
+                //total units in boxType[i][0] are:
+                int units = boxTypes[i][0]*boxTypes[i][1];
+                ans+=units;
+                truckSize = truckSize-boxTypes[i][0];
+            }
+            else{ //we need to take only some boxes of type i as we can't include all of them becoz of the trucksize
+                int unitsToInclude = (boxTypes[i][1]*truckSize);
+                ans+=unitsToInclude;
+                truckSize = 0;
+            }
+        }
+        return ans;
+    }
+};
