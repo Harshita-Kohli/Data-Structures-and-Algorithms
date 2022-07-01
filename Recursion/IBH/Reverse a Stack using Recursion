@@ -1,0 +1,41 @@
+class Solution{
+public:
+    void solve(stack<int>&St,vector<int>&ans){
+        //base case:
+        if(St.size()==0){
+            return;
+        }
+        
+        int temp = St.top();
+        St.pop();
+        //hypothesis:
+        solve(St);
+        //induction: now we need to insert the temp at the bottom of the stack
+        insert(St, temp);
+        return;
+    }
+    void insert(stack<int>&St, int temp){
+        //base case:
+        if(St.size()==0){
+            St.push(temp);
+            return;
+        }
+        
+        int temp = St.top();
+        St.pop();
+        //hypothesis: call recursive function on smaller input
+        insert(St,temp);
+        
+        //induction:
+        St.push(temp);
+        return;
+    }
+    stack<int> Reverse(stack<int> St){
+        //edge case:
+        if(St.size()==0){
+            return vector<int>();
+        }
+        solve(St);
+        return St;
+    }
+};
