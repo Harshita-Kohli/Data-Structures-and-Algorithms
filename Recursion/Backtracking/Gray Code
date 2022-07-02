@@ -1,0 +1,26 @@
+class Solution {
+public:
+    //Recursive function
+    void solve(int n, int &op, vector<int>&ans){
+    if(n==0){
+        ans.push_back(op);
+        return;
+    }
+    //recursive calls:
+    //choice1: ignore the nth bit
+    solve(n-1,op,ans);
+    //choice2: select the nth bit and invert it 
+    //To invert the nth bit, we do (1<<n-1)->this is a number having only nth bit as set bit, 
+    //and then taking XOR with op, it toggles the nth bit of op
+    op = op^(1<<(n-1));
+    solve(n-1,op,ans);
+    return;
+}
+    vector<int> grayCode(int n) {
+    //Let's use the decision-choice method of Aditya verma using IP-output
+        vector<int>ans;
+        int op = 0;
+        solve(n, op, ans);
+        return ans;
+    }
+};
