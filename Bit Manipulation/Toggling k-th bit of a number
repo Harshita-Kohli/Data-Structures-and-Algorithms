@@ -1,0 +1,22 @@
+Approach:
+1) Left shift given number 1 by k-1 to create 
+   a number that has only set bit as k-th bit.
+    temp = 1 << (k-1)
+2) Return bitwise XOR of temp and n.  Since temp
+   has only k-th bit set, doing XOR would toggle 
+   only this bit.
+   ---------------------------------
+class Toggle
+{
+    static int toggleKthBit(int n, int k)
+    {
+        return (n ^ (1 << (k-1)));
+    }
+     
+    // main function
+    public static void main (String[] args)
+    {  
+        int n = 5, k = 1;
+        System.out.println(toggleKthBit(n , k));
+    }
+}
