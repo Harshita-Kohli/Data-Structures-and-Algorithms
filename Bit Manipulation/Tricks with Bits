@@ -6,3 +6,13 @@ x | (x + 1) = x with the lowest cleared bit set.
 x | ~(x + 1) = extracts the lowest cleared bit of x (all others are set).
 x | (x - (1 << n)) = x, with the run of cleared bits (possibly length 0) starting at bit n set.
 x | ~(x - (1 << n)) = the lowest run of cleared bits (possibly length 0) in x, starting at bit n are the only clear bits.
+
+To toggle kth bit of a binary number:   
+x^(1<<(k-1))
+1) Left shift given number 1 by k-1 to create 
+   a number that has only set bit as k-th bit.
+    temp = 1 << (k-1)
+2) Return bitwise XOR of temp and n.  Since temp
+   has only k-th bit set, doing XOR would toggle 
+   only this bit.
+
