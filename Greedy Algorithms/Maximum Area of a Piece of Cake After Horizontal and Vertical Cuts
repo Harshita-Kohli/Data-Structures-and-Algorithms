@@ -1,0 +1,30 @@
+class Solution {
+public:
+    #define mod 1000000007
+    int maxArea(int h, int w, vector<int>& horizontalCuts, vector<int>& verticalCuts) {
+        //we push the h and w as horizontal and vertical cuts because they are the boundaries of the cake which can be helpful in knowing the largest width and height of the cake
+        horizontalCuts.push_back(h);
+        verticalCuts.push_back(w);
+        //we will sort the horizontal and vertical cuts according to the ascending order
+        sort(horizontalCuts.begin(),horizontalCuts.end());
+        sort(verticalCuts.begin(),verticalCuts.end());
+        
+        
+        long int maxHeight = 0;
+        long int maxWidth = 0;
+        int prevCut = 0;
+        //we will find the maximum height of the cake using the horizontal cuts
+        for(int i = 0;i<horizontalCuts.size();i++){
+            maxHeight = max(maxHeight, (long int)horizontalCuts[i]-prevCut);
+            prevCut = horizontalCuts[i];
+        }
+         //we will find the maximum width of the cake using the vertical cuts
+        prevCut = 0;
+        for(int i = 0;i<verticalCuts.size();i++){
+            maxWidth = max(maxWidth, (long int)verticalCuts[i]-prevCut);
+            prevCut = verticalCuts[i];
+        }
+        //now multiply the maxHeight and maxWidth to get the largest size of cake...don't forget to take mod with 1000000007
+        return (maxHeight*maxWidth)%mod;
+    }
+};
