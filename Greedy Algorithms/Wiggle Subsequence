@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int wiggleMaxLength(vector<int>& nums) {
+        //my intuitive approach: Using Peaks and Valleys:
+        int prevdiff = 0; //initially diff = 0, 1 means positive diff, -1 means negative difference
+        int n = nums.size();
+        int count = 1;
+        if(n<2){
+            return n; //if length is 1, then implicitly wiggle 
+            //also, empty array is implicitly wiggle
+        }
+        for(int i = 1;i<nums.size();i++){
+            if(nums[i]<nums[i-1] && prevdiff!=-1)//nums[i] is valley for nums[i-1] and previous difference was +ve or 0
+            {
+                prevdiff = -1;//becoz now the diff becomes -ve
+                count++;
+            }
+            else if(nums[i]>nums[i-1] && prevdiff!=1){ //nums[i] is a peak for the previous one, and previous difference was -ve or 0
+                prevdiff = 1;
+                count++;
+            }
+        }
+        return count;
+    }
+};
