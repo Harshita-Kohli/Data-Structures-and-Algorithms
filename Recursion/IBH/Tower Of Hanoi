@@ -1,0 +1,54 @@
+// { Driver Code Starts
+#include <bits/stdc++.h>
+
+using namespace std;
+
+
+ // } Driver Code Ends
+class Solution{
+    public:
+    long long count = 0;
+    // You need to complete this function
+    void solve(int N, int from, int to, int aux){
+        count++;
+        //base case:
+        if(N==1){
+            cout<<"move disk "<<N<<" from rod "<<from<<" to rod "<<to<<endl;
+            return;
+        }
+       //hypothesis: place N-1 plates from source to helper using destination pole:
+       solve(N-1,from,aux,to);
+       //induction: place the Nth plate from source to destination using helper
+       cout<<"move disk "<<N<<" from rod "<<from<<" to rod "<<to<<endl;
+       //and place the N-1 plates from helper pole to destination pole using the source
+       solve(N-1,aux,to,from);
+       return;
+    }
+    // avoid space at the starting of the string in "move disk....."
+    long long toh(int N, int from, int to, int aux) {
+        // Your code here
+        // long long count = 0;
+        solve(N,from,to,aux);
+        return count;
+    }
+
+};
+
+// { Driver Code Starts.
+
+int main() {
+
+    int T;
+    cin >> T;//testcases
+    while (T--) {
+        
+        int N;
+        cin >> N;//taking input N
+        
+        //calling toh() function
+        Solution ob;
+        
+        cout << ob.toh(N, 1, 3, 2) << endl;
+    }
+    return 0;
+}
