@@ -1,0 +1,70 @@
+//Top Down Approach: O(n^2) space and time complexity is 2^n i guess because at each step we make 2 recursive calls
+// class Solution {
+// public:
+//     int t[201][201];//2d dp array
+//     int solve(vector<vector<int>>& triangle, int r, int c)
+//     {
+//         int n = triangle.size();
+//         //base case
+//         if(r==n-1)//if we have reaached last row
+//         {
+//             return triangle[r][c];
+//         }
+//         if(t[r][c]!=-1)
+//         {
+//             return t[r][c];
+//         }
+//         //recursive case:
+//         t[r][c] = triangle[r][c]+min(solve(triangle,r+1,c),solve(triangle,r+1,c+1));
+//         return t[r][c];       
+//     }
+//     int minimumTotal(vector<vector<int>>& triangle) {
+//         //top down approach:
+//         int r = triangle.size();
+//         int c = triangle[0].size();
+//         memset(t,-1,sizeof(t));
+//         return solve(triangle,0,0);
+        
+//     }
+// };
+//Bottom Up approach: O(n^2) time and O(1) extra space because we are modifying it in-place
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        int r = triangle.size();
+        int c = triangle[0].size();
+        //intialisation:
+        for(int i = 0;i<r;i++){
+            for(int j = 0;j<=i;j++){
+                if(i==0 && j==0)//first cell 
+                {
+                    continue;
+                }
+                if(j==0){ //for first column
+                    triangle[i][j]+=triangle[i-1][j];
+                }
+            }
+        }
+        //filling the rest of the matrix
+        for(int i = 1;i<r;i++){
+            for(int j = 1;j<=i;j++)
+                {
+                if(i==j)//if diagonal element, tehn simply add the previous diagonal element, and not the triangle[i-1][j] as it will lead to segmentation fault
+                {
+                    triangle[i][j] +=triangle[i-1][j-1];
+                }
+                else{
+                    //  int up = triangle[i-1][j];
+                    // int diagUp = triangle[i-1][j-1];
+                    triangle[i][j] += min(triangle[i-1][j],triangle[i-1][j-1]);
+                    }
+                }
+        }
+        int minim = INT_MAX;
+        for(int j = 0;j<r;j++) //don't do till c becoz c is different for each row
+        {
+            minim=  min(minim,triangle[r-1][j]);
+        }
+        return minim;
+    }
+};
