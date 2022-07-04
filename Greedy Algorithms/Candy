@@ -1,0 +1,26 @@
+class Solution {
+public:
+O(n) space and O(n) Time Complexity
+    int candy(vector<int>& ratings) {
+        int n = ratings.size();
+        vector<int>left(n,1);
+        vector<int>right(n,1);
+        int ans = 0;
+       
+        for(int i = 1;i<n;i++){ //track no of candies to be given to each child by comparing ranking with the immediate left child only
+            if(ratings[i]>ratings[i-1]){
+                left[i] = left[i-1]+1;
+            }
+        }
+        for(int i = n-2;i>=0;i--){ //track no of candies to be given to each child by comparing ranking with the immediate right child only
+            if(ratings[i]>ratings[i+1]){
+                right[i] = right[i+1]+1;
+            }
+        }
+        for(int i = 0;i<left.size();i++){ //the no of candies to be given to a child will be the max of left[i], right[i] becoz he needs to satisfy both the left and right nbrs
+            ans += max(left[i],right[i]);
+        }
+        
+        return ans;
+    }
+};
