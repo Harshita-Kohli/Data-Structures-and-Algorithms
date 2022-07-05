@@ -1,0 +1,31 @@
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        set<int> st;
+        int n = nums.size();
+        if(n==0)//edge case
+        {
+            return 0;//because there cannot be any longest consecutive sequence of empty array
+        }
+        for(int i = 0;i<n;i++){ //insert the numbers into set
+            st.insert(nums[i]);
+        }
+        int currlen = 1;//single element is also consecutive in itself
+        int maxlen = 1;
+        auto num = st.begin();
+        for(auto num:st)//iterate over the set and check if consecutive sequence is found and update the length of the consecutive sequence found so far. If consectiveness fails somewhere, then start the currlen from 1 again
+        {
+            if(st.find(num+1)!=st.end())
+            {
+                currlen++;//update currlen and maxlen
+                maxlen = max(maxlen,currlen);
+                num = num+1; //go to the next number 
+            }
+            else{
+                currlen = 1; //reset currlen to 1
+                num = num+1;
+            }
+        }
+        return maxlen;
+    }
+};
