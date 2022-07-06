@@ -1,0 +1,35 @@
+class Solution {
+public: 
+    //O(n) time complexity
+    void nextPermutation(vector<int>& nums) {
+        //step1: Start iterating from right:
+        int n = nums.size();
+        int pos = 0;
+        int i = 0;
+        for(i = n-2;i>=0;i--){
+            if(nums[i]<nums[i+1])//we found a breakpoint
+            {
+                pos = i;
+                break;
+            }
+        }
+        if(i<0)//we could not find a breakpoint since the given permutation is already largest. Note we can't write if(pos==0) for this check becoz there can be some cases where the breakpoint is found at 0th index
+        {
+            reverse(nums.begin(),nums.end());
+            return;
+            // return nums;
+        }
+        //step2: iterate again from the right to find the just next permutation of nums[]
+        for(int i = n-1;i>pos;i--)
+        {
+            if(nums[i]>nums[pos])
+            {
+                swap(nums[i],nums[pos]);
+                break;
+            }
+        }
+        //step3: reverse the part of the array to the right of pos to make sure that part is as small as possible coz we wanna get the just next permutation
+        reverse(nums.begin()+pos+1,nums.end());
+        // return nums;
+    }
+};
