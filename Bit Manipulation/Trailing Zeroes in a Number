@@ -1,0 +1,35 @@
+Given an integer A, count and return the number of trailing zeroes.
+Problem Constraints
+1 <= A <= 109
+
+
+
+Input Format
+First and only argument is an integer A.
+
+
+
+Output Format
+Return an integer denoting the count of trailing zeroes.
+
+
+
+Example Input
+Input 1:
+ A = 18
+Example Output
+Output 1:  1
+
+Input 2:
+ A = 8
+Output 2: 3
+<-------------------------------------------------------------------------->
+int Solution::solve(int A) {
+    int count = 0;
+        while ((A & 1) == 0)//jab tak trailing zeroes hain tab tak continue karo count karna
+        {
+            A = A >> 1;//ek trailing zero remove kardo
+            count++;//count bhada do
+        }
+        return count;
+}
