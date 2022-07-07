@@ -1,0 +1,31 @@
+int Solution::solve(vector<vector<int> > &A) {
+    int n = A.size();
+    sort(A.begin(),A.end());
+    int l = 0;
+    int r = 1;
+    int count = 0;
+    while(r<n)
+    {
+        //case 1: If left and right intervals are Non Overlapping intervals, simply update l and r
+        if(A[l][1]<A[r][0]) //remove right interval
+        {
+            l = r;
+            r++;
+        }
+        //Case2(a): If left and right intervals are overlapping and left is not encompassing right
+        else if(A[l][1]<=A[r][1])//remove right interval
+        {
+            count++;//inc count of removals becoz we have to remove the right interval
+            r++;//update r
+        }
+        //Case2(b):If left and right intervals are overlapping and left is encompassing right interval...
+        //poora right wala is within the range of left interval 
+        else if(A[l][1]>A[r][1]) //remove left interval( ie. jo bada wala hai)
+        {
+            count++;//inc count of removals becoz we have to remove the right interval
+            l = r;//update l to r 
+            r++;//and update r to next position
+        }
+    }
+    return n-count; //total no. of intervals - no. of overlapping intervals = no. of disjoint intervals
+    }
