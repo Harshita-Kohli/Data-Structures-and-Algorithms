@@ -1,0 +1,62 @@
+O(n^2) Time and O(1) Extra space Approach:
+-------------------------------------------------------
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std ;
+
+int main()
+{
+  int n ;
+  cin >> n ;
+  int k ;
+  cin >> k ;
+  //write your code from here
+  vector<vector<int>>cost(n,vector<int>(k,0));
+  for(int i = 0;i<n;i++){
+    for(int j = 0;j<k;j++)
+    {
+      cin>>cost[i][j]; 
+    }
+  }
+  
+  int min1 = INT_MAX;
+  int min2 = INT_MAX;
+  //find first minimum and second minimum in 1st row
+  for(int j = 0;j<k;j++){
+      if(cost[0][j]<=min1)//update both min11 and min2
+      { 
+          min2 = min1;
+          min1 = cost[0][j];
+      }
+      else if(cost[0][j]<=min2){//update only min2
+          min2 = cost[0][j];
+      }
+  }
+  //now iterate the cost matrix and modify it in-place
+  for(int i = 1;i<n;i++){
+       int cmin1 = INT_MAX;
+        int cmin2 = INT_MAX;
+      for(int j = 0;j<k;j++){
+          if(cost[i-1][j]!=min1){ //ADD MIN1 if it is not same color for adjacent house 
+              cost[i][j] +=min1;
+          }
+          else
+          {
+              cost[i][j]+=min2;
+          }
+          
+          //now find first minimum and 2nd minimum in this row
+          if(cost[i][j]<=cmin1){ //update both 
+              cmin2 = cmin1;
+              cmin1 = cost[i][j];
+          }
+          else if(cost[i][j]<=cmin2){
+              cmin2 = cost[i][j];
+            }
+      }
+      //now after processing the entire row,we must update the first minimum and second minimum for the modifying the next row
+      min1 = cmin1;
+      min2 = cmin2;
+  }
+cout<<min1;
+}
