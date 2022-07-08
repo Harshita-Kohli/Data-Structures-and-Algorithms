@@ -1,0 +1,27 @@
+int Solution::solve(vector<vector<int> > &A) {
+    int n = A.size();//no of houses
+    // int m = A[0].size();//no of colors
+    int t[n][3];//2d dp array
+    t[0][0] = A[0][0];
+    t[0][1] = A[0][1];
+    t[0][2] = A[0][2];
+    
+    for(int i = 1;i<n;i++){
+        //if we paint house 1 with red, then acc to the rule, we can't paint previous house with red.
+        //Previous house should be green or blue
+        //So to calculate min cost for painting house i with red, we take A[i][0] and add the minimum of the cost of coloring previous house with blue or green
+        t[i][0] = A[i][0]+min(t[i-1][1], t[i-1][2]);
+        
+        //agar ith ghar blue se paint hoga, to prev house ka blue color nahi consider kar sakte. So A[i][1]+ minimum of previous ghar ko red karne ka cost, green karne ka cost
+        t[i][1] = A[i][1]+min(t[i-1][0], t[i-1][2]);
+        
+        //agar ith ghar ko green paint kardiya, to prev ghar ko green nahi consider kar sakte, to prev ghar ka red paint ka cost aur blue paint ke cost ka minimum lenge aur A[i][2] me add kardenge
+        t[i][2] = A[i][2]+min(t[i-1][0], t[i-1][1]);
+        
+    }
+    int minim = INT_MAX;
+    for(int i = 0;i<3;i++){
+        minim = min(minim, t[n-1][i]);
+    }
+    return minim;
+}
