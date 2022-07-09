@@ -1,7 +1,10 @@
 // { Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
-//Similar to LPS problem!!
+
+//Similar to LPS problem! 
+Time Complexity : O(n^2) 
+Space Complexity: O(n^2)
 class Solution{
   public:
 //   int t[1001][1001];
