@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int minDeletions(string s) {
+        vector<int>count(26,0);//an array of size = 26, initially, the count of all characters is 0
+         
+        //Step1: we keep storing the count of each alphabet of string s
+        for(int i = 0;i<s.length();i++){
+            count[s[i]-'a']++;
+            
+        }
+        //Step2: Sort the count array in decreasing order
+        sort(count.begin(),count.end(),greater<int>());
+       int allowed = count[0];//we store the maximum count out of all the counts in allowed...this is the cutoff..ie. the first character can have count less than or equal to this allowed count
+       
+        //Step3: now compute answer
+        int ans = 0;
+        for(int i = 0;i<26;i++){
+            if(count[i]>allowed){ //agar curent character ka count allowed se zyada hai, to delete karna padega current character ko
+                if(allowed>0) //agar aloowed no 0 se bada hai, to no of deletions = count[i]-allowed
+                {
+                     ans+= count[i]-allowed;
+                }
+                else{ //agar allowed 0 hai, to current character ko poora delete karna padega, so no deletions = count[i]
+                    ans+=count[i];
+                }
+            }
+            //next pass ke liye maximum allowed ko update karna padega. Agar maxallowed  = 9 and count[i] = 4, then if we simply do allowed--, it will become 8
+            //Now suppose next character has a count[i+1] = 4, 4<8, so it will be treated as valid, but that should not be allowed becoz count[i] was also 4. So we must
+            //make allowed = 4-1 = 3, so that in the next pass, the max count allowed for the character is 3
+            allowed = min(allowed-1, count[i]-1);
+            
+        }
+        return ans;
+    }
+};
