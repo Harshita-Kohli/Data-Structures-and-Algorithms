@@ -1,0 +1,40 @@
+class Solution {
+public:
+    //O(n) time complexity and O(n^2) space complexity
+    vector<int> restoreArray(vector<vector<int>>& adjacentPairs) {
+        unordered_map<int,vector<int>> mp; //key is integer and value is vector
+        //Step1: Prepare adjacency list
+        int n = adjacentPairs.size();
+        for(int i = 0;i<n;i++){
+            mp[adjacentPairs[i][0]].push_back(adjacentPairs[i][1]);
+            mp[adjacentPairs[i][1]].push_back(adjacentPairs[i][0]);
+        }
+        //Step2: find out the start or end element
+        int extreme;
+        for(auto it:mp){
+            if(it.second.size()==1){ //if the adjacency list of it.first has only one element, then it.first is the start or the end
+                extreme = it.first;
+                break;
+            }
+        }
+        vector<int>ans;
+        ans.push_back(extreme);
+        int prev = 1e5 + 1;
+        prev = extreme;
+        
+        //Step3: iterate over the map and perform dfs starting at extreme wala number
+        while(ans.size()!= n+1) //as soon as aans array gets filled by all the numbers, we will break
+        {
+            // if (ans.size() == n + 1) break;
+            for(auto i:{0,1}){
+                if(mp[ans.back()][i]!=prev)
+                {
+                    prev = ans.back();
+                    ans.push_back(mp[ans.back()][i]);
+                    break; //as soon as we find a suitable next element of ans.back(), we update prev and push that suitable element into ans
+                }
+            }
+        }
+        return ans; 
+    }
+};
