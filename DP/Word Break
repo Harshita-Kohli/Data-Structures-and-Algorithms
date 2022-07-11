@@ -2,49 +2,75 @@
   // If it is, then you check if it is possible to form rest of the string using the dictionary words. 
   // If yes, my answer is true. If none of the substrings qualify, then our answer is false.
   -----------------------------------------------------------------------------------------------------
-class Solution {
+class Solution
+{
 public:
-    unordered_map<string,int>dp;
-    int solve(string s, vector<string>& wordDict)
+unordered_map<string,int>mp;
+    int solve(string A, vector<string> &B)
     {
-        int n = s.length();
+        int n = A.length();
         //base case:
-        if(s.length()==0) //agar second subpart empty hai iska matlab first subpart = original string,
-                         //joki mil chuka hai becoz flag==1 wali condition true ho gayi thi. To iska matlab poora string s present hai wordDict me
+        if(n==0) //agar A empty string hai to iska matlab jo first subpart tha wo poora 
+        //original string tha aur wo mil bhi gaya tha 
         {
-            return dp[s] = 1;
+            return mp[A] = 1;
         }
-        if(dp[s]!=0)
+        
+        //memoisation:
+        if(mp[A]!=0)
         {
-            return dp[s];
+            return mp[A];
         }
-        for(int i = 1;i<=n;i++){ //hum string s ke sabhi lengths ke liye 
-            //if s = "abcdef", then a, ab, abc, abcd, abcde, abcdef ko check karenge
-            string ss = s.substr(0,i);
+        
+        //topdown:
+        for(int i = 1;i<=n;i++){
+            string ss = A.substr(0,i);//take out a substr of A from 0th index of length = i
             int flag = 0;
-            for(int j = 0;j<wordDict.size();j++){
-                if(ss.compare(wordDict[j])==0)
+            for(int j = 0;j<B.size();j++){ //we compare the substring with each word in the dictionary
+                if(ss.compare(B[j])==0)
                 {
-                    flag = 1;
+                    flag = 1; //hume pehla hissa mil gaya hai ie substr(0,i) mil gaya hai,
+                    //ab us recurion to find baaki ka hissa
                     break;
                 }
             }
-            //agar (0,i) mil gaya hai B me aur (i,n) bhi mil gaya hai
-            if(flag==1 && solve(s.substr(i,n-i), wordDict)==1)
+            if(flag==1 && solve(A.substr(i,n-i),B)==1)//agar using recursion even the 
+            //second subpart has been found,then it means poora part has been found
             {
-                return dp[s] = 1;
+                return mp[A] = 1;
             }
-            
         }
-        return dp[s] = -1;
+        return mp[A] = -1;//if no substring of string A was found in dictionary 
     }
-    
-    bool wordBreak(string s, vector<string>& wordDict) {
-        int ans = solve(s,wordDict);
-        if(ans == 1)
-        {
-            return true;
-        }
-        return false;
+    int wordBreak(string A, vector<string> &B) {
+        //code here
+       int ans = solve(A,B);
+       if(ans == 1)
+       {
+           return 1;
+       }
+       return 0;
     }
 };
+
+// { Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<string> dict;
+        for(int i=0;i<n;i++){
+            string S;
+            cin>>S;
+            dict.push_back(S);
+        }
+        string line;
+        cin>>line;
+        Solution ob;
+        cout<<ob.wordBreak(line, dict)<<"\n";
+    }
+}
+  // } Driver Code Ends
