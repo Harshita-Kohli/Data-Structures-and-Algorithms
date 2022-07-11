@@ -1,0 +1,50 @@
+  // You start exploring every substring from the start of the string, and check if its in the dictionary. 
+  // If it is, then you check if it is possible to form rest of the string using the dictionary words. 
+  // If yes, my answer is true. If none of the substrings qualify, then our answer is false.
+  -----------------------------------------------------------------------------------------------------
+class Solution {
+public:
+    unordered_map<string,int>dp;
+    int solve(string s, vector<string>& wordDict)
+    {
+        int n = s.length();
+        //base case:
+        if(s.length()==0) //agar second subpart empty hai iska matlab first subpart = original string,
+                         //joki mil chuka hai becoz flag==1 wali condition true ho gayi thi. To iska matlab poora string s present hai wordDict me
+        {
+            return dp[s] = 1;
+        }
+        if(dp[s]!=0)
+        {
+            return dp[s];
+        }
+        for(int i = 1;i<=n;i++){ //hum string s ke sabhi lengths ke liye 
+            //if s = "abcdef", then a, ab, abc, abcd, abcde, abcdef ko check karenge
+            string ss = s.substr(0,i);
+            int flag = 0;
+            for(int j = 0;j<wordDict.size();j++){
+                if(ss.compare(wordDict[j])==0)
+                {
+                    flag = 1;
+                    break;
+                }
+            }
+            //agar (0,i) mil gaya hai B me aur (i,n) bhi mil gaya hai
+            if(flag==1 && solve(s.substr(i,n-i), wordDict)==1)
+            {
+                return dp[s] = 1;
+            }
+            
+        }
+        return dp[s] = -1;
+    }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        int ans = solve(s,wordDict);
+        if(ans == 1)
+        {
+            return true;
+        }
+        return false;
+    }
+};
