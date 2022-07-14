@@ -1,0 +1,39 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+ -----------------------------------------------------------------------------
+//  So, the idea here is to compare the height of the two subtrees.
+// If the height of the left subtree is higher, we go left, else we go right.
+// We can find the height of a subtree in O(log N), and you need (log N) steps to reach the bottom of the tree
+// Therefore, we can find the answer in O(log N * log N).
+------------------------------------------------------------------------------------
+ int height(TreeNode* root) //helper function to calculate height of the tree
+ {
+     if(root==NULL)
+     {
+         return 0;
+     }
+     return 1+max(height(root->left),height(root->right));
+ }
+int Solution::lastNode(TreeNode* A) {
+    if(!A->left && !A->right)//if it is a leaf node, return it becoz we have been 
+    //traversing in a way such that we reach the rightmost leaf node of a cbt
+    {
+        return A->val;
+    }
+    int lh = height(A->left);//height of right subtree
+    int rh = height(A->right);//height of right subtree
+    
+    if(lh>rh)//go to that subtree which has a greater height
+    {
+        return lastNode(A->left); //go to left subtree
+    }
+    //else if lh<=rh, we must go towards the right subtree to reach the rightmost leaf node
+    return lastNode(A->right); 
+}
