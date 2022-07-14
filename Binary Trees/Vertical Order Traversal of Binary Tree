@@ -1,0 +1,42 @@
+/**
+ * Definition for binary tree
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+vector<vector<int> > Solution::verticalOrderTraversal(TreeNode* A) {
+    vector<vector<int> > ans;
+    map<int,vector<int>>mp;
+    queue<pair<TreeNode*,int>>q;
+    if(A==NULL) //if the tree is empty, then simply return an empty vector as answer
+    {
+        return vector<vector<int>>();//return empty vector
+    }
+    q.push({A,0});
+    while(!q.empty())
+    {
+        TreeNode* temp = q.front().first;
+        int dist = q.front().second;
+        q.pop();//pop the front of the queue
+       
+        mp[dist].push_back(temp->val);//the nodes that are at the same hz distance from root are stored at the same key
+        
+        if(temp->left)//push left child along with dist-1 from root. So if parent's dist = 2, left child's distance will be 1 and right child's distance will be 3
+        {
+            q.push({temp->left,dist-1});
+        }
+        if(temp->right)
+        {
+            q.push({temp->right,dist+1});
+        }
+        
+    }
+    for(auto it:mp)//now iterate over the map and push back all the vertical order elements into ans
+    {
+        ans.push_back(it.second);
+    }
+    return ans;
+}
