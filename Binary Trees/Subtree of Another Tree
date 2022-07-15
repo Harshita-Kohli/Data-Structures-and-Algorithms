@@ -20,7 +20,7 @@ public:
         }
        if(root->val==subRoot->val) //if roots match
         {
-            if(isIdentical(root->left,subRoot->left) && isIdentical(root->right,subRoot->right))
+            if(isIdentical(root->left,subRoot->left) && isIdentical(root->right,subRoot->right))//if subtrees also match then identical
             {
                 return true;
             }
