@@ -37,14 +37,17 @@ public:
         {
             return false;
         }
-        if(root->val==subRoot->val) //if roots match, check if the left and right subtree are identical
+        //Case1: if roots and subtrees both match:
+        //upon checking if the left and right subtree are identical
+        if(root->val==subRoot->val)
         {
             if(isIdentical(root->left,subRoot->left) && isIdentical(root->right,subRoot->right))
             {
                 return true;
             }
         }
-        // if root values don't match, check if either left or right subtree has the target subtree
+        //Case2: If roots match and subtrees don't or if roots don't match:
+        // check if either left or right subtree has the target subtree
         
         if(isSubtree(root->left,subRoot) || isSubtree(root->right,subRoot))
         {
