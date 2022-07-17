@@ -1,0 +1,28 @@
+--------------------------------------------------------
+O(N) Time Complexity becoz we do linear traversal
+O(1) Space Complexity coz we use no extra space
+------------------------------------------------------
+int Solution::bulbs(vector<int> &A) {
+    int n = A.size();
+    int switch_count = 0;
+    //Be Greedy: iterate from left to right
+    for(int i = 0;i<n;i++)
+    {
+        if(switch_count%2==0)//even no of switch presses means the bulb are in original state
+        {
+            if(A[i]==0)
+            {
+                switch_count++;
+            }
+        }
+        else if(switch_count%2!=0)//odd no of switch presses means the bulbs have actually flipped over to next state. 
+        //So if a bulb was in On state, it actually is in off state due to odd no of switch presses
+        {
+            if(A[i]==1)//if in On state, it is actually in the Off state due to odd no of switch presses
+            {
+                switch_count++;
+            }
+        }
+    }
+    return switch_count;
+}
