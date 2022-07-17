@@ -1,0 +1,39 @@
+--------------------------------------------------------------------------------------------
+//O(n) Time complexity and O(n) Space becoz we are using an auxilliary vector - positions[]
+-------------------------------------------------------------------------------------------
+int Solution::seats(string A) {
+    // int n = A.length();
+    vector<int>positions;
+    for(int i = 0;i<A.size();i++)
+    {
+        if(A[i]=='x')//person is sitting here at ith chair
+        {
+            positions.push_back(i);//store the initial positions of the persons in this array
+        }
+    }
+    //edge case: if no person is sitting in this arrangement, then no jump is required
+    if(positions.size()==0)
+    {
+        return 0;
+    }
+    //otherwise, find the median out of these positions of the persons so as to populate all of them near this median
+    int median = positions.size()/2;//index of median
+    int medianVal = positions[median];//position of the median wala person in the sitting arrangement
+    int lTarget = medianVal-1;//jo bhi median person ke left me hai wo ab medianVal-1 position pe a jaye(our leftTarget)
+    int rTarget = medianVal+1;//jo bhi median person ke right me hai wo ab medianVal+1 position pe a jaye(our rightTarget)
+    long long ans = 0;
+    
+    //bringing left wale people near median and counting the no of jumps for each left wala person
+    for(int i = median-1;i>=0;i--)
+    {
+        ans = (ans + lTarget-positions[i])%10000003; //leftTarget-position[i] ka matlab hai no of jumps jo ith position wlae ko leftTarget pe ane ke liye lag rahi hai
+        lTarget--;//our leftTarget will reduce by 1 as we keep moving away from the median...becoz suppose median = 5, abhi ek left wala banda 4th position pe aya hai..to next banda ab 3rd position pe ayega
+    }
+    //ab median ke right wale logon ko median ke paas leke ayenge and count the no of jumps for each right wala person
+    for(int i = median+1;i<positions.size();i++)
+    {
+        ans = (ans + positions[i]-rTarget)%10000003;//position[i]-rightTarget denotes no of jumps jo position[i] se rightTarget pe ane me lag rahi hain
+        rTarget++;//rightTarget will increase by one..becoz suppose abhi ek right wala banda 6th position pe aya hai..to next ko ab 8th pe ana chahiye
+    }
+    return ans;//return ans
+}
