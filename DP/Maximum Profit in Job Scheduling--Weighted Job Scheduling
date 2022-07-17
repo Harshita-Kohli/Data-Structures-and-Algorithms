@@ -1,6 +1,7 @@
-//O(n logn) Time because we iterate over the n triplets of array and perform binary search for each in log n time
-//and O(n) space
-//Dp is used becuase we have CHOICES and we have to find the MAXIMUM profit
+--------------------------------------------------------------------------------------
+//O(n logn) Time because we iterate over the n triplets of array and perform binary search for each in log n time and O(n) space
+//Dp is used because we have CHOICES and we have to find the MAXIMUM profit
+---------------------------------------------------------------------------------------
 class Solution {
 public:
     static bool cmp(vector<int>a, vector<int>b)
