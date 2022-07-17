@@ -1,0 +1,61 @@
+//O(n logn) Time because we iterate over the n triplets of array and perform binary search for each in log n time
+//and O(n) space
+//Dp is used becuase we have CHOICES and we have to find the MAXIMUM profit
+class Solution {
+public:
+    static bool cmp(vector<int>a, vector<int>b)
+    {
+        return a[1]<b[1];//sort in ascending order of end times of jobs
+    }
+    int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
+        int n = startTime.size();
+        //make a single vector out of all 3 vectors
+        vector<vector<int>> arr;
+        for(int i = 0;i<n;i++)
+        {
+            arr.push_back({startTime[i],endTime[i],profit[i]});
+        }
+        sort(arr.begin(),arr.end(),cmp);
+        
+        //now for every job, we have 2 choices:include it if it has no overlapping with a previous job or exclude it if all previous jobs overlapp with it
+        int dp[n];//1d dp array, where dp[i] denotes the max profit made till ith job
+        //initialisation:
+        dp[0] = arr[0][2];//till the 1st job, the max profit will be arr[0][2]
+        //filling the rest of the dp array
+        //Step1: Store current profit of ith job in include
+        //Step2: find the latest job before ith job that does not overlap with the ith job(using binary search)[the profit will be sum of ith job and this previous job]
+        //Step3: If latest job is found, add its profit to include
+        //and if not found, then exclude the current job as it overlaps with all previous jobs-> exclude = dp[i-1]
+        //Step4: Take maximum of two cases: include and exclude
+        for(int i = 1;i<n;i++)
+        {
+            int include = arr[i][2];//the current profit made by including ith job
+            int last = -1;
+            int low = 0;
+            int high = i-1;
+            while(low<=high)
+            {
+                int mid = low+(high-low)/2;
+                if(arr[mid][1]<=arr[i][0])//if we find a previous job whose ending time is <= starting time of the current job, then update the last
+                {
+                    last = mid;
+                    low = mid+1;//we want to get the latest job to ith job that is non overlapping
+                }  
+                else{ //if the job at mid is overlapping, then update high to the left subpart of mid becoz on the left of mid, end time of jobs can be <=end time of ith job
+                    high = mid-1;
+                }
+            }
+            if(last!= -1)//we have found a non overlapping job befroe ith job, then either include it
+            {
+                include+=dp[last];//add the profit of last job to ith job 
+            }
+             //or exclude it
+            int exclude = dp[i-1];//if we exclude the current job, then take profit till i-1th job
+            
+            //take maximum of included profit and excluded profit 
+            dp[i] = max(include, exclude);
+        }
+        //after filling the entire dp array, the maximum profit will be stored in the n-1th index
+        return dp[n-1];
+    }
+};
