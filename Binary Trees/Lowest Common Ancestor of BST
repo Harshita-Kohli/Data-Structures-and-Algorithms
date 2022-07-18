@@ -1,0 +1,36 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+
+class Solution {
+public:
+    //Time Complexity = O(height of BST) = O(log N)
+    //Space Complexity = O(1)
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        // TreeNode* ans;
+       if(root==NULL)
+       {
+           return NULL;//there is no LCA
+       }
+        //if both the nodes exist in the left subtree, then LCA will also be in the left subtree
+        if(root->val > p->val && root->val > q->val) 
+        {
+           return lowestCommonAncestor(root->left,p,q);
+        }
+        //if both the nodes exist in the right subtree, then LCA will also be in the right subtree
+        if(root->val < p->val && root->val < q->val)
+        {
+            return lowestCommonAncestor(root->right,p,q);
+        }
+        //Agar hum ye nahi keh sakte ki dono nodes left me hai ya dono nodes right subtree me hi:
+        //if both the above cases are not true ie. both nodes are not in left subtree and both nodes are not in right subtree, then definitely:
+        // one node is in left subtree and other node is in right subtree OR one node is root itself and other node is in its subtree, so root is the LCA
+        return root;
+    }
+};
