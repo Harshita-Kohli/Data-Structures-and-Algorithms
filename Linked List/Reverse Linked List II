@@ -1,0 +1,66 @@
+//O(N) Time and O(1) space
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+      if(head==NULL)//empty list
+      {
+          return NULL;
+      }
+        if(left==right)//because we can't reverse a single node
+        {
+            return head;
+        }
+        ListNode* prev = NULL;
+        ListNode* curr = head;
+        ListNode* saveL;
+        ListNode* tail;
+        while(left>0)//iterate over the ll till we find the left position where reversal has to be started
+        {
+            left--;
+            right--;
+            if(left==0)
+            {
+        //we have found the starting point where we should start reversing
+                tail = curr; //save the tail
+                saveL = prev;//save the start point where reversed ll will be attached
+                prev = curr; //update prev and curr pointers
+                curr = curr->next;
+                break;
+            }
+            //move prev and curr pointers
+            prev = curr;
+            curr = curr->next;
+        }
+        //now reverse ll until we reach right position
+        while(right>0)
+        {
+            ListNode* n = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = n;
+            right--;
+        }
+        // if poit where reverse ll will be attached is non null, attach
+        if(saveL!=NULL)
+        {
+            saveL->next = prev;
+        }
+        else //otherwise if saveL is NULL, it means the prev will be the new head coz ll was to be reversed from 1st node itself
+        {
+            head = prev;
+        }
+        tail->next = curr;//attach the tail with the curr(right point of linkage)
+        
+        return head;
+    }
+};
