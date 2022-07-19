@@ -1,0 +1,70 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverse(ListNode* curr, ListNode* prev)
+    {
+        if(curr==NULL)
+        {
+            return prev;
+        }
+        ListNode* n = curr->next;
+        curr->next = prev;
+        return reverse(n,curr);
+    }
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if(l1==NULL && l2==NULL)
+        {
+            return NULL;
+        }
+        ListNode* head1 = reverse(l1,NULL);//reverse both the lists
+        ListNode* head2 = reverse(l2,NULL);
+        
+        //now we traverse the reversed linked lists and compute the sum of these linked lists
+        int temp = 0;
+        ListNode* pseudoHead = new ListNode(0);
+        ListNode* curr = pseudoHead;
+        while(temp|| head1 || head2)
+        {
+            if(head1&&head2)
+            {
+                temp+=head1->val + head2->val;
+            }
+            else if(head1)
+            {
+                temp+=head1->val;
+            }
+            else if(head2)
+            {
+                temp+=head2->val;
+            }
+            else //both nodes don't exist
+            {
+                temp+=0;
+            }
+            
+            
+            curr->next = new ListNode(temp%10);
+            curr = curr->next;
+            temp = temp/10;//carry bit
+            if(head1)
+            {
+                head1 = head1->next;
+            }
+            if(head2)
+            {
+                head2 = head2->next;
+            }
+            
+        }
+        return reverse(pseudoHead->next,NULL); //we have to reverse the sum linked list and return its head
+    }
+};
