@@ -1,0 +1,23 @@
+-----------------------------
+//O(N) time and O(1) Space
+------------------------------
+class Solution {
+public:
+    ListNode* solve(ListNode* curr, ListNode* prev)
+    {
+        if(curr==NULL) //we have reached end of list, so we have reversed entire list
+        {
+            return prev;
+        }
+        ListNode* n = curr->next;
+        curr->next = prev;
+        return solve(n,curr);
+    }
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL)
+        {
+            return NULL;//empty linked list is reverse of itself
+        }
+        return solve(head,NULL);
+    }
+};
