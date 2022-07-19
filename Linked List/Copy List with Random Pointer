@@ -1,0 +1,69 @@
+--------------------------------------------------
+O(N) Time Complexity and O(1) Space Complexity
+--------------------------------------------------
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        //Step1: Create copy nodes and insert them in original linked list
+        Node* itr = head;
+        Node* front = head;
+        while(itr!=NULL)
+        {
+            front = itr->next;
+            Node* copy = new Node(itr->val);//create copy node of itr
+            //insert copy node next to original node:
+            itr->next = copy;
+            copy->next = front;
+            //move itr forward:
+            itr = front;
+        }
+        
+        //Step2: Point the random pointers of copy nodes to correct nodes 
+        itr = head;
+        while(itr!=NULL)
+        {
+            if(itr->random!=NULL)
+            {
+                itr->next->random = itr->random->next;
+            }
+            else if(itr->random==NULL)
+            {
+                itr->next->random = NULL;
+            }
+            //move itr forward:
+            itr = itr->next->next;
+        }
+        
+        //Step3: Segregate the original list from copy list
+        Node* dummy = new Node(0);
+        Node* pseudohead = dummy;//saving the dummy node so that later we can keep track of head of copy linked list
+        itr = head;
+        while(itr!=NULL)
+        {
+            front = itr->next->next;
+            dummy->next = itr->next;
+            itr->next = front;
+            
+            //move itr and dummy forward:
+            itr = itr->next;
+            dummy = dummy->next;
+        }
+        return pseudohead->next;
+    }
+};
