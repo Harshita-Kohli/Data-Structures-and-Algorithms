@@ -1,0 +1,51 @@
+----------------------------------------------
+//O(N) Time and O(1) space- 2 Pass Algorithm
+----------------------------------------------
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        if(head->next==NULL)
+        {
+            return NULL;//we delete the only node from the linked list
+        }
+        int prevPos = 0;//stores the position of element previous to the one to be deleted
+        int len = 0;
+        ListNode* temp = head;
+        //Calculate the length of the linked list
+        while(temp)
+        {
+            temp = temp->next;
+            len++;
+        }
+        //the position of the node just before the target node:
+        prevPos = len-n;
+        
+        if(prevPos==0)//if the previous node 's position is 0, it means we have to delete the head itself
+        {
+            return head->next;//we must delete the head itself
+        }
+        //Otherwise:
+        //save the head of the ll and traverse the ll to delete the target element 
+        temp = head;
+        while(prevPos--)
+        {
+            if(prevPos==0)//we have reached the position next to which we need to delete the element
+            {
+                temp->next = temp->next->next;
+                break;
+            }
+            temp = temp->next;
+        }
+        return head;
+    }
+};
