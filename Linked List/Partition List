@@ -1,0 +1,49 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+ ----------------------------------------------------------------------------------
+//O(N) time becoz of linear traversal
+O(1) Space becoz we just used 4 pointers and nothing else
+---------------------------------------------------------------------------------------
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        if(head==NULL)//empty list
+        {
+            return NULL;
+        }
+        if(head->next==NULL)//list has a single element
+        {
+            return head;
+        }
+        ListNode* beforeHead = new ListNode(0);
+        ListNode* afterHead = new ListNode(0);
+        ListNode* b = beforeHead;
+        ListNode* a = afterHead;
+        
+        while(head)
+        {
+            if(head->val < x)//this node should go to 'before' list
+            {
+                b->next = head;
+                b = b->next;
+            }
+            else if(head->val >= x)//this node should go to 'after' list
+            {
+                a->next = head;
+                a = a->next;
+            }
+            head = head->next;
+        }
+        a->next = NULL;
+        b->next = afterHead->next; //coz afterHead is a dummy node, so we start from its next
+        return beforeHead->next; //coz beforeHead is a dummy node, so we must start from its next
+    }
+};
