@@ -1,0 +1,40 @@
+-------------------------------------------------
+O(N) Time coz of linear traversal and O(1) Space 
+-------------------------------------------------
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* oddEvenList(ListNode* head) {
+        if(head==NULL)//empty list
+        {
+            return NULL;
+        }
+        if(head->next==NULL)//single node in the list
+        {
+            return head;
+        }
+        ListNode* oddHead = head;
+        ListNode* evenHead = head->next;
+        ListNode* e = evenHead;//to iterate over the even nodes
+        
+        while(e && e->next) //checking both for even length and odd length linked lists
+        {
+            oddHead->next = e->next;
+            e->next = oddHead->next->next;
+            //move the pointers forward:
+            oddHead = oddHead->next;
+            e = e->next;
+        }
+        oddHead->next = evenHead;
+        return head;
+    }
+};
