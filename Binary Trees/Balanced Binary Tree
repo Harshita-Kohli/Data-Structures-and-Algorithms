@@ -1,0 +1,81 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+ -------------------------------------------------------------------------
+// Method 1: Using a height function to compute height of the subtrees
+class Solution {
+public:
+    int height(TreeNode* root)
+    {
+        if(root==NULL)
+        {
+            return 0;
+        }
+        int leftans = height(root->left);
+        int rightans = height(root->right);
+        return 1+max(leftans,rightans);
+    }
+    // A tree is balanced if its left subtree and its right subtree are balanced as well as the diff b/w left and right subtree heights <=1:
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL)
+        {
+            return true;//empty tree is a balanced tree
+        }
+        if(root->left==NULL && root->right==NULL)
+        {
+            return true;//single node in tree is laso balanced
+        }
+        if(isBalanced(root->left) && isBalanced(root->right) && abs(height(root->left)-height(root->right))<=1)
+           {
+               return true;
+           }
+          return false; 
+    }
+    -----------------------------------------------------------------------
+    METHOD 2:
+    class Solution {
+public:
+    //Keeps track of height as well as if subtree is balanced or not
+    pair<int,bool> helper(TreeNode* root)
+    {
+        if(root==NULL)//empty tree is balanced
+        {
+            return {0,true};
+        }
+        //check if left subtree is balanced:
+        pair<int,bool> leftans = helper(root->left);
+        //check if right subtree is balanced:
+        pair<int,bool> rightans = helper(root->right);
+        
+        int leftH = leftans.first;
+        int rightH = rightans.first;
+        
+        if(leftans.second && rightans.second && abs(leftH-rightH)<=1)
+        {
+            return {1+max(leftH,rightH), true};
+        }
+       
+        return {1+max(leftH, rightH), false};
+        
+    }
+    bool isBalanced(TreeNode* root) {
+        if(root==NULL)
+        {
+            return true;//empty tree is a balanced tree
+        }
+        if(root->left==NULL && root->right==NULL)
+        {
+            return true;//single node in tree is laso balanced
+        }
+        bool ans = helper(root).second;
+        return ans;
+    }
+};
