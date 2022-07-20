@@ -9,7 +9,9 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-//O(N) time 
+ -----------------------------------------------------------------------
+//O(N) TIME And O(N) SPACE coz of call stack used during recursion
+------------------------------------------------------------------------
 class Solution {
 public:
     vector<vector<int>> ans;
@@ -48,10 +50,11 @@ public:
             return;
         }
         int h = heightCalc(root);
+        
         for(int i = 0;i<h;i++)
         {
-            eachLevel(root,i);
-            ans.push_back(temp);
+            eachLevel(root,i);//compute the vector that stores nodes of one level
+            ans.push_back(temp);//push that vector into ans
             temp.clear();//now erase everything from the temp vector to store the next level nodes
         }
         return;
