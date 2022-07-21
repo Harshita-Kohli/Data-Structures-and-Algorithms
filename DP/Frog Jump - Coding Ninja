@@ -35,3 +35,23 @@ int frogJump(int n, vector<int> &heights)
     memset(t,-1,sizeof(t));
     return topdown(heights,n-1);
 }
+-------------------------------------------------------------------------------------------
+//Time Complexity: O(n), Space :O(n)
+#include<bits/stdc++.h>
+
+int frogJump(int n, vector<int> &heights)
+{
+    // Write your code here.
+    int t[n+1];//1d dp array
+    //initialisation:
+    t[0] = 0;
+    //filling the rest of the dp array
+    t[1] = t[0]+abs(heights[1]-heights[0]);//handling 1st index
+    for(int i = 2;i<n;i++)
+    {
+        int leftans = t[i-1]+abs(heights[i]-heights[i-1]);
+        int rightans = t[i-2]+abs(heights[i]-heights[i-2]);
+        t[i] = min(leftans,rightans);
+    }
+    return t[n-1];
+}
