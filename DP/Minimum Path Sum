@@ -1,3 +1,36 @@
+-------------------------------------------------
+ RECURSION:
+ Time : O(N*M) and Space: O(N*M)+O(path length in recursion call stack) 
+--------------------------------------------------------
+int solve(int m,int n,vector<vector<int>>& grid)
+	{
+	   //and find base case:
+	    if(m==0 && n==0)
+	    {
+	        return grid[0][0];
+	    }
+        if(m<0 || n<0)
+	    {
+	        return INT_MAX;//we return a very very large number if recursion goes out of bound, so that this path is never taken
+	    }
+	    //Step2: explore all possible paths:
+	    int up = grid[m][n]+solve(m-1, n, grid);
+	    int left = grid[m][n]+solve(m, n-1, grid);
+	    //step3: return max of the all possible paths
+	    return max(left, up);
+	    }
+    int minimumCostPath(vector<vector<int>>& grid) 
+    {
+        // Code here
+        //Recursion
+        int n = grid.size();
+        int m = grid[0].size();
+        //Step1: express in the form of m and n 
+        return solve(m-1,n-1,grid);
+    }
+    ----------------------------------------------------------------------------------------
+
+
 class Solution {
 public:
     int minPathSum(vector<vector<int>>& grid) {
