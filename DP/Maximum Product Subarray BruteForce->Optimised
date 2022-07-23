@@ -75,3 +75,28 @@ public:
 //        return maxim;
 //    }
 // };
+-----------------------------------------------------------------------------------------
+//O(N) single pass : Take 3 options into consideration(BEST APPROACH---UNDERSTANDABLE BHI HAI !!!!)
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int n = nums.size();
+        int maxprod = nums[0];
+        int minprod = nums[0];
+        int ans = nums[0];
+        for(int i = 1;i<n;i++)
+        {
+           //we have 3 options at each index
+            int op1 = nums[i];
+            int op2 = maxprod*nums[i];
+            int op3 = minprod*nums[i];
+            
+            //minprod will store the minimum of these 3 options
+            //maxprod will store the maximum of these 3 options
+            minprod = min(op1, min(op2,op3));
+            maxprod = max(op1, max(op2,op3));
+            ans = max(ans, maxprod);
+        }
+        return ans;
+    }
+};
