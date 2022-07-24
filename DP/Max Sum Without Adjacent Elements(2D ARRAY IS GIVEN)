@@ -1,0 +1,66 @@
+Given a 2 x N grid of integer, A, choose numbers such that the sum of the numbers
+
+is maximum and no two chosen numbers are adjacent horizontally, vertically or diagonally, and return it.
+
+Note: You can choose more than 2 numbers.
+
+Input Format:
+
+The first and the only argument of input contains a 2d matrix, A.
+Output Format:
+
+Return an integer, representing the maximum possible sum.
+Constraints:
+
+1 <= N <= 20000
+1 <= A[i] <= 2000
+Example:
+
+Input 1:
+    A = [   [1]
+            [2]    ]
+
+Output 1:
+    2
+
+Explanation 1:
+    We will choose 2.
+
+Input 2:
+    A = [   [1, 2, 3, 4]
+            [2, 3, 4, 5]    ]
+    
+Output 2:
+    We will choose 3 and 5.
+    =--------------------------------------------------------------
+    TOPDOWN APPROACH: TC:O(N), SC: O(N)
+    ----------------------------------------------------------------
+    int t[20001];
+int solve(vector<vector<int> > &A, int idx)
+{
+    if(idx==0)
+    {
+        //choose the maximum of the 2
+        return max(A[0][0], A[1][0]);
+        
+    }
+    if(idx<0)
+    {
+        return 0;
+    }
+    if(t[idx]!=-1)
+    {
+        return t[idx];
+    }
+    //picking element from 1st row:
+    int pick = max(A[0][idx],A[1][idx])+solve(A,idx-2);
+    int notpick = solve(A,idx-1);
+    
+    return t[idx] = max(pick,notpick);
+}
+int Solution::adjacent(vector<vector<int> > &A) {
+    int n = A[0].size();
+    memset(t,-1,sizeof(t));
+    return solve(A,n-1);
+}
+-----------------------------------------------------------------------
