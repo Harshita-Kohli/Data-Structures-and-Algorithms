@@ -1,0 +1,54 @@
+--------------------------------------------------------------------------------
+TC: O(N)
+SC: O(N) coz we used 2 suxilliary arrays num1 and num2
+------------------------------------------------------------------------------
+class Solution {
+public:
+    //Pretty Same as House Robber I 
+    //The constraint is tha twe can't take both first and last elements together by any means
+    //Option1: We can take the array from first element and to second last element
+    //Option2: We can take the array from second element to the last element
+    //Compute the ans using House Robber 1 approach for both the cases
+    //Take the max of the two answers
+    int solve(vector<int>&arr)
+    {
+        //Space Optimised approach of House Robber: using two variables only
+        int n = arr.size();
+        int first = 0;
+        int sec = arr[0];
+        int third = 0;
+        if(n==0) return first;//as there is no house
+        if(n==1) return sec;//as there is a single house, so we return nums[0]
+        for(int i = 1;i<n;i++){
+            int pick = arr[i]+first;//if we include ith hpuse, then we can't take the adjacent, but can include i-2 tak ka max sum
+            int notpick = 0+sec;//if ith house is not included, then take i-1 tak ka max sum
+            third = max(pick,notpick);
+            first = sec;
+            sec = third;
+        }
+        return third;
+    }
+    int rob(vector<int>& nums) {
+        vector<int>num1;
+        vector<int>num2;
+        int n = nums.size();
+        //edge case: If there is only a single house in the given array 
+        if(n==1)
+        {
+            return nums[0];//simply include that house 
+        }
+        for(int i = 0;i<n;i++){
+            if(i!=0)
+            {
+                num1.push_back(nums[i]);//push all elements of nums into num1 except the first element
+            }
+            if(i!=n-1)
+            {
+                num2.push_back(nums[i]);//push all elements of nums into num2 except the last element
+            }
+        }
+        int ans1 = solve(num1);
+        int ans2 = solve(num2);
+        return max(ans1, ans2);
+    }
+};
