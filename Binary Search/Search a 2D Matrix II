@@ -1,0 +1,28 @@
+//TC:O(m+n) the path length followed in the worst case will be m+n
+//SC: O(1) no extra auxilliary space is used
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size();//no of rows
+        int m = matrix[0].size();//no of columns
+        int r = 0;
+        int c = m-1;
+        //start iterating from top-right corner:
+        while(r<n && c>=0)
+        {
+            if(matrix[r][c]==target)
+            {
+                return true;
+            }
+            else if(target<matrix[r][c])
+            {
+                c--;//move left in that row to go towards a smaller value
+            }
+            else
+            {
+                r++;//move down in that column to go towards a greater value
+            }
+        }
+        return false;
+    }
+};
