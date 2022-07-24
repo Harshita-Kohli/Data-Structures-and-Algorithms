@@ -1,8 +1,10 @@
-----------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------
   //Brute Force: O(N^2) Use Nested For-loop and do linear search to search for the target element
-  //Better: O(n logn) Go to each row, and then use binary search to search for the element in that particular row
-  //Even Better: Use Binary Search to find the suitable row where searching needs to be done, Then performbinary search on that row to find the target
-  ---------------------------------------------------------------------------------------
+  //Better: O(n) + O(log m) Go to each row to find the target row, and then use binary search to search for the element in that particular row
+  -----------------------------------------------------------------------------------------------------------------------
+  //Even Better: Use Binary Search to find the suitable row where searching needs to be done, Then perform binary search on that row to find the target
+  Time complexity: O(log n + log m). O(Log n) time is required to find the two desired rows. Then O(Log m) time is required for binary search in one of the four parts with size equal to m/2.
+  -----------------------------------------------------------------------------------------------------------------------
 class Solution {
 public:
     bool binarySearch(vector<int>arr, int target)
