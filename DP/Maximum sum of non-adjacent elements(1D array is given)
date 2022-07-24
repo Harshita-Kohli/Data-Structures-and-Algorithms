@@ -1,0 +1,32 @@
+-------------------------------------------------------
+Top DOWN APPROACH: 
+TC: O(N)
+SC:O(N)
+-------------------------------------------------------------------
+#include<bits/stdc++.h>
+int solve(int idx, vector<int> &nums, vector<int>&t)
+{
+    //base case:
+    if(idx==0)//we have reached 0th index only becoz we didn't include 1st index in the sum, so to maximise the sum, we must include 0th index element 
+    {
+        return nums[idx];
+    }
+    if(idx<0)
+    {
+        return 0;//coz we have reached out of bounds, and we don't have any element at -ve index
+    }
+    if(t[idx]!=-1)//avoid recomputation of overlapping subproblems
+    {
+        return t[idx];
+    }
+    int pick = nums[idx]+solve(idx-2, nums,t);
+    int notpick = 0+solve(idx-1,nums,t);
+    return t[idx] = max(pick, notpick);
+}
+int maximumNonAdjacentSum(vector<int> &nums){
+    // Write your code here.
+    //top down
+    int n = nums.size();
+    vector<int>t(n,-1);//1d dp array
+    return solve(n-1, nums,t);
+}
