@@ -1,0 +1,116 @@
+---------------------------------------------------------------------------------------------------------
+//TC: O(log n)
+//SC: O(n) coz we use ans vector to return answer..otherwise no extra space is used
+---------------------------------------------------------------------------------------------------------
+// class Solution {
+// public:
+    //METHOD1:
+    //We will use Binary Search to find the target in the nums array. If found at mid, then we keep moving leftwards from mid to find its first occurence and then keep moving rightwards from mid to find its last occurence since array is sorted
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        int l = 0;
+        int u = n-1;
+        int mid;
+        int start = 0;
+        int end = 0;
+        int pos = -1;
+        vector<int>ans;
+      //Finding Target in the nums array
+        while(l<=u)
+        {
+            mid = l+(u-l)/2;
+            if(nums[mid]==target)
+            {
+                pos = mid;
+                break;
+            }
+            else if(target<nums[mid])
+            {
+                u = mid-1;
+            }
+            else
+            {
+                l = mid+1;
+            }
+        }
+        //if target not found 
+        if(pos == -1)
+        {
+            ans = {-1,-1};
+            return ans;
+        }
+        //otherwise, if target was found in the nums array, then find its start and end index
+        //Finding start:
+        while(pos>0 && nums[pos-1]==target)
+        {
+            pos--;
+        }
+        start = pos;
+        
+        pos = mid;//reset pos to mid
+        //Finding end position:
+        while(pos<n-1 && nums[pos+1]==target)
+        {
+            pos++;
+        }
+        end = pos;
+        
+        ans = {start,end};
+        return ans;
+    }
+};
+// -----------------------------------------------------------
+// METHOD2:
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        int l = 0;
+        int u = n-1;
+        int mid = 0;
+        int lpos = -1;
+        int rpos = -1;
+        vector<int>ans;
+        //for finding the left most occurence, whenver we find target, we decrement u to mid-1 to go towards the left half:
+        while(l<=u)
+        {
+            mid = l+(u-l)/2;
+            if(nums[mid]==target)
+            {
+                lpos = mid;
+                u = mid-1;
+            }
+            else if(target<nums[mid])
+            {
+                u = mid-1;
+            }
+            else
+            {
+                l = mid+1;
+            }
+        }
+        //reset the pointers
+        l = 0;
+        u = n-1;
+          //for finding the right most occurence, whenever we find target, we increment l to mid+1 to go towards the right half:
+        while(l<=u)
+        {
+            mid = l+(u-l)/2;
+            if(nums[mid]==target)
+            {
+                rpos = mid;
+                l = mid+1;
+            }
+            else if(target<nums[mid])
+            {
+                u = mid-1;
+            }
+            else
+            {
+                l = mid+1;
+            }
+        }
+        ans = {lpos,rpos};
+        return ans;
+    }
+};
