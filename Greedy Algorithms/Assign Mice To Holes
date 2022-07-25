@@ -1,0 +1,51 @@
+------------------------------------------------------------------------------------------------
+TC: O(n log n) becoz of sorting + O(n) for traversing over the sorted array => TC: O(nlogn)
+SC: O(1) coz we didn't use any auxilliary space
+-------------------------------------------------------------------------------------------------
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution {
+  public:
+    int assignMiceHoles(int N , int M[] , int H[]) {
+        // code here
+        //GREEDY APPROACH: We try to assign each mouse to the nearest house, so as 
+        //to minimise the time taken to put it inside the house
+        
+        //So, sort both the mice positions and the house positions in ascending order
+        int maxdiff = INT_MIN;
+        sort(M, M+N);
+        sort(H, H+N);
+        //find what is the maximum out of the times taken by all the mice to get into the nearest house
+        for(int i = 0;i<N;i++)
+        {
+            maxdiff = max(abs(M[i]-H[i]), maxdiff);
+        }
+        return maxdiff;
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int N;
+        
+        cin>>N;
+        
+        int M[N],H[N];
+        
+        for(int i=0 ; i<N ; i++)
+            cin>>M[i];
+        for(int i=0 ; i<N ; i++)
+            cin>>H[i];
+
+        Solution ob;
+        cout << ob.assignMiceHoles(N,M,H) << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
