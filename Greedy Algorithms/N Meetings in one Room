@@ -37,7 +37,7 @@ class Solution
             if(prevEnd<temp[i][0])
             {
                 count++;
-                prevEnd = temp[i][1];
+                prevEnd = temp[i][1];//update the ending time of previous attended meeting
             }
         }
         return count;
