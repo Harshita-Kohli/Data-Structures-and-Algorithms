@@ -1,0 +1,24 @@
+[LEETCODE]:
+Allright so whenever you call a non-static member function of class outside of a class you do something like this,
+obj a;
+a.compare(b); //2 parameters are required - a & b
+i.e. for non-static member functions, we have to provide an extra parameter for the implicit this.
+
+Whereas making a member function static allows this call,
+Solution:: compare(b); //Just 1 parameter required
+
+Similarly, since the code for sort will be executed outside your class, we've to declare it static else the first parameter in your comparator function will be used as the implicit first parameter for this in non-static member functions.
+------------------------------------------------------------------------------------------------------
+[STACKOVERFLOW]:  [](https://stackoverflow.com/questions/26131112/why-stdsort-requires-static-compare-function)
+Think of how you call compareFunc outside of the class. You always would have something like
+a.compareFunc(b, c)
+^             ^  ^
+which is 3 parameters, not 2.
+
+sort's code is outside your class and would have to use the syntax above.
+
+Making the member static allows this call:
+
+Solution::compareFunc(a, b)
+which is only 2 parameters and matches the predicate std::sort expects.
+
