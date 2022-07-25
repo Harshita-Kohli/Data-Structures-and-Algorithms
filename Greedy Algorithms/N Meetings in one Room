@@ -1,0 +1,65 @@
+----------------------------------------------------------------------------------
+//GREEDY: We are required to attend maximum no of meetings. 
+    //So we will attend the meetings in such a way that the meeting with 
+    //least end time is attended at first and then a meeting with next smaller end time is attended and so on...
+    //This way we can attend maximum no of meetings
+    //TC: O(N)+O(NLOGN)+O(N) ~ O(NLOGN)
+    //SC: O(N) we use a vector 
+------------------------------------------------------------------------------------
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to find the maximum number of meetings that can
+    //be performed in a meeting room.
+   
+    static bool cmp(vector<int>&a, vector<int>&b)
+    {
+        return a[1]<b[1];//sort the meetings in non decreasing order of end times
+    }
+    int maxMeetings(int start[], int end[], int n)
+    {
+        // Your code here
+        vector<vector<int>>temp;
+        for(int i = 0;i<n;i++){
+            temp.push_back({start[i],end[i]});
+        }
+        //sort the meetings acc to the end times 
+        sort(temp.begin(),temp.end(),cmp);
+        int count = 1;
+        int prevEnd = temp[0][1];
+        for(int i = 1;i<n;i++)
+        {
+            if(prevEnd<temp[i][0])
+            {
+                count++;
+                prevEnd = temp[i][1];
+            }
+        }
+        return count;
+    }
+};
+
+//{ Driver Code Starts.
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int n;
+        cin >> n;
+        int start[n], end[n];
+        for (int i = 0; i < n; i++) cin >> start[i];
+
+        for (int i = 0; i < n; i++) cin >> end[i];
+
+        Solution ob;
+        int ans = ob.maxMeetings(start, end, n);
+        cout << ans << endl;
+    }
+    return 0;
+}
+// } Driver Code Ends
