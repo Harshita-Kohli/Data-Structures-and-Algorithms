@@ -5,7 +5,7 @@ public:
         int n = coins.size();
         int t[n+1][amount+1];//2d dp array, where t[i][j] denotes the no of ways if no of coins=i and amount = j
         //initialisation:
-            for(int j = 0;j<amount+1;j++){ //for 0th row, as no of coins = 0, so no of ways to make up the amount will be infinite
+            for(int j = 0;j<amount+1;j++){ //for 0th row, as no of coins = 0, so no of ways to make up the amount will be 0
                 t[0][j] = 0;
             }
         for(int i = 0;i<n+1;i++){ //for 0th column,as the target amount is 0, so we have 1 way to make up 0 amount
