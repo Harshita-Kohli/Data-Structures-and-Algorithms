@@ -27,3 +27,47 @@ public:
         return t[n][amount];
     }
 };
+--------------------------------------------------------------------------------
+Top Down Approach: 
+TC: O(n*target)
+SC: O(n*target) coz of 2d dp array
+---------------------------------------------------------------------------
+int t[1001][1001];//2d dp array
+	int solve(int coins[], int n, int target)
+	{
+	    //base case:
+	    if(n==0)
+	    {
+	        return t[n][target] = INT_MAX-1;//not possible to make the change
+	    }
+	    if(target==0)
+	    {
+	        return t[n][target] = 0;//coz we need 0 coins to make the change
+	    }
+	    if(t[n][target]!=-1)
+	    {
+	        return t[n][target];
+	    }
+	    //recursive:
+	    if(coins[n-1]<=target) //either include or exclude
+	    {
+	        t[n][target] = min(1+solve(coins,n, target-coins[n-1]), solve(coins,n-1, target));
+	    }
+	    else 
+	    {
+	        t[n][target] =solve(coins,n-1, target);
+	    }
+	   
+	    return t[n][target];
+	}
+	int minCoins(int coins[], int M, int V) 
+	{ 
+	    // Your code goes here
+	    //topdown
+	    memset(t,-1,sizeof(t));
+	    int ans = solve(coins,M,V);
+	     if(ans==INT_MAX-1)
+	    {
+	        return -1;
+	    }
+	} 
