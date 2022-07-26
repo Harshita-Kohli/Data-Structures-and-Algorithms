@@ -1,0 +1,63 @@
+//GREEDY: We use the largest denomination that is <= target
+//TC: O(no of denominations)
+//SC: O(no of denominations)
+----------------------------------------------------
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    vector<int> minPartition(int N)
+    {
+        // code here
+        //store all the indian denominations in a vector
+        vector<int>coins = {2000,500,200,100,50,20,10,5,2,1};
+        int i = 0;
+        int sz = 10; //size of coins vector
+        vector<int>ans;
+        //edge case:
+        if(N==0) //if the sum of money is less than 0, then simply return an empty vector coz no coins are needed
+        {
+            return vector<int>();//empty vector must be returned
+        }
+        while(i<sz)
+        {
+            if(coins[i]<=N)//if current denomination is <=N, simply use it to make the change there
+            //and then and also compute the leftover target
+            {
+                ans.push_back(coins[i]);
+                N =N-coins[i];//update the target with the remaining target
+            }
+            else //if current denomination is greater than target, simply go towards the smaller denomination
+            {
+                i++;
+            }
+        }
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int N;
+        cin>>N;
+        
+        Solution ob;
+        vector<int> numbers = ob.minPartition(N);
+        for(auto u: numbers)
+            cout<<u<<" ";
+        cout<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
