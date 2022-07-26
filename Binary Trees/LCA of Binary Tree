@@ -1,0 +1,196 @@
+//TC: O(N)
+//SC: O(N) for recursion call stack, otherwise no extra space is used
+--------------------------------------------------------------------------
+Approach:
+//Agar n1 ya n2 mil jata hai( ie root==n1 || root==n2), to hum root hi return kardenge ki bhai ye ek valid lca number mila hai mujhe
+//Agar root na to n1 hai aur na hi n2 hai, to hum uske left aur right subtree me dekhenge
+//agar left subtree me n1 ya n2 mila aur right subtree me doosra nahi mila, iska matlab left subtree se jo ans aya hai wahi lca hai kyunki dono n1 aur n2 left subtree me hain
+//Agar right subtree me n1 ya n2 mila hai aur left me doosra wala nahi mila, iska matlab right subtree se jo ans aya hai wahi lca hai kyunki dono n1 aur n2 right subtree me hi hai
+//Agar root ke left subtree me ek mila aur right subtree dono me doosra mila, iska matlab root hi lca hai kyunki dono n1 aur n2 uske descendants hain
+------------------------------------------------------------------------------------------------
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// Tree Node
+struct Node
+{
+    int data;
+    Node* left;
+    Node* right;
+    Node(){
+        data = 0;
+        left = right = NULL;
+    }
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+
+// } Driver Code Ends
+/* A binary tree node
+
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+    
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+ */
+
+class Solution
+{
+    public:
+    //Function to return the lowest common ancestor in a Binary Tree.
+    Node* lca(Node* root ,int n1 ,int n2 )
+    {
+       //Your code here
+       //base case:
+       if(root==NULL)
+       {
+           return NULL;
+       }
+       //base case
+       //agar dono me se ek bhi milta hai to wo return kardo upar taaki pata chal jaye ki ye exist karta hai 
+       if(root->data==n1 || root->data==n2) //agar root hi p ya q hai, to simply root hi return kardo
+       {
+           return root;
+       }
+       //recursion:
+       Node* leftans = lca(root->left, n1, n2);
+       Node* rightans = lca(root->right, n1,n2);
+       //agar root ko left aur right dono se null mil raha hai, it means p and q dono hi exist nahi karte, so lca is NULL
+       if(!leftans && !rightans)//kyunki root ke left aur right dono me hi p aur q nahi mile
+       {
+           return NULL;
+       }
+       //agar root ke right me ek valid number mila hai (either n1 or n2) but left me null hai iska matlab root to
+       //lca nahi hai kyunki n1 aur n2 dono eksaath uske children nahi hai. 
+       //To abhi right se jo valid number mila hai wo parent ko bhejdo kyunki wo kaam ka ho sakta hai
+       //for the parent
+       if(!leftans)
+       {
+           return rightans;
+       }
+       if(!rightans){
+           return leftans;
+       }
+       //otherwise, agar root ko apne neeche n1 aur n2 dono mil jate hain, to root hi lca hai, aur root return kardo 
+       return root;
+    }
+};
+
+//{ Driver Code Starts.
+
+Node* newNode(int val)
+{
+    Node* temp = new Node;
+    temp->data = val;
+    temp->left = NULL;
+    temp->right = NULL;
+
+    return temp;
+}
+
+
+// Function to Build Tree
+Node* buildTree(string str)
+{
+    // Corner Case
+    if(str.length() == 0 || str[0] == 'N')
+        return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for(string str; iss >> str; )
+        ip.push_back(str);
+
+    // for(string i:ip)
+    //     cout<<i<<" ";
+    // cout<<endl;
+    // Create the root of the tree
+    Node* root = newNode(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node*> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while(!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node* currNode = queue.front();
+        queue.pop();
+
+        // Get the current node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if(currVal != "N") {
+
+            // Create the left child for the current node
+            currNode->left = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if(i >= ip.size())
+            break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if(currVal != "N") {
+
+            // Create the right child for the current node
+            currNode->right = newNode(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+// Function for Inorder Traversal
+void printInorder(Node* root)
+{
+    if(!root)
+        return;
+
+    printInorder(root->left);
+    cout<<root->data<<" ";
+    printInorder(root->right);
+}
+
+int main() {
+    int t;
+    scanf("%d",&t);
+    while(t--)
+    {
+        int a,b;
+        scanf("%d %d ",&a,&b);
+        string s;
+        getline(cin,s);
+        Node* root = buildTree(s);
+        Solution ob;
+        cout<<ob.lca(root,a,b)->data<<endl;
+    }
+    return 0;
+}
+
+// } Driver Code Ends
