@@ -1,0 +1,38 @@
+ //TC:O(N)  SC: O(1)
+ //GREEDY: In every set of repeating colored balloons, We want to remove all adjacent duplicate balloons leaving only a single balloon which has the maximum time of removal. 
+ //Maintain the running sum of times and the maximum of the times of each group of duplicate elements
+ //This way,in each group of duplicates, we are saving only that balloon that has maximum time of removal.
+ //Hum har group of repeating colors me se sirf 1 balloon chodedenge(jiska maximum removal time hoga)..aur baaki sabhi smaller removal times walon ko remove kardenge
+ //Time taken to remove all balloons except max time wala balloon = sum of times-maxTime
+-----------------------------------------------------------------------------------------------------------------------------------------
+class Solution {
+public: 
+    int minCost(string colors, vector<int>& neededTime) {
+        int n = colors.length();
+        int ans = 0;
+        
+        char curr = colors[0];
+        int sumTime = 0;
+        int maxTime = INT_MIN;
+        for(int i = 0;i<n;i++) //iterate over the colors of balloons
+        {
+             if(colors[i]==curr)//agar current balloon pichle ka duplicate hai, to poore duplicate group pe traverse karo
+             {
+                while(colors[i]==curr)//traverse karte karte running sum aur maxTime compute karo 
+                {
+                    sum+=neededTime[i];
+                    maxTime = max(maxTime,neededTime[i]);
+                    i++;
+                }
+                 //ab is particular duplicate group ke liye min removal time compute karo ...aur use ans me add kardo...karte karte saare groups ke liye min time of removal ans me add hota jayega
+                 ans+=sum-maxTime;
+             }
+            //ab kyunki humne i++ kar diya tha, to ab hum non-duplicate element pe hain, to ab sum, maxtime aur curr ko update karo for the next duplicate group
+            //update all:
+             sum = neededTime[i];
+             maxTime = neededTime[i];
+             curr = colors[i];
+        }
+        return ans;
+    }
+};
