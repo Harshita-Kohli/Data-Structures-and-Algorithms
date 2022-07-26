@@ -1,13 +1,21 @@
-//TC: O(N)
-//SC: O(N) for recursion call stack, otherwise no extra space is used
---------------------------------------------------------------------------
-Approach:
+ YT: https://www.youtube.com/watch?v=3MmWkR04n_8
+ ------------------------------------------------------------------
+ //BRUTE FORCE: 
+ Compute root to n1 path and store in a vector, Compute root to n2 path and store in a vector.
+ Then traverse both vectors andsee which was the last common element in the 2 path, that will be the LCA.
+ TC: O(N)+O(N) //traversing the tree to store root to node paths
+ SC: O(N)+O(N) ~ O(N) //storing both the paths in 2 vectors
+--------------------------------------------------------------------------------------------------------------
+Recursive approach without vector wali extra space:
 //Agar n1 ya n2 mil jata hai( ie root==n1 || root==n2), to hum root hi return kardenge ki bhai ye ek valid lca number mila hai mujhe
 //Agar root na to n1 hai aur na hi n2 hai, to hum uske left aur right subtree me dekhenge
 //agar left subtree me n1 ya n2 mila aur right subtree me doosra nahi mila, iska matlab left subtree se jo ans aya hai wahi lca hai kyunki dono n1 aur n2 left subtree me hain
 //Agar right subtree me n1 ya n2 mila hai aur left me doosra wala nahi mila, iska matlab right subtree se jo ans aya hai wahi lca hai kyunki dono n1 aur n2 right subtree me hi hai
 //Agar root ke left subtree me ek mila aur right subtree dono me doosra mila, iska matlab root hi lca hai kyunki dono n1 aur n2 uske descendants hain
-------------------------------------------------------------------------------------------------
+//TC: O(N)
+//SC: O(N) for recursion call stack, otherwise no extra space is used
+----------------------------------------------------------------------------------------------------------
+
 //{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
