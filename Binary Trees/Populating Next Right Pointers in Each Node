@@ -1,0 +1,89 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/ 
+----------------------------------------
+// 3 approaches 
+// //O(n) time complexity and O(n) space complexity because of queue
+----------------------------------------------------
+// class Solution {
+// public:
+//     Node* connect(Node* root) {
+//         if(root==NULL) return NULL;
+//         queue<Node*>q;
+//         q.push(root);
+//         q.push(NULL);
+//         while(!q.empty()){
+//             Node* n = q.front();
+//             q.pop();
+//             if(n!=NULL){
+//                 n->next = q.front();//make connection with the next right
+//                 //push left and right children:
+//                 if(n->left) q.push(n->left);
+//                 if(n->right) q.push(n->right);
+//             }
+//             if(n==NULL){
+//                 if(!q.empty()){
+//                     q.push(NULL);
+//                 }
+//             }
+//         }
+//         return root;
+//     }
+// };
+-----------------------------------------------------------------------------
+// //O(n) time complexity and virtually constant space complexity (Recursive approach ie DFS)
+------------------------------------------------------------------
+// class Solution {
+// public:
+//     Node* connect(Node* root) {
+//         //base case
+//         if(root==NULL){
+//             return NULL;
+//         }
+//         if(root->left)//if left child exists:
+//         {
+//             root->left->next = root->right;//the right of root will become the next of root->left
+//         }
+//         if(root->right && root->next)
+//         {
+//             root->right->next = root->next->left;//by default, root->next is NULL
+//         }
+//         connect(root->left);
+//         connect(root->right);
+//         return root;
+//     }
+// };
+----------------------------------------------------------------------------------
+//3rd approach: BFS iterative, O(n) time and O(1) space complexity becoz we just use 2 pointers
+--------------------------------------------------------------------------------------
+class Solution{
+public:
+    Node* connect(Node* root) {
+        //Initialize pointers
+        Node *prev = root, *curr;
+        while (prev) {
+            curr = prev;
+            while (curr && curr->left) {//for iterating over all the nodes in the same level and connecting them to next pointers
+                curr->left->next = curr->right; //connects the left subtree of same level with right subtree of that same level
+                if (curr -> next) curr->right->next = curr->next->left;
+                curr = curr->next;//connect the rightmost node of a level to the leftmost node of the next level.
+            }
+            prev = prev -> left;//for moving to the leftmost node in the next level
+        }
+        return root;
+    }
+};
