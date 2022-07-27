@@ -26,7 +26,11 @@ class Solution{
         }
         //filling the rest of the matrix:
         for(int i = 1;i<n+1;i++){
-            for(int j = 0;j<sum+1;j++){ //NOTE: j starts from 0
+	    for(int j = 0;j<sum+1;j++){ //NOTE: j starts from 0 ...start second for loop with j = 0, because initializing the first column with all 1's might //give the wrong result if there exists a 'zero' in the array.
+//Input for which this initialization do not work:
+//n = 10 
+//sum = 31
+//9 7 0 3 9 8 6 5 7 6
                 if(arr[i-1]<=j){ //choice whether to include or exclude, and add answers from both the cases..coz we wnna get all the subsets 
                     t[i][j] = (t[i-1][j-arr[i-1]]+t[i-1][j])%mod;
                 }
