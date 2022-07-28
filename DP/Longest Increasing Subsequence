@@ -1,0 +1,72 @@
+-------------------------------------
+//TOP DOWN APPROACH: 
+//TC: O(N*N)
+//SC: O(N*N)+O(N) coz of 2-d matrix and call stack
+------------------------------------------
+
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+
+class Solution
+{
+    public:
+     
+    //Function to find length of longest increasing subsequence.
+    int solve(int a[], int n, int ind, int prevInd, vector<vector<int>>&t)
+    {
+        //base case:
+        if(ind==n)//we have come out of bounds, so no element is present
+        {
+            return 0; //length of lis = 0
+        }
+        if(t[ind][prevInd+1]!=-1) //we did a +1 because of coordinate shifting, we want prevInd = -1 to be represented by the 0th index of the matrix
+        {
+            return t[ind][prevInd+1];//overlapping subproblems 
+        }
+        // //recursive case:
+        if(prevInd==-1 || a[ind]>a[prevInd]) //2 choices: include a[ind] or exclude a[ind] and take max of the 2 answers
+        {
+            int pick = 1 + solve( a, n,ind+1, ind,t);//inc length by 1
+            int notpick = 0 + solve( a, n, ind+1, prevInd,t);
+            return t[ind][prevInd+1] = max(pick, notpick); 
+        }
+        else //if a[ind]<=a[prevInd], i can't include it, so don't pick it
+        {
+            return t[ind][prevInd+1] = solve( a, n,ind+1, prevInd,t);
+        }
+        return t[ind][prevInd];
+
+    }
+    int longestSubsequence(int n, int a[])
+    {
+       // your code here
+      vector<vector<int>> t(n,vector<int>(n+1,-1));//2d dp array
+      return solve(a,n, 0,-1,t); //index = 0, previndex = -1
+    }
+};
+
+//{ Driver Code Starts.
+int main()
+{
+    //taking total testcases
+    int t,n;
+    cin>>t;
+    while(t--)
+    {
+        //taking size of array
+        cin>>n;
+        int a[n];
+        
+        //inserting elements to the array
+        for(int i=0;i<n;i++)
+            cin>>a[i];
+        Solution ob;
+        //calling method longestSubsequence()
+        cout << ob.longestSubsequence(n, a) << endl;
+    }
+}
+
+// } Driver Code Ends
