@@ -1,0 +1,67 @@
+------------------------------------------
+//LIS variation: Tabulation Method of LIS
+//TC: O(N*N)
+//SC: O(N) coz 1 d array has been used
+-----------------------------------------------
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+		
+
+	public:
+	int maxSumIS(int arr[], int n)  
+	{  
+	    // Your code goes here
+	    int maxsum = 0;
+	    int t[n];//1 d dp array where t[i] denotes the maximum sum of Increasing subsequence till ith index
+	    for(int i = 0;i<n;i++)
+	    {
+	        t[i] = arr[i];
+	        maxsum = max(maxsum,arr[i]);//initially, the maxsum can be the maximum individual number out of all the array elements
+	    }
+	    for(int i = 1;i<n;i++)
+	    {
+	        for(int prev = 0;prev<i;prev++)
+	        {
+	            if(arr[prev]<arr[i])//if prev element is < current element, then think of updating the sum of increasing subsequence ending at i 
+	            {
+	                t[i] = max(t[i], arr[i]+t[j]);
+	            }
+	        }
+	        maxsum = max(maxsum, t[i]);//after computing t[i], update the maxsum if t[i] >maxsum
+	    }
+	    return maxsum;
+	}  
+};
+
+//{ Driver Code Starts.
+int main() 
+{
+   	
+   
+   	int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+
+        int a[n];
+
+        for(int i = 0; i < n; i++)
+        	cin >> a[i];
+
+      
+
+	    Solution ob;
+	    cout << ob.maxSumIS(a, n) << "\n";
+	     
+    }
+    return 0;
+}
+
+
+// } Driver Code Ends
