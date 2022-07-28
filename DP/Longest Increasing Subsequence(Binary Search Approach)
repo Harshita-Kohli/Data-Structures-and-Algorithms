@@ -1,0 +1,30 @@
+//Binary Search Approach:
+NOTE: temp won't represent the lis!!!, just its length will give us lis length!!!
+Instead of storing each increasing subsequence in diff vector, we simply try to fit it into the same single vector...
+If nums[i] > the previous element of temp, then we simply push it into temp...otherwise we use lower_bound() of c++ and replace element at lower bound with nums[i] to fit it into temp!! 
+    //TC:O(N * logN) While iterating over the array, We are using lower_bound() that uses binary search technique
+    //SC:O(N) for using vector 
+    --------------------------------------------
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>temp;
+        temp.push_back(nums[0]);//we push oth index element into temp initially
+        int len = 1;//initially since we have a single element in temp, so len = 1 of lis
+        for(int i = 1;i<n;i++)
+        {
+            if(nums[i]>temp.back())
+            {
+                temp.push_back(nums[i]);//simply push nums[i] into temp if it follows the increasing order
+                len++;
+            }
+            else{ //if nums[i]<=temp.back, it means it is not following the increeasing order, so we find (lowerbound) ie nums[i] or the first element greater than nums[i] and replace it with that 
+                vector<int>::iterator it = lower_bound(temp.begin(),temp.end(),nums[i]);//inbuilt function to return an iterator pointing to the first element in the range [first, last) which has a value not less than val.
+                int pos = it-temp.begin();//to get index, we do it-temp.begin()
+                temp[pos] = nums[i];//replace the element at pos with nums[i]
+            }
+        }
+        return len;
+    }
+};
