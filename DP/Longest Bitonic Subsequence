@@ -1,0 +1,71 @@
+//LIS Variation:
+	//TC: O(N*N) coz of nested loops
+	//SC: O(N)+O(N)+O(N) coz of 3 vectors ~ O(N)
+  -------------------------------------------------------
+//{ Driver Code Starts
+#include<bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+	public:
+	int LongestBitonicSequence(vector<int>nums)
+	{
+	    // code here
+	    int n = nums.size();
+	    vector<int>t1(n,1);//stores lis when nums is traversed from left to right
+	    //t1[i] denotes length of lis till ith index
+	    vector<int>t2(n,1);//stores lis when nums is traversed from right to left
+	    //t2[i] denotes lengtn of lis from end of the array till ith index or we can say
+	    //t2[i] denotes the length of the longest decreasing subsequence starting at ith index
+	    vector<int>bitonic(n,1);//each element itself is bitonic of length 1
+	    //bitonic[i] denotes the length of the longest bitonic subsequence keeoing ith element as the peak of the bitonic subsequence
+	    // ie ith element is present in both lis and lds
+	    int maxim = 1;
+	    for(int i = 1;i<n;i++)
+	    {
+	        for(int j = 0;j<i;j++)
+	        {
+	            if(nums[j]<nums[i])
+	            {
+	                t1[i] = max(1+t1[j], t1[i]);//creating lis from left to
+	            }
+	        }
+	    }
+	    for(int i = n-2;i>=0;i--)
+	    {
+	        for(int j = n-1;j>i;j--)
+	        {
+	            if(nums[j]<nums[i])
+	            {
+	                t2[i] = max(1+t2[j], t2[i]);//creating lis from left to
+	            }
+	        }
+	    }
+	    //creating bitonic array:
+	    for(int i = 0;i<n;i++)
+	    {
+	        bitonic[i] = t1[i]+t2[i]-1;//we subtract coz we are including the ith element twice: once in lis and once in lds
+	        maxim = max(maxim,bitonic[i]);
+	    }
+	    return maxim;//denotes the length of longest bitonic subsequence
+	}
+};
+
+//{ Driver Code Starts.
+int main(){
+	int tc;
+	cin >> tc;
+	while(tc--){
+		int n;
+		cin >> n;
+		vector<int>nums(n);
+		for(int i = 0; i < n; i++)
+			cin >> nums[i];
+		Solution ob;
+		int ans = ob.LongestBitonicSequence(nums);
+		cout << ans <<"\n";
+	}
+	return 0;
+}
+// } Driver Code Ends
