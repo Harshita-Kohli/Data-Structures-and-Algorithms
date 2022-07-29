@@ -1,0 +1,50 @@
+GREEDY:
+Similar to activity selection 
+TC: O(m * nlogn) for sorting each vector of pairs corresponding to each of the m platforms
+SC: O(n*m) 2d matrix temp, n platforms and in the worst case m trains
+--------------------------------------------------
+
+#include <iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int maxStop(int arr[][3],int m,int n)
+{
+    // vector<vector<pair<int,int>>>temp; //[n+1]; //vector<pair<int,int>>(m,0));
+    vector<pair<int, int> > temp[n + 1]; //we create n+1 vectors of vectors of pairs
+    for(int i = 0;i<m;i++) //for each train, we push it into vector of the suitable platform
+    {
+        temp[arr[i][2]].push_back({arr[i][1],arr[i][0]});//push the pair of dep and end time of each Trains
+    }
+    for(int i = 0;i<n+1;i++)
+    {
+        sort(temp[i].begin(),temp[i].end());//sort each of the vector of trains at each particular platform acc to the dept times
+    }
+    int count = 0;
+    for(int i = 0;i<n+1;i++)
+    {
+        if (temp[i].size() == 0)
+            continue;
+        int prev = temp[i][0].first;//the prev dep time =  dep time of 1st train of platform 0
+        count++;
+        for(int j = 1;j<temp[i].size();j++)
+        {
+            if(temp[i][j].second>=prev)
+            {
+                count++;
+                prev = temp[i][j].first;
+            }
+        }
+    }
+    return count;
+}
+
+int main() {
+	int arr[5][3] = { 1000, 1030, 1,
+                      1010, 1020, 1,
+                      1025, 1040, 1,
+                      1130, 1145, 2,
+                      1130, 1140, 2 };
+    cout << "Maximum Stopped Trains = "
+         << maxStop(arr,5,2);
+    return 0;
+}
