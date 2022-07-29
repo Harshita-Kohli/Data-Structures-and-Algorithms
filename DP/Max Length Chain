@@ -1,0 +1,68 @@
+//LIS Variation (bottom up)
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+struct val{
+	int first;
+	int second;
+};
+
+
+// } Driver Code Ends
+/*
+The structure to use is as follows
+struct val{
+	int first;
+	int second;
+};*/
+
+class Solution{
+public:
+static bool cmp(struct val &a, struct val &b)
+{
+    return a.second<b.second;//sort acc to the second number coz we are given that the first number of 
+}
+    /*You are required to complete this method*/
+    int maxChainLen(struct val p[],int n){
+        //Your code here
+        //LIS variation:
+        sort(p,p+n,cmp);
+        int t[n] = {1};//each pair is itself a chain of length = 1
+        int maxi = 1;
+        for(int i = 0;i<n;i++)
+        {
+            for(int j = 0;j<i;j++)
+            {
+                if(p[j].second<p[i].first)
+                {
+                    t[i] = max(1+t[j], t[i]);
+                }
+            }
+            maxi = max(maxi,t[i]);
+        }
+        return maxi;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n;
+		cin>>n;
+		val p[n];
+		for(int i=0;i<n;i++)
+		{
+			cin>>p[i].first>>p[i].second;
+		}
+		Solution ob;
+		cout<<ob.maxChainLen(p,n)<<endl;
+	}
+	return 0;
+}
+// } Driver Code Ends
