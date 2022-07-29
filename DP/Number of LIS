@@ -1,0 +1,41 @@
+//LIS Variation:
+// TC: O(N*N) coz of nested loop
+//SC: O(N) coz we have used 2 1-d arrays
+---------------------------------------------------
+class Solution {
+public:
+    int findNumberOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        int maxim = 1;
+        vector<int>t(n,1);//1d dp array
+        vector<int>count(n,1);//it will store the count ie count[i] denotes the count of lis of length = t[i] 
+        for(int i = 1;i<n;i++)
+        {
+            for(int prev = 0;prev<i;prev++)
+            {
+                if(nums[prev]<nums[i] && t[prev]+1>t[i])
+                {
+                    t[i] = 1+t[prev];
+                    count[i] = count[prev];
+                }
+                else if(nums[prev]<nums[i] && t[prev]+1==t[i])//if on adding t[prev] to the lis, the length of the lis till ith element remains same as t[i], it means there is another lis of length t[i] , so add the count of count[j]
+                {
+                    count[i] +=count[prev];
+                }
+            }
+            if(t[i]>maxim)
+            {
+                maxim = t[i];
+            }
+        }
+        int ans = 0;
+        for(int i = 0;i<n;i++)
+        {
+            if(t[i]==maxim)//wherever we find the lis, we add its count in the final answer
+            {
+                ans+=count[i];
+            }
+        }
+        return ans;
+    }
+};
