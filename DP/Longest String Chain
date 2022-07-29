@@ -1,0 +1,56 @@
+// LIS Variation
+// TC: O(NlogN)+O((N*N)*length of larger string)) coz we di sorting and then we had nested for loop and we traversed over the larger string s1 for comparing the two strings s1 and s2 for each pair
+------------------------------------------------------------
+class Solution {
+public:
+    bool compare(string &s1, string &s2)
+    {
+        //s1 is the bigger string and s2 is the smaller string
+        if(s1.length()-s2.length()!=1)
+        {
+            return false;//we can't include s2 in the chain
+        }
+        int first = 0;
+        int second = 0;
+        while(first<s1.length())
+        {
+            if(s1[first]==s2[second])
+            {
+                first++;
+                second++;
+            }
+            else
+            {
+                first++;
+            }
+        }
+        if(first == s1.length() && second == s2.length())
+        {
+            return true;
+        }
+        return false;
+    }
+    static bool cmp(string &s1, string &s2)
+    {
+        return s1.length()<s2.length();
+    }
+    int longestStrChain(vector<string>& words) {
+        sort(words.begin(),words.end(),cmp);//sort the words acc to the length
+        int maxim = 1;
+        int n = words.size();
+        vector<int>t(n,1);//each word is a word chain of length = 1 so initialise with 1
+        //t[i] denotes the max length of word chain till ith position in the given string
+        for(int i = 1;i<n;i++)
+        {
+            for(int prev = 0;prev<i;prev++)
+            {
+                if(compare(words[i], words[prev]))
+                   {
+                       t[i] = max(t[i], 1+t[prev]);
+                   }
+            }
+            maxim = max(maxim,t[i]);
+        }
+        return maxim;
+    }
+};
