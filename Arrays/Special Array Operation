@@ -1,0 +1,80 @@
+HACKER-Earth Problem: SPECIAL ARRAY OPERATION
+You are given an array A of size N. You can perform an operation in which you will remove the largest and the smallest element from the array and add  their difference back into the array. So, the size of the array will decrease by 1 after each oepration. You are given Q tasks and in each task, you are given an integer K. For each task, you have to tell sum of all the elements in the array after K operations.
+Input:
+
+First line contains two space-separated integers N and Q, denoting the number of elements in array and number of queries respectively.
+
+Next line contains N space-separated integers denoting elements of the array.
+
+Next Q lines contain a single integer K.
+
+Output:
+
+For each task, print answer in a new line.
+
+Constraints:
+
+2 <= N <= 105
+
+1 <= Q <= 105
+
+0 <= A[i] <= 109
+
+0 <= K < N
+
+Sample Input
+5 2
+3 2 1 5 4
+1
+2
+Sample Output
+13
+9
+Time Limit: 1
+Memory Limit: 256
+Source Limit:
+Explanation
+After 1st operation, the array will become, A = [3,2,4,4]. So, sum of elements = 13.
+
+After 2nd operation, the array will become, A = [3,2,4]. So, sum of elements = 9.
+--------------------------------------------------------------------------------------
+#include <iostream>
+#include<bits/stdc++.h>
+
+using namespace std;
+int main() {
+	long long n, q; //Assuming that you’re asking it from a competitive programming point of view.
+  //Use long long int whenever the input constraints exceed  1x105.
+	cin>>n>>q;
+	priority_queue<long long,vector<long long>>maxh;
+	priority_queue<long long,vector<long long>, greater<long long>>minh;
+	long long x;
+	long long sum = 0;
+	for(long long i = 0;i<n;i++)
+	{
+		cin>>x;
+		maxh.push(x);
+		minh.push(x);
+		sum+=x;
+	}
+	vector<long long>t(n+1,0);  //1d dp array
+	t[0] = sum;
+	t[n] = 0;
+	for(long long i = 1;i<n;i++)
+	{
+		int minim = minh.top();
+		int maxim = maxh.top();
+		t[i] = t[i-1]-(maxim+minim)+(maxim-minim);
+		maxh.pop();
+		minh.pop();
+		maxh.push(maxim-minim);
+		minh.push(maxim-minim);
+	}
+	for(int i = 0;i<q;i++)
+	{
+		long long k;
+		cin>>k;
+		cout<<t[k]<<endl;
+	}
+	return 0;
+}
