@@ -1,0 +1,76 @@
+//RECURSIVE APPROACH: 
+//TC: Exponential since we try each and every partition
+//SC: Recursion call stack
+--------------------------------------------------------
+(Recursion+Memoisation)
+//TC of TopDown: sz*sz*sz = sz^3
+//SC : O(sz*sz)+O(stack space)
+class Solution {
+public:
+    int t[101][101];//2d dp array of size sz*sz coz i and j vary from 1 to sz 
+    int solve(int i, int j,vector<int>&cuts)
+    {
+        //base case:
+        if(i>j) //there is no segment of the rod to be cut
+        {
+           return 0;//no possible partition can be mde since no segment is left 
+        }
+        if(t[i][j]!=-1)
+        {
+            return t[i][j];
+        }
+        int minim = INT_MAX;//initially, the cost will be infinity
+        for(int k = i;k<=j;k++) //try partitioning at all posmitions from i to j and find the minim cost out of all of them
+        {
+            int length = cuts[j+1]-cuts[i-1];//coz we will be cutting the rod of length cuts[j+1]-cuts[i-1]
+            //now we solve the left and the right subproblems:
+            int temp = length + solve(i,k-1,cuts)+solve(k+1,j,cuts);
+            minim = min(temp,minim); ///for each partition k , we check if we get a more minimum answer 
+        }
+        return t[i][j] = minim;
+    }
+    int minCost(int n, vector<int>& cuts) {
+        int sz = cuts.size();
+        memset(t,-1,sizeof(t));
+        sort(cuts.begin(),cuts.end());
+        cuts.insert(cuts.begin(),0);//the first element in the cuts array will be 0 just to help in computing the length of the rod to be cut
+        cuts.push_back(n);//the last element in the cuts array will be n = 7, coz it denotes just to help in computing the length of the rod to be cut
+        
+        //i will be the start of cuts array ie 1 and j will be the end of the cuts array ie sz
+        return solve(1,sz,cuts); //initially we consider the cuts array from 1 to 4 as a whole single block to be partitioned
+    }
+};
+-----------------------------------------------------------------
+//Bottom Up: 
+//TC:O(sz^3) becoz for all sz*sz states in dp, we have a k loop 
+//SC: O(sz*sz) and no stack space is involved here since it is not recursion
+class Solution {
+public:
+    int minCost(int n, vector<int>& cuts) {
+        int sz = cuts.size();
+        sort(cuts.begin(),cuts.end());
+        vector<vector<int>>t(sz+2, vector<int>(sz+2,0));//2d dp array, initialised with 0
+        cuts.push_back(n);
+        cuts.insert(cuts.begin(),0);
+        
+        //filling the rest of the matrix
+        for(int i = sz;i>=1;i--)//write i and j in reverse order as compared to topdown approach
+        {
+            for(int j = 1;j<=sz;j++)
+            {
+                if(i>j)//for the base case, we need not do t[i][j] = 0, coz the matrix is already initialised with 0
+                {
+                    continue;//so simply continue forward
+                }
+                int minim = INT_MAX;
+                for(int k = i;k<=j;k++)//try for all valid partitions
+                {
+                    int tempans = cuts[j+1]-cuts[i-1]+t[i][k-1]+t[k+1][j];
+                    minim = min(minim,tempans);
+                }
+                t[i][j] = minim;
+            }
+        }
+        return t[1][sz]; //final answer will be stored at t[1][sz]
+    }
+};
