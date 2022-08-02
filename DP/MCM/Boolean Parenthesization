@@ -1,0 +1,109 @@
+//Recursive Approach:
+TC: Exponential
+Sc: O(stack space)
+----------------------------------------------------------------------------------------
+//TOPDOWN(Recursion+Memoisation)
+//TC: O(N*N*2)*N ~ O(N^3) coz we have N*N*2 states and for each state, we have a k loop for all possible partitions
+//SC: O(N*N*2) + O(stack space) coz of 3d dp and recursion call stack
+----------------------------------------------------------------------------------------
+//{ Driver Code Starts
+// Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+public:
+    int mod = 1003;
+    int t[200][200][2];//3d dp array of size N*N*2
+    int solve(int i, int j, int isTrue, string S)
+    {
+        //base cases:
+        if(i>j)
+        {
+            return 0;
+        }
+        if(i==j)//if single operand is present, it can be either T or F
+        {
+            if(isTrue==1) return S[i]=='T';
+            else return S[i]=='F';
+        }
+        if(t[i][j][isTrue] !=-1)
+        {
+            return t[i][j][isTrue];
+        }
+        //recursive:
+        int ways = 0;//initially, the no of ways  = 0
+        for(int k = i+1;k<=j-1;k+=2) //all possible positions where we can perfom partition
+        {
+            //we need to keep track of no of ways to get true as well as false frm the left and right subproblems
+           int leftTrue = solve(i,k-1,1,S);//notice, if we want to look for no of ways to evaluate to true, we give isTrue = 1
+           int leftFalse = solve(i,k-1,0,S);//notice, if we want to look for no of ways to evaluate to false, we give isTrue = 0
+           int rightTrue = solve(k+1,j,1,S);
+           int rightFalse = solve(k+1,j,0,S);
+           
+           if(S[k]=='&')
+           {
+               if(isTrue==1) //if we want no of ways to evaluate to true
+               {
+                   ways+=leftTrue*rightTrue;
+               }
+               else //if we want no of ways to evaluate to false
+               {
+                   ways+=leftFalse*rightFalse+leftTrue*rightFalse+leftFalse*rightTrue;
+               }
+           }
+           else if(S[k]=='|')
+           {
+              if(isTrue==1) //if we want no of ways to evaluate to true
+               {
+                   ways+=leftTrue*rightTrue+leftTrue*rightFalse+leftFalse*rightTrue;
+               }
+               else //if we want no of ways to evaluate to false
+               {
+                   ways+=leftFalse*rightFalse;
+               } 
+           }
+           else //if S[k]=='^'
+           {
+               if(isTrue==1) //if we want no of ways to evaluate to true
+               {
+                   ways+=leftTrue*rightFalse+leftFalse*rightTrue;
+               }
+               else //if we want no of ways to evaluate to false
+               {
+                   ways+=leftTrue*rightTrue+leftFalse*rightFalse;
+               }
+           }
+        }
+        return t[i][j][isTrue] = ways%mod;
+        
+    }
+    int countWays(int N, string S){
+        // code here
+        memset(t,-1,sizeof(t));
+        return solve(0,N-1,1,S);//i will start from 0 and j will start from N-1, isTrue = 1 
+        //coz for the main problem,we are looking for the no of ways to get true
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int N;
+        cin>>N;
+        string S;
+        cin>>S;
+        
+        Solution ob;
+        cout<<ob.countWays(N, S)<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
