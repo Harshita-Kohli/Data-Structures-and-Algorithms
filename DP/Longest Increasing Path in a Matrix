@@ -1,0 +1,68 @@
+//DP HARD(Did it by myself!!)
+//TC : O(N*M) coz we are doing dfs and finding max length for each i,j...but we just do this computation for some states(i,j), then for rest, we are able to get answer in constant time coz of memoization
+//SC: O(N*M) + O(stack space)
+--------------------------------------------------
+class Solution {
+public:
+    int t[201][201];//2d dp array
+    static bool cmp(int a, int b)
+    {
+        return a<b;
+    }
+    int solve(int i, int j,vector<vector<int>>& grid, int m,int n)
+    {
+        if(i<0 || i>=m || j<0 || j>=n)
+        {
+            return 0;//out of given matrix
+        }
+        if(t[i][j]!=-1)
+        {
+            return t[i][j];
+        }
+        int l = 0;
+        int r = 0;
+        int u = 0;
+        int d = 0;
+        if(j-1>=0 && grid[i][j-1]>grid[i][j])
+        {
+            l = solve(i,j-1,grid,m,n);
+        }
+        if(j+1<n && grid[i][j+1]>grid[i][j])
+        {
+            r = solve(i,j+1,grid,m,n);
+        }
+        if(i-1>=0 && grid[i-1][j]>grid[i][j])
+        {
+            u = solve(i-1,j,grid, m,n);
+        }
+        if(i+1<m && grid[i+1][j]>grid[i][j])
+        {
+           d = solve(i+1,j,grid,m,n); 
+        }
+        // return t[i][j] = 1+max(l,max(r,max(u,d)));
+        return t[i][j] = 1+max({l,r,u,d},cmp);
+    }
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        int m = matrix.size();
+        int n = matrix[0].size();
+       memset(t,-1,sizeof(t));
+        int maxim = INT_MIN;
+        for(int i = 0;i<m;i++)
+        {
+            for(int j = 0;j<n;j++)
+            {
+                int temp = solve(i,j,matrix,m,n);
+                maxim = max(maxim,temp);
+            }
+        }
+        //we can avoid again traversing the entire matrix by keeping maxim in the above for loop itself
+        // for(int i = 0;i<m;i++)
+        // {
+        //     for(int j = 0;j<n;j++)
+        //     {
+        //         maxim = max(maxim,t[i][j]);
+        //     }
+        // }
+        return maxim;
+    }
+};
