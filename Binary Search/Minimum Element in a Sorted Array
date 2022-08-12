@@ -1,0 +1,58 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+public:
+    int findMin(int arr[], int n){
+        //complete the function here
+        int l = 0;
+        int r = n-1;
+        int ans;
+        if(arr[0]<arr[n-1]) //if already sorted array
+        {
+            return arr[0];
+        }
+        while(l<=r)
+        {
+            int mid = (l+r)/2;
+            if(arr[mid]<arr[mid-1]) //minimum element has this special property that it will be smaller than previous element in the rotated sorted array
+            {
+                return arr[mid];//coz mid is the minimum element
+            }
+            else if(arr[mid]>arr[n-1])//mid is in left part
+            {
+                l = mid+1; //we wanna move search space to right subpart
+            }
+            else //if(arr[mid]<arr[0])//mid is in right part, so we wana move downward in right part
+            {
+                r = mid-1;
+            }
+        }
+        return -1;
+    }
+};
+
+//{ Driver Code Starts.
+
+
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int n;
+		cin>>n;
+		int i,a[n];
+		for(i=0;i<n;i++)
+		{
+			cin>>a[i];
+		}
+		Solution ob;
+		cout<<ob.findMin(a, n)<<endl;
+	}
+	return 0;
+}
+// } Driver Code Ends
