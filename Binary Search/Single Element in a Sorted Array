@@ -1,0 +1,42 @@
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        int s = 0;
+        int e = n-1;
+        int ans = 0;
+        while(s<=e)
+        {
+            if(s==e) //when start and end coincide, we have reached the single element
+            {
+                ans = nums[s];
+                break;
+            }
+            int mid = s+(e-s)/2;
+            if(mid%2==0)  //if even position
+            {   
+                if(nums[mid]==nums[mid+1]) //patten must be breaking on the right
+                {
+                    s = mid+1;
+                }
+                else //since the next number on the odd position is not the same, 
+                {
+                    e = mid;
+                }
+            }
+            else if(mid%2!=0) //if mid is on odd position
+            {
+                
+                if(nums[mid]==nums[mid-1])//move to right coz pattern must be breaking on the right
+                {
+                    s = mid+1;
+                }
+                else //pattern must be breaking on the left
+                {
+                    e = mid;
+                }
+            }
+        }
+        return ans;
+    }
+};
