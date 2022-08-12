@@ -1,0 +1,97 @@
+//Linear Search: O(N) simply traverse over the array and find the key
+//--------------------------------------------------
+//Binary Search Approach: 
+//TC: O(nlogn)
+//SC: O(1)
+//We find index of minimum element which will be our pivot.
+//The key will either be on the left of this pivot or on the right of the pivot
+//So we make binary search on left and right side of minimum element to get the index of the key
+//-------------------------------------------
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+    public:
+    int minElement(int A[], int l, int h)//returns index of minimum element
+    {
+        int n = h-1;
+        while(l<=h)
+        {
+            int mid = (l+h)/2;
+            if(A[mid]<A[mid-1])
+            {
+                return mid;
+            }
+            else if(A[mid]>A[n-1])//mid is in left part
+            {
+                l = mid+1;//go towards 
+            }
+            else  //if mid is in right part,we wanna move downwards in the right part to reach min element
+            {
+                h = mid-1;
+            }
+        }
+        return -1;
+    }
+    int binarySearch(int A[], int l,int h, int key)//performs binary search to find the key
+    {
+        while(l<=h)
+        {
+            int mid = (l+h)/2;
+            if(A[mid]==key)
+            {
+                return mid;
+            }
+            else if(A[mid]>key)
+            {
+                h = mid-1;
+            }
+            else 
+            {
+                l = mid+1;
+            }
+        }
+        return -1;
+    }
+    int search(int A[], int l, int h, int key){
+        // l: The starting index
+        // h: The ending index, you have to search the key in this range
+        
+        //complete the function here
+        //Brute Force: Simply use Linear Search to find the element
+        //Better: Binary Search 
+        //First find the pivot point(the minimum element)
+        int n = h+1;
+        int minIdx = minElement(A,l,h);
+        //we make 2 binary searches, one on left and one on right of minimum element
+        //one of the two will return -1 and other will return the index of key
+        int left = binarySearch(A,0,minIdx-1,key);
+        int right = binarySearch(A,minIdx,n-1,key);
+        if(left!=-1)
+        {
+            return left;
+        }
+        return right;
+    }
+};
+
+//{ Driver Code Starts. 
+int main() {
+    int t;
+    cin >> t;
+    while(t--){
+        int n;
+        cin >> n;
+        int A[n];
+        for(int i = 0; i < n; i++)
+            cin >> A[i];
+        int key;
+        cin >> key;
+        Solution ob;
+        cout << ob.search(A, 0, n - 1, key) << endl;
+    }
+return 0;
+}
+// } Driver Code Ends
