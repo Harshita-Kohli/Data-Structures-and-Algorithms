@@ -10,7 +10,7 @@ public:
         int l = 0;
         int r = n-1;
         int ans;
-        if(arr[0]<arr[n-1]) //if already sorted array
+        if(arr[0]<arr[n-1]) //if sorted array is not rotated at all
         {
             return arr[0];
         }
