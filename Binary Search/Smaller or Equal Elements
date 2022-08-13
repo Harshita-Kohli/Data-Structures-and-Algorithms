@@ -1,0 +1,33 @@
+//similar to finding the floor of an element (but here duplicates are also present in the array
+//so we need to find the last occurence of floor element
+//ie wanna find the last occurence of B or just smaller number than B.
+// Once the floor index is found, we can know the no. of elements less than or equal to B
+//TC: O(logn)
+//SC: O(1)
+//---------------------------------------------------------------------------
+int Solution::solve(vector<int> &A, int B) {
+    int n = A.size();
+    int l = 0;
+    int u = n-1;
+    int rpos = -1;
+    while(l<=u)
+    {
+        int mid = l+(u-l)/2;
+        if(A[mid]==B) //if we found B, we must save its index in rpos
+        {
+            rpos = mid;
+            l = mid+1; //but we also wanna check if B is present on even more right side  
+        }
+        else if(A[mid]<B) //if A[mid]<B, we still save mid coz maybe B is not present in the array at all,
+        //so mid might be possibly the floor of B
+        {
+            rpos = mid;
+            l = mid+1;
+        }
+        else
+        {
+            u = mid-1;
+        }
+    }
+    return (rpos+1); //the number of elements<=B are rpos+1 coz rpos denotes the index of floor of B, so position will be index+1
+}
