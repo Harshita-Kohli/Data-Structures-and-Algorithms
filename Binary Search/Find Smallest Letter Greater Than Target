@@ -1,0 +1,30 @@
+//Similar to Ceil of element
+//Brute Force: Linear Search 
+//O(N): TC
+//-----------------------------------------------
+//Binary Search:
+//TC: O(NlogN)
+//SC:O(1)
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        int n = letters.size();
+        int l = 0;
+        int u = n-1;
+        int temp = letters[0]; //eg: if targte = z, then next greater will be the first letter of the given array
+        while(l<=u)
+        {
+            int mid = l+(u-l)/2;
+            if(letters[mid]<=target)
+            {
+                l = mid+1;
+            }
+            else if(letters[mid]>target)
+            {
+                temp = letters[mid];
+                u = mid-1;
+            }
+        }
+        return temp;
+    }
+};
