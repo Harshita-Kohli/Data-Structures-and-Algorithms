@@ -1,0 +1,41 @@
+Since array is sorted, the first thing clicks into mind is binary search, but the problem here is that we don’t know size of array. 
+If the array is infinite, that means we don’t have proper bounds to apply binary search. So in order to find position of key, first we find bounds and then apply binary search algorithm.
+Let low be pointing to 1st element and high pointing to 2nd element of array, Now compare key with high index element, 
+->if it is greater than high index element then copy high index in low index and double the high index. 
+->if it is smaller, then apply binary search on high and low indices found. 
+
+//TC: 2*O(logp) where p is the position of element(CHECK FROM GFG AGAIN for clarification)
+int binarySearch(int arr[], int l, int r, int x)
+{
+    while(l<=r)
+    {
+        int mid = l + (r - l)/2;
+        if (arr[mid] == x)
+            return mid;
+        if (arr[mid] > x)
+            {
+              h = mid-1;
+            }
+        else{
+              l = mid+1;
+            }
+    }
+    return -1;
+}
+int findPos(int arr[], int key)
+{
+    int s = 0;
+    int e = 1;
+    
+    // Find ending index to do binary search
+    while (arr[end] < key)
+    {
+        s = e;        // take start to end 
+        e = 2*e;      // double the end index
+    }
+ 
+    // at this point we have updated low and
+    // high indices, Thus use binary search
+    // between them. Now we have proper bounds to apply binary search:
+    return binarySearch(arr, s, e, key);
+}
