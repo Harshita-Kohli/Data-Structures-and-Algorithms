@@ -1,0 +1,41 @@
+//TC: O(N) where N is the no of nodes, coz we traverse each node 5 times (once while processing it and then 4 times from the adjacent cells)
+//SC: O(1) if we ignore recursive call stack space
+//----------------------------------------
+class Solution {
+public:
+    void markCellVisited(int i, int j, vector<vector<char>>& grid, int r, int c)
+    {
+        if(i<0 || i>=r || j<0 || j>=c || grid[i][j]!='1')
+        {
+            return;
+        }
+        //mark current cell as visited
+        grid[i][j] = '2';
+        //make recursive calls in all 4 directions
+        markCellVisited(i+1,j,grid,r,c);//down
+        markCellVisited(i,j+1,grid,r,c);//right
+        markCellVisited(i-1,j,grid,r,c);//up
+        markCellVisited(i,j-1,grid,r,c);//left
+    }
+    int numIslands(vector<vector<char>>& grid) {
+        int rows = grid.size();
+        int cols = grid[0].size();
+        int count = 0;
+        if(rows==0)
+        {
+            return 0;
+        }
+        for(int i = 0;i<rows;i++)
+        {
+            for(int j = 0;j<cols;j++)
+            {
+                if(grid[i][j]=='1')
+                {
+                    markCellVisited(i,j,grid,rows,cols);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+};
