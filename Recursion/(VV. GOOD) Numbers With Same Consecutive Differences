@@ -1,0 +1,45 @@
+//TC: O(N 2^N) because we perform dfs over the range [1,9] of the highest digit. DFS takes 2^n time complexity coz we have 2 options at each level
+
+//SC: O(1) if we don't consider the recursive stack space
+
+//Every root to leaf path will denote the numbers with same consecutive differences. Our root will be the units digit wala element. 
+//Whenever the length needed becomes 0, we 
+//------------------------------------------------------------------
+class Solution {
+public:
+    vector<int> ans;
+    void dfs(int len, int num, int k)
+    {
+        if(len==0)//jaise hi target length becomes 0, it means now we have made an 'N' length number so we need to stop ..simply store this number into ans vector
+        {
+            ans.push_back(num);
+            return;
+        }
+        //recursive case:
+        int tailDigit = num%10;
+        
+        int op1 = tailDigit+k;
+        int op2 = tailDigit-k;
+        if(op1>=0 && op1<=9)//if op1 is within the valid range, we can add it to the number and call dfs for generating the further combinations
+        {
+            dfs(len-1,num*10+op1,k);
+        }
+        //if op2 is in hte valid range [0,9], we can add it to the number and call dfs for generating the further combinations
+        if(op2>=0 && op2<=9 && k!=0)  //note if k = 0, we dont have to make this second option wali recursive call becuase it will give us duplicate answers that just add redundancy
+        {
+            dfs(len-1,num*10+op2,k);
+        }
+    }
+    vector<int> numsSameConsecDiff(int n, int k) {
+        if(n==1) //base case:
+        {
+            return {0,1,2,3,4,5,6,7,8,9};
+        }
+        for(int highest = 1;highest<=9;highest++)//this is the allowed range of highest place value digit ie, units digit
+        {
+            //for each possibility of units digits, we perform dfs to find the combinations 
+           dfs(n-1,highest,k); //we call dfs for n-1 length coz now we need to make a number with length-1 kyunki highest number to already included hai  
+        }
+        return ans;
+    }
+};
