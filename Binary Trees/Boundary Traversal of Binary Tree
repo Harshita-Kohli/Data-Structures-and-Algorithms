@@ -94,7 +94,9 @@ struct Node
     Node* left, * right;
 }; */
 //TC: O(H)+O(H)+O(N) ~ O(N)
-//SC: O(1)
+//SC: O(N)
+//1.Left boundary excluding leaf-> 2. Leaf nodes ->  3. Right boundary excluding leaf nodes and in reverse order
+//------------------------------------------------------------------------------------------
 class Solution {
 public:
 void leftNodes(Node*root,vector<int> &ans){
