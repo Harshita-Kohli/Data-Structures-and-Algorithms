@@ -1,0 +1,170 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// Tree Node
+struct Node {
+    int data;
+    Node *left;
+    Node *right;
+
+    Node(int val) {
+        data = val;
+        left = right = NULL;
+    }
+};
+
+// Function to Build Tree
+Node *buildTree(string str) {
+    // Corner Case
+    if (str.length() == 0 || str[0] == 'N') return NULL;
+
+    // Creating vector of strings from input
+    // string after spliting by space
+    vector<string> ip;
+
+    istringstream iss(str);
+    for (string str; iss >> str;) ip.push_back(str);
+
+    // Create the root of the tree
+    Node *root = new Node(stoi(ip[0]));
+
+    // Push the root to the queue
+    queue<Node *> queue;
+    queue.push(root);
+
+    // Starting from the second element
+    int i = 1;
+    while (!queue.empty() && i < ip.size()) {
+
+        // Get and remove the front of the queue
+        Node *currNode = queue.front();
+        queue.pop();
+
+        // Get the current Node's value from the string
+        string currVal = ip[i];
+
+        // If the left child is not null
+        if (currVal != "N") {
+
+            // Create the left child for the current Node
+            currNode->left = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->left);
+        }
+
+        // For the right child
+        i++;
+        if (i >= ip.size()) break;
+        currVal = ip[i];
+
+        // If the right child is not null
+        if (currVal != "N") {
+
+            // Create the right child for the current Node
+            currNode->right = new Node(stoi(currVal));
+
+            // Push it to the queue
+            queue.push(currNode->right);
+        }
+        i++;
+    }
+
+    return root;
+}
+
+
+// } Driver Code Ends
+/*
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+    
+    Node(int x){
+        data = x;
+        left = right = NULL;
+    }
+};
+*/
+//TC: O(N) coz we visit each node only once
+//SC: O(1) if we neglect the recursive call stack space
+THIS PROBLEM A LOT OF EDGE CASES TO BE HANDLED...this is what makes it a HARD Problem
+//-----------------------------------------------------------------------------------
+class Solution {
+public:
+int maxim = INT_MIN;
+int helper(Node* root, Node* head) //computes root to leaf path sum for left subtree and right subtree
+{
+    if(root==NULL)
+    {
+        return 0;
+    }
+    int leftsum = helper(root->left,head);
+    int rightsum = helper(root->right,head);
+    
+    if(root->left && root->right)
+    {
+        int currsum = root->data+leftsum+rightsum;//currsum b/w 2 leaf nodes
+        maxim = max(maxim,currsum);
+    }
+    // if the node is the main root of the tree and is leaf coz it is connected only to right child
+    if(!root->left && root==head)//if root is leaf node ie it is connected to only one node
+    {
+        int currsum = root->data+rightsum;
+        maxim = max(maxim,currsum);
+    }
+    // if the node is the main root of the tree and is leaf coz it is connected only to left child
+    if(!root->right && root==head)//if root is leaf node ie it is connected to only one node
+    {
+        int currsum = root->data+leftsum;
+        maxim = max(maxim,currsum);
+    }
+    //if node is the main root of the tree and has no left and right children, then root itself is the maximum path sum
+    if(!root->left && !root->right && root==head)
+    {
+        return root->data;
+    }
+    if(!root->left)//if the node does not have left child, then return root+rightsum
+    //no need to compute the currsum coz it is not a leaf-to-leaf path
+    {
+        return root->data + rightsum;
+    }
+    //if the node does not have right child, then return root+leftsum
+    //no need to compute the currsum coz it is not a leaf-to-leaf path
+    if(!root->right)
+    {
+        return root->data + leftsum;
+    }
+    return root->data+max(leftsum, rightsum);//returns the maxim sum from root to leaf
+    
+}
+    int maxPathSum(Node* root)
+    {
+        // code here
+        if(root==NULL)
+        {
+            return 0;//coz empty tree has no max path sum 
+        }
+        helper(root,root); //2nd parameter is for keeping track of the main root of the tree
+        return maxim;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+    int tc;
+    scanf("%d ", &tc);
+    while (tc--) {
+        string treeString;
+        getline(cin, treeString);
+        Node *root = buildTree(treeString);
+        Solution ob;
+        cout << ob.maxPathSum(root) << "\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
