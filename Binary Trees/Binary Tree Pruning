@@ -1,0 +1,35 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+ //---------------------------------------------------------------------------------------------
+//We are simply trying to find leaf nodes that are 0. Upon finding them, we make them NULL (ie. we remove or prune them)
+//DFS Approach:
+//TC: O(N)
+//SC: O(1) if we ignore the recursive call stack space
+//-----------------------------------------------------------------------------------------------
+class Solution {
+public:
+    TreeNode* pruneTree(TreeNode* root) {
+        if(root==NULL)
+        {
+            return root;
+        }
+        root->left = pruneTree(root->left);
+        root->right = pruneTree(root->right);
+        
+        if(root->val == 0 && root->left==NULL && root->right==NULL)
+        {
+            root = NULL;
+            //return root;
+        }
+        return root;
+    }
+};
