@@ -1,0 +1,31 @@
+//TC: O(N)
+//SC: O(1) 
+class Solution {
+public:
+    static bool cmp(vector<int>&a, vector<int>&b)
+    {
+        if(a[0]==b[0])
+        {
+            return a[1]>b[1];//to handle the edge case, sort in dec order of defence otherwise, it will give wrong answer for (2,1) (2,2) -> will give ans = 1, but answer should be 0
+        }
+        return a[0]<b[0];//simply sort in inc order of defence
+    }
+    int numberOfWeakCharacters(vector<vector<int>>& prop) {
+        int n = prop.size();
+        int maxim = INT_MIN;
+        int cnt = 0;
+        sort(prop.begin(),prop.end(),cmp);//sort the vector acc to the attack property
+        for(int i = n-1;i>=0;i--)//start from rightmost element
+        {
+            if(prop[i][1]<maxim)//if we found a weak character
+            {
+                cnt++;
+            }
+            else //if defence of the character is>maxim, simply update the maximum so far for the left wale characters
+            {
+                maxim = prop[i][1];
+            }
+        }
+        return cnt;
+    }
+};
