@@ -1,0 +1,88 @@
+// class Solution {
+// public:
+//     //Top Down Method:
+//TC: O(N*2*3)
+//SC: O(N*2*3) + O(N) coz of 3d matrix and auxilliary stack space
+//     // int ans = 0;
+//     int topdown(int ind, int buy,vector<int>& prices,int cnt,vector<vector<vector<int>>>&t)
+//     {
+//         int ans = 0;
+//         //base case:
+//         if(ind == prices.size() || cnt==0)
+//         {
+//             return 0;//can't make any profit since we are out of the array bounds
+//         }
+//         //usage of memoisation
+//         if(t[ind][buy][cnt]!=-1)
+//         {
+//             return t[ind][buy][cnt];
+//         }
+//         //recursive case:
+//         if(buy==0)//if allowed to buy
+//         {
+//             if(cnt>0)
+//             {
+//                 //buy or do nothing
+//                 int op1 = -prices[ind]+topdown(ind+1,1,prices,cnt,t);
+//                 int op2 = 0+topdown(ind+1, 0, prices, cnt,t);
+//                 return t[ind][buy][cnt] = max(op1, op2);
+//             }
+//         } 
+//         // else if not allowed to buy:
+//         //either sell or do nothing
+//         //since we have completed a transaction(buy+sell), we decrement the cnt by 1
+//             int op1 = prices[ind]+topdown(ind+1,0,prices,cnt-1,t);
+//             int op2 = 0+topdown(ind+1,1,prices,cnt,t);
+//             return t[ind][buy][cnt] = max(op1,op2);
+//     }
+//      int maxProfit(int k, vector<int>& prices) 
+//      {
+//         int n = prices.size();
+//         vector<vector<vector<int>>>t(n,
+//                                      vector<vector<int>>(2,vector<int>(k+1,-1)));//3d vector since there are 3 changing parameters
+//         return topdown(0,0,prices,k,t); //buy = 0 means allowed to buy
+//     }
+// };
+//--------------------------------------------------------
+ class Solution {
+public:
+//Bottom Up Approach:
+     //TC: O(N*2*K)
+     //SC: O(N*2*K) coz pf 3d matrix
+ int maxProfit(int k, vector<int>& prices) 
+ {
+     int n = prices.size();
+     //3d matrix of size: n*2*(k+1) coz k can be from 0 to k, so k+1 is the dimension
+     vector<vector<vector<int>>>t(n+1,
+                                  vector<vector<int>>(2,
+                                                      vector<int>(k+1,0)));
+     for(int ind = n-1;ind>=0;ind--)
+     {
+         for(int buy = 0;buy<=1;buy++)
+         {
+             for(int cnt = 1;cnt<=k;cnt++)
+             {
+                 if(buy==0)//if allowed to buy
+                    {
+                     //buy or do nothing
+                        int op1 = -prices[ind]+t[ind+1][1][cnt];
+                        int op2 = 0+t[ind+1][0][cnt];
+                        t[ind][buy][cnt] = max(op1, op2);
+                    } 
+                // else if not allowed to buy:
+                 else if(buy==1)
+                 {
+                     //either sell or do nothing
+                    //since we have completed a transaction(buy+sell), we decrement the cnt by 1
+                    int op1 = prices[ind]+t[ind+1][0][cnt-1];
+                    int op2 = 0+t[ind+1][1][cnt];
+                    t[ind][buy][cnt] = max(op1,op2);
+                 }
+                
+             }
+         }
+     }
+     return t[0][0][k];
+ }
+     
+ };
