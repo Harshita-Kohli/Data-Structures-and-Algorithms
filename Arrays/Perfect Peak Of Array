@@ -1,0 +1,83 @@
+//TC: O(n*n)
+//SC: O(1)
+// int Solution::perfectPeak(vector<int> &A) {
+//     int n = A.size();
+//     for(int i = 1;i<n-1;i++)
+//     {
+//         bool lans = true;
+//         bool rans = true;
+//         for(int j = i-1;j>=0;j--)
+//         {
+//             if(A[i]<=A[j])//if left wala number bada hai, to not possible that A[i] is a perfect peak
+//             {
+//                 lans = false;
+//                 break;
+//             }
+//         }
+//         for(int j = i+1;j<n;j++)
+//         {
+//             if(A[i]>=A[j])//agar koi right wala chota hai, to not possible that A[i] is a perfect peak
+//             {
+//                 rans = false;
+//                 break;
+//             }
+//         }
+//         if(lans&&rans)
+//         {
+//             return 1;
+//         }
+//     }
+//     return 0;
+// }
+//TC: O(n)
+//SC: O(n)+O(n)
+//-----------------------------------------------------------
+// int Solution::perfectPeak(vector<int> &A) {
+//     int n = A.size();
+//     vector<int>lmax(n,0);
+//     lmax[0] = A[0];
+//     vector<int>rmin(n,0);
+//     rmin[n-1] = A[n-1];
+//     for(int i = 1;i<n;i++)
+//     {
+//         lmax[i] = max(lmax[i-1],A[i]);
+//     }
+//     for(int i = n-2;i>=0;i--)
+//     {
+//         rmin[i] = min(rmin[i+1],A[i]);
+//     }
+//     for(int i = 1;i<n-1;i++)
+//     {
+//         if(A[i]<rmin[i+1] && A[i]>lmax[i-1])
+//         {
+//             return 1;
+//         }
+//     }
+//     return 0;
+// }
+//------------------------------------------------
+//Better Approach: 
+//TC: O(n)
+//SC: O(n) only single array is needed here:
+int Solution::perfectPeak(vector<int> &A) {
+    int n = A.size();
+    vector<int>lmax(n);
+    lmax[0] = A[0];
+    int rmin = A[n-1];
+    for(int i = 1;i<n;i++)
+    {
+        lmax[i] = max(lmax[i-1],A[i]);
+    }
+    for(int i = n-2;i>=1;i--)
+    {
+        if(A[i]<rmin && A[i]>lmax[i-1]) //if A[i] is less than the min no on 
+        //right and greater than maximum number on left, we found a perfect peak
+        {
+            return 1;
+        }
+        //else update the rmin if A[i] is smaller than the minimum most on right
+        rmin = min(rmin,A[i]);
+    }
+    return 0;
+}
+
