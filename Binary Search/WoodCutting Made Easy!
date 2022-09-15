@@ -1,0 +1,38 @@
+//Binary search: similar to koko eating bananas
+//TC:O(NlogN) coz we apply binary search log n and inside it for this value mid, 
+//we compute the wood amount aquired by traversaing the array of trees
+//SC: O(1) since no extra space is being used
+//---------------------------------------------------------
+int Solution::solve(vector<int> &A, int B) {
+    int minim = 0;
+    int maxim = 0;
+    int ans = 0;
+    int n = A.size();
+    for(int i = 0;i<n;i++)
+    {
+        maxim = max(maxim,A[i]);
+    }
+    while(minim<=maxim)
+    {
+        long wood = 0;
+        int mid = minim+(maxim-minim)/2;
+        for(int i = 0;i<n;i++)
+        {
+            if(A[i]>mid)
+            {
+                wood = wood+(A[i]-mid);
+            }
+        }
+        if(wood>=(long)B)
+        {
+            //we need to shift towards right of mid to increase the height of cut
+            ans = max(ans,mid);//mid could have been the answer so we must save it before shifting
+            minim = mid+1;
+        }
+        else
+        {
+            maxim = mid-1;
+        }
+    }
+    return ans;
+}
