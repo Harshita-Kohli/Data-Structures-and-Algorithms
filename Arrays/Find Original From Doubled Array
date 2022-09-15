@@ -1,0 +1,43 @@
+//Hashmap+sorting
+//TC: O(NlogN) becoz of sorting
+//SC: O(N) becoz we used a map
+//--------------------------------------
+class Solution {
+public:
+    vector<int> findOriginalArray(vector<int>& changed) {
+        map<int,int>mp;
+        vector<int>ans;
+        int n = changed.size();
+        if(n%2!=0)//if the array size is not even, then it can't be a doubled array
+        {
+            return vector<int>();//return empty vector
+        }
+        //sort the array
+        sort(changed.begin(),changed.end());
+        
+        //store the freq of all elements of array
+        for(int i = 0;i<n;i++)
+        {
+            mp[changed[i]]++;
+        }
+        //now try to cancel out all the original and their corresponding double elements
+        for(int i = 0;i<n;i++)
+        {
+            int curr = changed[i];
+            int doub = curr*2;
+            if(mp[curr]==0)//if the element is not present in map, it means it was itself a double of some previous number, so it has been processed
+            {
+                continue;
+            }
+            if(mp[doub]==0)//if the double of the curr number is not present
+            {
+                return vector<int>();//it means that array is not doubled array, it is original array, so return empty vector
+            }
+            //otherwise, if both the current and doubel are present in map with freq>0, it means curr is a part of original array
+            ans.push_back(curr);
+            mp[curr]--;//now we have processed the curr and its double, so decrement them both
+            mp[doub]--;
+        }
+        return ans;
+    }
+};
