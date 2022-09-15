@@ -20,7 +20,7 @@ public:
         {
             mp[changed[i]]++;
         }
-        //now try to cancel out all the original and their corresponding double elements
+        //now try to cancel out all the original and their corresponding double elements untill all become freq = 0
         for(int i = 0;i<n;i++)
         {
             int curr = changed[i];
