@@ -1,0 +1,32 @@
+//Sliding Window Method
+//TC: O(n) since we simply linearly traverse
+//SC: O(1) since no auxilliary space is being used
+int Solution::solve(vector<int> &A, int B) {
+    int n = A.size();
+    int i = n-B;//i denotes start of window
+    int j = 0;//denotes end of window, initially j is 0--> that does not mean end of window is 0
+    int sum = 0;
+    int maxsum = INT_MIN;
+    //start from the sum of the last window, then keep sliding the window to right 
+    //in a cyclic manner till elements chosen from the lastmost window are 0
+    while(i<n)
+    {
+        sum+=A[i];
+        i++;
+    }
+    maxsum = max(maxsum,sum);//update the maxsum with sum of the rightmost B-sized window 
+    
+    i = n-B;//reset i to the start of the rightmost B-sized window
+    
+    //now move the window to right cyclically:
+    //j denotes end of window and it can now start from 0
+    //note j can traverse from 0 to B-1 only
+    while(j<B)
+    {
+        sum = sum+A[j]-A[i];
+        i = (i+1)%n;//move i to right in a cyclic manner ie if i = n-1, then next, i will be 0
+        maxsum = max(maxsum,sum);
+        j++;
+    }
+    return maxsum;
+}
