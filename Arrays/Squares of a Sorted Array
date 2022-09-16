@@ -1,0 +1,46 @@
+// class Solution {
+// public:
+//     vector<int> sortedSquares(vector<int>& nums) {
+//         //trivial approach:
+//         int n = nums.size();
+//         //take square of each number and then sort
+//         for(int i =0;i<n;i++)
+//         {
+//             nums[i] = nums[i]*nums[i];
+//         }
+//         //sort the array
+//         sort(nums.begin(),nums.end());
+//         return nums;
+//     }
+// };
+//----------------------------------------------------------
+//Optimised approach: 
+//TC: O(n)
+//SC: O(1) coz no extra auxilliary space is being used
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int n = nums.size();
+        vector<int>ans(n,0);
+        int s = 0;
+        int e = n-1;
+        int j = n-1;//we will start filling the ans vector from last
+        while(s<=e)
+        {
+            if(abs(nums[s])>abs(nums[e]))
+            {
+                int curr = abs(nums[s]);
+                ans[j] = curr*curr;
+                s++;
+            }
+            else
+            {
+                int curr = abs(nums[e]);
+                ans[j] = curr*curr;
+                e--;
+            }
+            j--;
+        }
+        return ans;
+    }
+};
