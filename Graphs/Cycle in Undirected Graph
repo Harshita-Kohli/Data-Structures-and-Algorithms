@@ -1,0 +1,50 @@
+//TC: O(N+E), N is no of vertices...E is no of edges
+//SC: O(N)+O(N+E)+O(N) coz we used a vis vector, adj list, auxilliary space
+bool isCycle(int curr, int parent, vector<bool>&vis, unordered_map<int,vector<int>>&adj)
+{
+    vis[curr]=true;
+    for(auto it:adj[curr])
+    {
+        if(vis[it]==false)//if nbr is unvisited, do dfs
+        {
+            if(isCycle(it,curr,vis,adj))
+            {
+                return true;
+            }
+        }
+        else //if nbr is not visited and is not the parent of curr, we found a cycle
+        {
+            if(it!=parent)
+            {
+                return true;
+            }
+        } 
+    }
+    return false;
+}
+
+int Solution::solve(int A, vector<vector<int> > &B) {
+    vector<bool>vis(A,false);
+    //creating adjacency list
+    unordered_map<int,vector<int>>adj;
+    for(int i = 0;i<B.size();i++)
+    {
+        int u = B[i][0];
+        int v = B[i][1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    for(int i = 1;i<=A;i++)
+    {
+        if(vis[i]==false)
+        {
+            if(isCycle(i,-1,vis,adj))
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+
