@@ -1,0 +1,63 @@
+//TC: O(n*n) we have nested for loop
+//SC: O(n)+O(n) coz we used 2 vectors
+//------------------------------------------------
+int Solution::solve(int A, vector<int> &B) {
+    int sum = 0;
+    //Step1: Compute the sum of the given array
+    for(int i = 0;i<A;i++)
+    {
+        sum+=B[i];
+    }
+    //Step2: if sum is not divisible by 3, simply return 0 coz we can't create 3 partitions of the array
+    if(sum%3!=0)
+    {
+        return 0;
+    }
+    //else, compute what should be the sum of each partition
+    int eachsum = sum/3; //sum of each partition should be total sum/3
+    //Step3: make 2 vectors presum to store the prefixsum where, prefsum stores (i) the indices till which the sum = eachsum(array traversed from front)
+    //suffsum stores the indices till which the sum = each sum (if array is traversed from back)
+    vector<int>presum;
+    vector<int>suffsum;
+    int currsum = 0;
+    for(int i = 0;i<A;i++)
+    {
+        currsum+=B[i];
+        if(currsum==eachsum)//if sum so far = each sum, psuh index i into presum
+        {
+            presum.push_back(i);
+        }
+    }
+    currsum = 0;
+    for(int i = A-1;i>=0;i--)
+    {
+        currsum+=B[i];
+        if(currsum==eachsum)//if sum so far = eachsum, push the index i into suffsum
+        {
+            suffsum.push_back(i);
+        }
+    }
+    //dekh starting partition aur ending partition banae ka to ek hi way hai,
+    //to ab dekhna ye hai ki starting aur ending ke beech me kitne ways se partition ban sakta hai
+    //wohi count hmara answer hoga
+    int count = 0;
+    for(int i = 0;i<presum.size();i++)
+    {
+        for(int j = 0;j<suffsum.size();j++)
+        {
+            currsum = 0;
+            int flag = 0;//initially flag = 0
+            for(int k = presum[i]+1;k<suffsum[j];k++)//from presum[i]+1 wala index to suffsum[ij]-1 wsla index
+            {
+                currsum+=B[k];//compute the sum
+                flag = 1;//to denote that we entered the for loop
+            }
+            //if the sum between the presum[i] and suffsum[j] = eachsum, we have properly formed 3 partitions, so increment the count by 1
+            if(currsum==eachsum && flag==1)//also do check flag should be 1, nahi to eachsum = 0 ke liye jab hum for loop bhi nahi enter kiye, tab bhi count increase ho jayega...but that is wrong
+            {
+                count++;
+            }
+        }
+    }
+    return count;
+}
