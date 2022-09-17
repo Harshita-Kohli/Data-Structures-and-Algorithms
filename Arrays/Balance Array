@@ -1,0 +1,45 @@
+//TC: O(n) coz we are simply doing linear traversal
+//SC: O(1)
+int Solution::solve(vector<int> &A) {
+    int n = A.size();
+    int lefteven = 0;
+    int leftodd = 0;
+    int righteven = 0;
+    int rightodd = 0;
+    int count = 0;
+    for(int i = 0;i<n;i++)
+    {
+        if(i%2==0)//even index
+        {
+            righteven+=A[i];
+        }
+        else
+        {
+            rightodd+=A[i];
+        }
+    }
+    for(int i = 0;i<n;i++)
+    {
+        if(i%2==0)//even index
+        {
+            righteven-=A[i];//try removing this from the array
+            if(leftodd+righteven == lefteven+rightodd)//agar remove karne ke baad balanced hai array
+            //then count++ coz A[i] is a special element
+            {
+                count++;
+            }
+            lefteven+=A[i];
+        }
+        else //if odd index,
+        {
+            rightodd-=A[i];//try removing this from the array
+            if(leftodd+righteven == lefteven+rightodd)//agar remove kanre pe balanced array ban jati hai, 
+            //to count++ coz we have found a special element A[i]
+            {
+                count++;
+            }
+            leftodd+=A[i];
+        }
+    }
+    return count;
+}
