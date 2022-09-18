@@ -1,0 +1,74 @@
+//Approach1:
+//TC: O(n)
+//SC: O(n) coz we used auxilliary space
+// class Solution {
+// public:
+//     int trap(vector<int>& height) {
+//         int n = height.size();
+//         vector<int>lmax(n);
+//         vector<int>rmax(n);
+//         lmax[0] = height[0];
+//         rmax[n-1] = height[n-1];
+//         int ans = 0;
+//         //compute the leftmax for each ith index
+//         for(int i = 1;i<n;i++)
+//         {
+//             lmax[i] = max(lmax[i-1],height[i]);
+//         }
+//         //compute the rightmax for each ith index ie the maximum height at right of ith building
+//         for(int i = n-2;i>=0;i--)
+//         {
+//             rmax[i] = max(rmax[i+1],height[i]);
+//         }
+//         //now compute the total amount of water by adding the amount of water held by each building
+//         //amount of water held by each building is : min(lmax[i],rmax[i])-height[i]
+//         for(int i = 0;i<n;i++)
+//         {
+//             ans+=min(lmax[i],rmax[i])-height[i];
+//         }
+//         return ans;
+//     }
+// };
+//-----------------------------------------------
+//Optimised approach:
+//TC: O(n)
+//SC: O(1) no extra space used
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        int n = height.size();
+        int l = 0;
+        int r = n-1;
+        int ans = 0;
+        int lmax = height[0];
+        int rmax = height[n-1];
+        while(l<r)
+        {
+            if(height[l]<height[r])//l is the deciding factor
+            {
+                if(height[l]>=lmax)//agar current building ki height ab tak ke lmax se badi hai, update lmax 
+                { 
+                    lmax = height[l];
+                }
+                else //agar current building ki height ab tak ke lmax se choti ya equal hai, it must be storing water in it
+                {
+                    ans+=lmax-height[l];
+                }
+                l++;//since we have processed the l wali building, move l forward
+            }
+            else if(height[r]<=height[l]) //r is the deciding factor
+            {
+                if(height[r]>=rmax)//agar current building ki height ab tak ke rmax se badi hai, update rmax 
+                {
+                    rmax = height[r];
+                }
+                else//agar current building ki height ab tak ke rmax se choti ya equal hai, it must be storing water in itself
+                {
+                    ans+=rmax-height[r];
+                }
+            r--;//since we have processed the r wali building, move r towards left
+            }
+        }
+        return ans;
+    }
+};
