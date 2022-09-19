@@ -1,0 +1,44 @@
+//TC: O(N*N) coz for each vowel index, we iterate till end of the array
+// SC: O(N) coz we used a vector temp
+// int Solution::solve(string A) {
+//     int n = A.size();
+//     vector<int>temp;
+//     for(int i = 0;i<n;i++)
+//     {
+//         if(A[i]=='a' || A[i]== 'e' || A[i]== 'i'|| A[i]== 'o'|| A[i]== 'u'|| A[i]== 'A'|| A[i]== 'E'|| A[i]== 'I'|| A[i]== 'O' || A[i]== 'U')
+//         {
+//         //    count = count+(n-i);
+//         temp.push_back(i);
+//         }
+//     }
+//    int count = 0;
+//     for(int k = 0;k<temp.size();k++)
+//     {
+//         // int i = k;
+//         int j = temp[k];
+//         while(j<n)
+//         {
+//             count++;
+//             j++;
+            
+//         }
+//     }
+//    return count%10003; 
+// }
+//---------------------------------------------------------------------
+//Better Approach:
+//TC: O(N)
+//SC: O(1) no auxilliary space used!
+int Solution::solve(string A) {
+    int n = A.size();
+    int count = 0;
+    for(int i = 0;i<n;i++)
+    {
+        if(A[i]=='a' || A[i]== 'e' || A[i]== 'i'|| A[i]== 'o'|| A[i]== 'u'|| A[i]== 'A'|| A[i]== 'E'|| A[i]== 'I'|| A[i]== 'O' || A[i]== 'U')
+        {
+           count = count+(n-i); //if the vowel occurs at ith index, 
+           //we know the number of substrings for this will be n-i
+        }
+    }
+    return count%10003;
+}
