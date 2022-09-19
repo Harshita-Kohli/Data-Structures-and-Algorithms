@@ -1,0 +1,23 @@
+//TC: O(N) coz we have 2 linear traversals only
+//S: O(N) coz we used map
+string Solution::solve(string A) {
+    int n = A.length();
+    unordered_map<char, int>mp;
+    for(int i = 0;i<n;i++)
+    {
+        mp[A[i]]++;
+    }
+    string temp = "";
+    for(int i = 0;i<n;i++)
+    {
+        if(mp[A[i]]>0) //just to make sure we don't reconsider the duplicates 
+        {
+            char ch = mp[i];
+            // cout<<ch;
+            temp+=(A[i]);
+            temp+=to_string(mp[A[i]]);
+        }
+        mp[A[i]] = 0;
+    }
+    return temp;
+}
