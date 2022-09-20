@@ -1,0 +1,48 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+//User function template for C++
+//----------------------------------------------------------------------
+//TC: O(N)
+//SC: O(13) since we use a nums array and sym array of size = 13
+class Solution{
+  public:
+    string convertToRoman(int n) {
+        // code here
+        vector<int>nums = {1000,900,500,400,100,90,50,40,10,9,5,4,1};
+        vector<string>sym = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        string ans = "";
+        int i = 0;
+        int sz = nums.size();
+        while(n!=0)
+        {
+            while(i<sz && n>=nums[i])
+            {
+                ans+=sym[i];//concatenate the symbol of nums[i] to ans
+                n = n-nums[i];//reduce the n by nums[i]
+            }
+            i++;
+        }
+        return ans;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main() {
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--)
+	{
+		int N;
+		cin>>N;
+		Solution ob;
+    	cout << ob.convertToRoman(N) << endl;
+	}
+	return 0;
+}
+// } Driver Code Ends
