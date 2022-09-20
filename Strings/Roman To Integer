@@ -16,7 +16,7 @@ int Solution::romanToInt(string A) {
         if(mp[A[i]]<mp[A[i+1]]){ //if ith is smaller numeral than i+1th
             sum-=mp[A[i]];
         }
-        else
+        else //else if ith is >= i+1th , simply add ith value to the sum
         {
             sum+=mp[A[i]];
         }
