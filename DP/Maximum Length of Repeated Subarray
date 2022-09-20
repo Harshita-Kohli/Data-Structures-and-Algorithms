@@ -1,3 +1,51 @@
+//TopDown Approach:
+//TC: O(N*M)
+//SC: O(N*M)(coz of 2d array) +stack space
+class Solution {
+public:
+    int maxim = 0;//stores the maximum length of the repeated subarray
+    int t[1001][1001];//2d dp array
+    int helper(vector<int>& nums1, vector<int>& nums2, int n, int m)
+    {
+        //base case:
+        if(n==0 || m==0)
+        {
+            return 0;
+        }
+        //usage of memoisation:
+        if(t[n][m]!=-1)
+        {
+            return t[n][m];
+        }
+        //recursive case:
+        helper(nums1, nums2, n-1, m);
+        helper(nums1, nums2, n, m-1);
+     
+        if(nums1[n-1]==nums2[m-1])
+        {
+            t[n][m] = 1+helper(nums1, nums2, n-1, m-1);
+            maxim = max(maxim,t[n][m]);
+        }
+        else
+        {
+            t[n][m] = 0;
+        }
+        return t[n][m];
+        //otherwise, if not matching,make 2 calls
+    }
+    int findLength(vector<int>& nums1, vector<int>& nums2) {
+        int n = nums1.size();
+        int m = nums2.size();
+        memset(t,-1,sizeof(t));
+        helper(nums1,nums2, n,m);
+        return maxim;
+    }
+};
+    
+    
+//Bottom Up:
+//TC: O(N*M)
+//SC: O(N*M) coz of 2d array
 class Solution {
 public:
     int findLength(vector<int>& nums1, vector<int>& nums2) {
@@ -21,7 +69,7 @@ public:
                     t[i][j] = 1+t[i-1][j-1];
                     maxim = max(maxim,t[i][j]);
                 }
-                else{ //but agar match nahi karte to hum length = 0 kardenge us point pe kyunki hume ek CONTINUOUS common window ya subarray chahiye. Agar continuity khata ho jaati hai kahin par to hum length ka count 0 pe reset kardenge
+                else{ //but agar match nahi karte to hum length = 0 kardenge us point pe kyunki hume ek CONTINUOUS common window ya subarray chahiye. Agar continuity khatam ho jaati hai kahin par to hum length ka count 0 pe reset kardenge
                     t[i][j] = 0;
                 }
             }  
