@@ -1,0 +1,77 @@
+#include <bits/stdc++.h> 
+/****************************************************************
+
+    Following is the class structure of the Node class:
+
+        class Node
+        {
+        public:
+	        int data;
+	        Node *next;
+	        Node(int data)
+	        {
+		        this->data = data;
+		        this->next = NULL;
+	        }
+        };
+
+*****************************************************************/
+//Brute Force Approach: GIves segmentation fault
+//TC: O(N) coz we iterate the list once
+//SC: O(N) coz we use a set to store the n nodes of linked list
+//Iterate over the linked list and store the nodes into a set, The moment we get a duplicate element that is already present in the set, this is the starting point of the cycle
+// Node *firstNode(Node *head)
+// {
+//     unordered_set<Node*>st;
+//     while(head!=NULL)
+//     {
+//         if(st.find(head)!=st.end())//if already found in the set
+//         {
+//             return head;//this is the starting point of cycle
+//         }
+//         //otherwise, insert into set
+//         st.insert(head);
+//         head = head->next;
+//     }
+// }
+//-----------------------------------------------------------------------------------------
+//Space Optimised Approach:(Accepted)
+//TC: O(N) iterating over the linked list once
+//SC: O(1) no extra space used
+Node *firstNode(Node *head)
+{
+	//    Write your code here.
+    if(head==NULL) //if list is empty
+    {
+        return NULL;
+    }
+    Node* slow = head;
+    Node* fast = head;
+    //hare and tortoise approach:
+    //If fast and slow meet, it means cycle exists
+    while(fast!=NULL && fast->next!=NULL)
+    {
+          fast = fast->next->next;
+          slow = slow->next;
+        if(fast==slow)
+        {
+            break;
+        }
+    }
+    //if fast became null or fast->next became null, it means no cycle
+    if(fast==NULL || fast->next==NULL)
+    {
+        return NULL;//no cycle in linked list
+    }
+    //otherwise, we take another pointer called start which will begin from the head of ll
+    Node*start = head;
+    Node* meet = slow;// Node * meet = fast is alos fine since slow and fast both are at the meeting point as of now
+    //wherever start and meet collide together, that is the first node in the cycle
+    while(start!=meet)
+    {
+        start = start->next;
+        meet = meet->next;
+    }
+    return meet;//this will be the first node of the cycle
+    
+}
