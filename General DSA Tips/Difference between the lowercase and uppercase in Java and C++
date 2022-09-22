@@ -1,0 +1,10 @@
+JAVA: The String class provides an object String and some methods like: toLowerCase() and toUpperCase()
+- String is an object that represents a sequence of characters. The java.lang.String class is used to create a string object.
+- The toLowerCase() method converts a string to lower case letters.
+- The toLowerCase() method converts a string to lower case letters.
+
+CPP: Strings are objects that represent sequences of characters.
+- char is primitive, string is not a primitive.
+- tolower() and toupper() are not for converting the entire string to lower or upper case, but to convert the individual characters of the string
+- tolower() and toupper() take character as parameter and switch the character's case.
+- One would think that the standard string class has a member function that converts the whole thing to upper- or lowercase, but, in fact, it doesn’t. If you want to convert a string of characters to upper- or lowercase, you have to do it yourself, sort of.
