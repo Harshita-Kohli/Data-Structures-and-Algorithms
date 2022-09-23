@@ -1,0 +1,25 @@
+//TC: O(nLogn) coz we iterate from 1 to n & compute no. of bits for each in log(i) --> n log(i) time... and i in worst case can be n
+//SC: O(1)
+class Solution {
+public:
+    //Notice: no of bits in 1 ie 1 --> 1, so (ans<<1)+1 gives 1
+            //no of bits in 2 ie 10 --> 2, so (ans<<2)+10 gives 110
+            //no of bits in 3 ie 11 --> 2, so (ans<<2)+11 gives 11011
+            //no of bits in 4 ie 100 --> 3, so (ans<<3)+100 gives 110011100
+            //no of bits in 5 ie 101 --> 3, so (ans<<3)+101 gives 110011100101 and so on..
+    //So we left shift the ans so far by no of bits of current number, and then add the current number to this shifted number
+    int findLength(int i)
+    {
+        return (int)log2(i)+1;
+    }
+    int concatenatedBinary(int n) {
+        long ans = 0;
+        int MOD = 1e9 + 7;
+        for(int i = 1;i<=n;i++)
+        {
+            int len = findLength(i);
+            ans = ((ans<<len)%MOD + i ) % MOD;
+        }
+        return ans;
+    }
+};
