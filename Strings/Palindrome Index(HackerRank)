@@ -1,0 +1,38 @@
+Ques: Given a string of lowercase letters in the range ascii[a-z], determine the index of a character that can be removed to make the string a palindrome. There may be more than one solution, but any will do. If the word is already a palindrome or there is no solution, return -1. Otherwise, return the index of a character to remove.
+//----------------------------------------
+//TC: O(N) simple linear traversal is being done
+ //SC: O(1) no extra space being used
+bool isPalindrome(string s, int i, int j){
+    while(i<j){
+        if(s[i]!=s[j])
+        {
+            return false;
+        }
+        i++;
+        j--;
+    }
+    return true;
+}
+int palindromeIndex(string s) {
+    int n = s.length();
+    if(n==1)
+    {
+        return -1;//no deletion needed, already palindrome
+    }
+    int i = 0;
+    int j = n-1;
+    while(i<j)
+    {
+        if(s[i]!=s[j])
+        {
+            //either the jth character needs to be removed or the ith
+            bool leftans = isPalindrome(s,i,j-1);
+            bool rightans = isPalindrome(s,i+1,j);
+            if(rightans) return i;//we must remove the ith index character
+            else if(leftans) return j;//we must remove the jth index character
+        }
+        i++;
+        j--;
+    }
+    return -1;//if not possible to make palindrome
+}
