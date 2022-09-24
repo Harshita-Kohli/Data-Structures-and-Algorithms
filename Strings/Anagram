@@ -1,0 +1,28 @@
+//TC: O(n) simple linear traversal
+//SC: O(n) coz we used a map
+int anagram(string s) {
+    int n = s.length();
+    if(n%2!=0){
+        return -1;//since we can't split odd length string into equal length string
+    }
+    unordered_map<char,int>mp1;
+    int len = n/2;//this denotes the length of each of the 2 parts of the string
+    //first part:
+    for(int i = 0;i<len;i++){
+        mp1[s[i]]++;//freq of all elements of first half
+    }
+    //we decrement the freq of elements in map if they are present in the second half. If freq of s[i] becomes 0, it means s[i] is present in equal number in first and second part
+    for(int i = len;i<n;i++){
+        if(mp1.find(s[i])!=mp1.end()){
+            mp1[s[i]]--;
+        }
+    }
+    //now iteragte over the map and find which all characters have freq>0, add there frequencies to get the no of characters to be changes
+    int count = 0;
+    for(auto it:mp1){
+        if(it.second>0){
+            count+=it.second;
+        }
+    }
+    return count;
+}
