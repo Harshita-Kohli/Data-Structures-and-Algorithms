@@ -1,0 +1,20 @@
+int makingAnagrams(string s1, string s2) {
+    int n = s1.length();
+    int m = s2.length();
+    unordered_map<char,int>mp;
+    for(int i = 0;i<n;i++){
+        mp[s1[i]]++;
+    }
+    int common = 0;//denotes the count of common characters
+    //traverse the second string, and find the common characters
+    for(int i = 0;i<m;i++){
+        if(mp[s2[i]]>0)
+        {
+            common++;
+            mp[s2[i]]--;
+        }
+    }
+    int del1 = n-common;//denotes the no of characers to be deleted in string1
+    int del2 = m-common;//denotes the no of characers to be deleted in string2
+    return del1+del2;
+}
