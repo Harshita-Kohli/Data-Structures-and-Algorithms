@@ -1,0 +1,28 @@
+//TC: O(n*m), where n is the size of given array and m is the length of each word
+//SC: O(26)+O(26) for the vectors of count and visited
+int gemstones(vector<string> arr) {
+    int n = arr.size();
+    int ans = 0;
+    vector<int>count(26,0);//stores count of each of the 26 alphabets
+    //iterate over each word in arr:
+    for(int i = 0;i<n;i++){
+        vector<bool>vis(26,false);
+        //extract the ith word:
+        string s = arr[i];
+        //now for all characters in ith word, incrment the count only once(use visited array to make sure you increment only once, and don't consider duplicate alphabets in s) 
+        //Bus s me har unique charcter ke liye count badhana hai
+        for(int j = 0;j<s.length();j++){
+            if(vis[s[j]-'a']==false){
+                count[s[j]-'a']++;//increment the count of char s[j], only once for each word even if it occurs multiple times in the string s
+                vis[s[j]-'a'] = true;//make it visited for this particular word s
+            }
+        }
+    }
+    
+    for(int i = 0;i<26;i++){
+        if(count[i]==n){//if count of a character is n, it means it is present in all n words of the given array arr
+            ans++;
+        }
+    }
+    return ans;
+}
