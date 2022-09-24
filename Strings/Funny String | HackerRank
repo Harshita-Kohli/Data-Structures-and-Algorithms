@@ -1,0 +1,22 @@
+//TC: O(N) doing simple linear traversal
+//SC: O(N) coz we used the vector diff1 to store the consecutive differences
+string funnyString(string s) {
+    int n = s.length();
+    string s2 = s;
+    reverse(s2.begin(),s2.end());
+    // cout<<s2<<endl;
+    vector<int>diff1(n-1,0);//its size will be n-1 (ie one less than the size of the string s)
+    for(int i = 0;i<n-1;i++){
+        diff1[i] = abs(s[i]-s[i+1]);//store the consecutive differences of all characters in s
+        // cout<<abs(s[i]-s[i+1])<<endl;
+        // cout<<diff1[i]<<endl;
+    }
+    for(int i = 0;i<n-1;i++){
+       int diff = abs(s2[i]-s2[i+1]);
+       if(diff!=diff1[i])//check if this consecutive difference is not equal to that in s 
+       {
+           return "Not Funny";
+       }
+    }
+    return "Funny";
+}
