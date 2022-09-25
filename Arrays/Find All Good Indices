@@ -1,0 +1,37 @@
+//TC: O(n)
+//SC: O(n)+O(n) ~O(n) coz we used two arrays
+class Solution {
+public:
+    vector<int> goodIndices(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int>lans(n,0);
+        vector<int>rans(n,0);
+        //filling the lans[] by the length of subarray ending here which is non-increasing(left to right traversal)
+        lans[0] = 1;
+        for(int i = 1;i<n;i++){
+            if(nums[i]<=nums[i-1]){
+                lans[i] = lans[i-1]+1;
+            }
+            else{
+                lans[i] = 1;
+            }
+        }
+        //filling the rans[] by the length of subarray ending here which is non-decreasing(right ot left traversal)
+        rans[n-1] = 1;
+        for(int i = n-2;i>=0;i--){
+            if(nums[i]<=nums[i+1]){
+                rans[i] = rans[i+1]+1;
+            }
+            else{
+                rans[i] = 1;
+            }
+        }
+        vector<int>ans;
+        for(int i = 1;i<n-1;i++){
+            if(lans[i-1]>=k && rans[i+1]>=k){
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
