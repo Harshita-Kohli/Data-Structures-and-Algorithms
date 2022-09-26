@@ -1,0 +1,44 @@
+//Refer to this: https://www.youtube.com/watch?v=aJYISj0n1so
+//Disjoint Set Union:
+//TC: O(N)
+//SC: O(26) array of size 26 + Recursion call stack
+class Solution {
+public:
+    int parent[26];
+//this function finds the parent of ch
+    int find(int ch){
+        //base case:
+        if(parent[ch]==ch){
+            return ch;
+        }
+        //recursive:
+        return find(parent[ch]);//find who is the parent of parent of
+        
+    }
+    bool equationsPossible(vector<string>& equations) {
+       int n = equations.size();
+        //initially, parent[a] = a, parent[b] = b...and so on till parent[z] = z
+       for(int i = 0;i<26;i++)
+       {
+            parent[i] = i;
+       }
+        //handle the == wala case:
+        for(auto e:equations){
+            if(e[1]=='=')//both characters are equal, dono ko same group me daaldo...e[3] ko e[0] ke group me daaldo
+            {
+                parent[find(e[3]-'a')] = find(e[0]-'a');
+            }
+        }
+        //now handle the != case
+        //If e[0]!=e[3], then they should not be in the same group also(so, there parents should be different)...
+        //Check there parents
+        // If there parents are same, it is a contradiction coz how can it be possible that e[0] and e[3] are in different groups but there parent is same?
+        for(auto e:equations){
+            if(e[1]=='!' && find(e[0]-'a')==find(e[3]-'a'))//the characters are not equal, there parents should also not be same
+            {
+                return false;//if parents are equal, return false
+            }        
+        }
+        return true;
+    }
+};
