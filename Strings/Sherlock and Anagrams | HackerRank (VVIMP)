@@ -1,0 +1,17 @@
+//TC: O(N)
+//SC: O(N)
+int sherlockAndAnagrams(string s) {
+    int n = s.length();
+    int ans = 0;
+    unordered_map<string,int>mp;
+    for(int i = 0;i<n;i++){
+        for(int j = i;j<n;j++){ //jaise hi kuch exactly repeated ayega to hum ans me uski previous count ko increment kar denge kyunki uski pichli value ke equal apne paas pairs ayenge 
+        //dry run for s = "cdcd"
+            string substr = s.substr(i,j-i+1);
+            sort(substr.begin(),substr.end());//hmesha sort karke hi rakho map taaki ek type ke anagrams ek hi key ke corrseponding store ho, values increase kar sako
+            ans+=mp[substr];
+            mp[substr]++;
+        }
+    }
+    return ans;
+}
