@@ -1,0 +1,52 @@
+//DP METHOD:
+//TC: O(N)
+//SC: O(N) coz we use 2 arrays
+class Solution {
+public:
+    string pushDominoes(string dominoes) {
+        int n = dominoes.size();
+        
+        vector<int>ldist(n,INT_MAX);//where ldist[i] denotes the distance of ith domino from the nearest 'L' domino on its right 
+        vector<int>rdist(n,INT_MAX);//where rdist[i] denotes the distance of ith domino from the nearest 'R' domino on its left
+        
+        //moving left to right to fill the rdist[]
+        if(dominoes[0]=='R') rdist[0] = 0;
+        
+        for(int i = 1;i<n;i++){
+            if(dominoes[i]=='R') rdist[i] = 0;//since we are on 'R' itself
+            else if(dominoes[i] == 'L') continue;//rdist[i] = INT_MAX;// This is because if there exists any dominoe to the left pushing to the right, our current (i'th) dominoe cancels it with a left force of its own
+            else if(rdist[i-1]!=INT_MAX)//if domino[i]=='.'
+            {
+                rdist[i] = rdist[i-1]+1;
+            }
+        }
+        
+        //moving right to left to fill the ldist[]
+        if(dominoes[n-1]=='L') ldist[n-1] = 0;
+        
+        for(int i = n-2;i>=0;i--){
+            if(dominoes[i]=='L') ldist[i] = 0;//since we are on 'L' itself
+            else if(dominoes[i] == 'R') continue;//ldist[i] = INT_MAX;This is because if there exists any dominoe to the right pushing to the left, our current (i'th) dominoe cancels it with a right force of its own
+            else if(ldist[i+1]!=INT_MAX)  //if domino[i]=='.'
+            {
+                ldist[i] = ldist[i+1]+1;
+            }
+        }
+        string ans = "";
+        //now check which all dominoes will be standing:
+        for(int i = 0;i<n;i++){
+            if(ldist[i]==rdist[i]){ //if same distance, The dominoe faces both forces at equal times, or never faces a force from either side(i.e. L[i]=R[i]=INT_MAX)
+
+                ans+= '.';
+            }
+            else if(ldist[i]<rdist[i]){ //here, the impact of left will be earlier coz 'L' is near this ith dominoe as compared to 'R'
+                ans+='L';
+            } 
+            else{ //the impact of right will be earlier coz 'R' is closer to ith dominoe as compared to 'L'
+                ans+='R';
+            }
+        }
+        
+        return ans;
+    }
+};
