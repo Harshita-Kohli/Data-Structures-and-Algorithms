@@ -49,3 +49,33 @@ public:
         return head;
     }
 };
+//-------------------------------------------------------------------
+//1 Pass Algorithm using Slow and Fast Pointers: 
+//TC: O(N) just one single pass of iteration!
+//SC: O(1)
+//Initially create a gap between slow and fast , gap = n
+//Phir slow and fast dono ko age move karo..notice slow and fast ke beech ka distnance humesha hi 'n' rahega
+//Jaise hi fast end pe hoga, to slow usse n nodes peeche hoga, to wohi node target ki previous node hai
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* start = new ListNode(0);//take a dummy node
+        start->next = head;
+        ListNode* slow = start;
+        ListNode* fast = start;
+        
+        for(int i = 1;i<=n;i++){
+            //move the fast by n steps
+            fast = fast->next;
+        }
+        //now move both slow and fast pointers forward until fast reaches the end
+        while(fast->next!=NULL){
+            slow = slow->next;
+            fast = fast->next;
+        }
+        //fast has reached the last node
+        slow->next = slow->next->next;
+        return start->next;
+    }
+};
