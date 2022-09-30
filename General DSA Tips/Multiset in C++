@@ -1,0 +1,9 @@
+Multisets are a type of associative containers similar to the set, with the exception that multiple elements can have the same values. Some Basic Functions associated with multiset: 
+
+a.erase() – Remove all instances of element from multiset having the same value
+a.erase(a.find()) – Remove only one instance of element from multiset having same value
+
+Time Complexity:
+Insertion of Elements- O(log N)
+Accessing Elements – O(log N)
+Deleting Elements- O(log N)
