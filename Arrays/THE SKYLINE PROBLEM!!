@@ -1,6 +1,8 @@
 // TC: O(n logn) + O(n) coz we sort the points array and then do one linear traversal over it 
 // SC: O(n) coz we used multiset and a vector of pairs
-//NEW THING LEARNT: Multiset is a set that can store duplicate elements, and is useful coz erasing/removing from multiset is very easy - O(1)
+//NEW THING LEARNT: Multiset is a set that can store duplicate elements, and is useful coz erasing/removing from multiset is very easy - O(log n)
+a.erase() – Remove all instances of element from multiset having the same value
+a.erase(a.find()) – Remove only one instance of element from multiset having same value
 //------------------------------------------------
 //LINK(VERY VERY HELPFUL!!): https://leetcode.com/problems/the-skyline-problem/discuss/2094329/C%2B%2B-Easiest-Explanation-Ever-Guaranteed-Beginner-Friendly-Detailed-O(nlogn)
 /-------------------------------------------------------------
