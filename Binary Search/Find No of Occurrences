@@ -1,0 +1,67 @@
+//{ Driver Code Starts
+
+#include<bits/stdc++.h>
+
+using namespace std;
+
+
+// } Driver Code Ends
+//User function template for C++
+class Solution{
+public:	
+	/* if x is present in arr[] then returns the count
+		of occurrences of x, otherwise returns 0. */
+	int firstOccur(int arr[], int n, int x){
+		// code here
+        int s = 0;
+        int e = n-1;
+        int first = -1;
+        //to find the first occurence
+        while(s<=e){
+            int mid = s+(e-s)/2;
+            if(arr[mid]==x){
+                first = mid;//save this coz it can be the answer
+                e = mid-1;//we also wanna explore to the left as well
+            }
+            else if(arr[mid]<x){
+                s = mid+1;
+            }
+            else {
+                e = mid-1;
+            }
+        }
+        // cout<<first<<endl;
+        return first;
+	}
+	int lastOccur(int arr[], int n, int x){
+		// code here
+        //to find the last occurence
+        int s = 0;
+        int e = n-1;
+        int last = -1;
+        while(s<=e){
+            int mid = s+(e-s)/2;
+            if(arr[mid]==x){
+                last = mid;//save this coz it can be the answer
+                s = mid+1;//we also wanna explore to the right of mid as well
+            }
+            else if(arr[mid]<x){
+                s = mid+1;
+            }
+            else {
+                e = mid-1;
+            }
+        }
+        // cout<<last<<endl;
+        return last;
+	}
+	int count(int arr[], int n, int x) {
+	    // code here
+	    int freq = 0;
+	    int left = firstOccur(arr, n,x);
+	    int right = lastOccur(arr, n,x);
+	    if(left==-1 && right==-1) return 0;
+	    freq = right-left+1;
+	    return freq;
+	}
+};
