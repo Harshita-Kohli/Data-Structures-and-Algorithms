@@ -1,0 +1,36 @@
+//Using an ordered map inside an unordered_map:
+class TimeMap {
+public:
+    unordered_map<string, map<int,string>>mp; //key will be key and //value will be an ordered map: with key ->timestamp(int) and value ->string value
+    
+    TimeMap() {
+        
+    }
+    
+    void set(string key, string value, int timestamp) {
+        mp[key][timestamp] = value;
+    }
+    
+    string get(string key, int timestamp) {
+        if(mp.find(key)==mp.end()){ //if key is not found, return ""
+            return "";
+        }
+        //otherwise, if key is found, check the unordered map at that key and find if that timestamp or its previous is presetn or not:
+        for(int currtime = timestamp; currtime>=1;currtime--)
+        {
+            if(mp[key].find(currtime)!=mp[key].end())
+            {
+                return mp[key][currtime];
+            }
+        }
+        //if no time<=timestamp is present for the key, then return ""
+        return "";
+    }
+};
+
+/**
+ * Your TimeMap object will be instantiated and called as such:
+ * TimeMap* obj = new TimeMap();
+ * obj->set(key,value,timestamp);
+ * string param_2 = obj->get(key,timestamp);
+ */
