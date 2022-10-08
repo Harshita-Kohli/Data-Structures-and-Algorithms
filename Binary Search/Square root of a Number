@@ -1,0 +1,41 @@
+Brute Force: Linear Search
+// int i = 1;
+// while(i*i<=x)
+// {
+//     i++;
+// }
+// return i-1;
+//-------------------------------------
+//Since the numbers from 0 to x are sorted, we can simply apply Binary Search!
+class Solution{
+  public:
+    long long int floorSqrt(long long int x) 
+    {
+        if(x<2)
+        {
+            return x;
+        }
+        int l = 1;
+        int u = x;  //FOR EVEN BETTER TC: WE CAN TAKE e = x/2
+        int ans = 0;
+        while(l<=u)
+        {
+            long long int mid = l+(u-l)/2;
+            if(mid*mid==x)
+            {
+                return mid;
+                // break;
+            }
+            else if(mid*mid<x)
+            {
+                 l = mid+1;
+                 ans = mid;//save the mid coz we need floor of sqrt(x) if later we find no proper square root
+            }
+            else
+            {
+                u = mid-1;
+            }
+        }
+        return ans;
+    }
+};
