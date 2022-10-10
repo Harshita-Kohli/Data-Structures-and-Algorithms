@@ -1,0 +1,32 @@
+//TC: O(N) coz we do simple linear traversal
+//SC: O(1) Becoz we don't use any extra space
+//---------------------------------------------
+class Solution {
+public:
+    string breakPalindrome(string palindrome) {
+        int n = palindrome.length();
+        bool flag = false;
+        if(n==1){
+            return "";//if single character, we can't do anything to break the palindrome, so return empty string
+        }
+        
+        //check only half way coz it is a palindrome
+        for(int i = 0;i<n/2;i++){
+            if(palindrome[i]!='a'){//the very first character that is not 'a' should be made as 'a'
+                palindrome[i] = 'a';
+                flag = true;//we found a non-'a' character
+                break;
+            }
+        }
+        
+        //if in the first half that we checked, all were a's then, put the last character as b. Eg: "aba"-->"abb",  "aaa"-->"aab"
+        //--------------------------------------------------------
+        //agar first half ke just baad wale non-a character ko tum a bana dete, to  "aba"-->"aaa" which is a palindrome, so it fails
+        //--------------------------------------------------------
+        if(flag == false)//if all were a's in the given palindrome, then simply make the last character as 'b'
+        {
+            palindrome[n-1] = 'b';
+        }
+        return palindrome;
+    }
+};
