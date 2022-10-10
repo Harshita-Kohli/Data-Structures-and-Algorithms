@@ -3,28 +3,29 @@
 //O(N): TC
 //-----------------------------------------------
 //Binary Search:
-//TC: O(NlogN)
+//TC: O(logN)
 //SC:O(1)
 class Solution {
 public:
     char nextGreatestLetter(vector<char>& letters, char target) {
+        //we have to actually find ceil of the target but not the target itself
         int n = letters.size();
-        int l = 0;
-        int u = n-1;
-        int temp = letters[0]; //eg: if targte = z, then next greater will be the first letter of the given array
-        while(l<=u)
-        {
-            int mid = l+(u-l)/2;
-            if(letters[mid]<=target)
-            {
-                l = mid+1;
+        int s = 0;
+        int e = n-1;
+        char ans = letters[0];
+        if(letters[n-1]<target){//if even the last very character is < target, then no such answer is present that is greater than target
+            return ans;
+        }
+        while(s<=e){
+            int mid = s+(e-s)/2;
+            if(letters[mid]<=target){
+                s = mid+1;
             }
-            else if(letters[mid]>target)
-            {
-                temp = letters[mid];
-                u = mid-1;
+            else { //if letters[mid]>target. then save it as answer, and check on the left of mid to get just larger than target
+                ans = letters[mid];
+                e = mid-1;
             }
         }
-        return temp;
+        return ans;
     }
 };
