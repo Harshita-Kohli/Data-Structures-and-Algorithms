@@ -3,7 +3,7 @@ Given an array which is sorted, but after sorting some elements are moved to eit
 For example consider the array {2, 3, 10, 4, 40}, 4 is moved to next position and 10 is moved to previous position.
 //------------------------------------------------------------------------------------------------
 
-//Binary Search: O(nlogn)
+//Binary Search: O(logn)
 //----------------------------------------
 int position(vector<int>nums, int key)
 {
