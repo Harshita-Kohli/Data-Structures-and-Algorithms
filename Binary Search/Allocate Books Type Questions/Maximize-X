@@ -1,0 +1,45 @@
+#include <bits/stdc++.h> 
+int candiSum = 0;
+bool isPossible(int mid, int n, vector<vector<int>> &arr, int B)
+{
+    int totalCandies = 0;
+    for(int i = 0;i<n;i++){
+        for(int j = 1;j<=arr[i][0];j++)//no. of demands of ith friend
+        {
+            if(arr[i][j]<=mid){
+                totalCandies+=arr[i][j];
+            }
+        }
+        if(totalCandies>B)//if at any point the total no of candies becomes > given B no of candies, then return false
+            return false;
+    }
+    return true;
+}
+int findMaxX(int n, vector<vector<int>> &arr, int B)
+{
+    //Write your code here.
+    int s = 0;
+    int e = 0;
+    int maxim = 0;
+    for(int i = 0;i<n;i++){//for every friend 
+        int sum = 0;
+        for(int j = 1;j<=arr[i][0];j++){//compute the demandSum
+            sum+=arr[i][j];
+        }
+        //jis bhi friend ki maximum demand sum hogi, wo 'e' me daaldo
+        e = max(e,sum);//hum maximum demand sum dhoondna chah rahe hai
+    }
+    
+    int ans = 0;
+    while(s<=e){
+        int mid = s+(e-s)/2;
+        if(isPossible(mid,n,arr,B)){
+            ans = mid;//agar answer possible hai, to save karo aur try karo ki zyada demands fullfill ki ja sake
+            s = mid + 1;//because we want maximum value of X
+        }
+        else{//agar not possible to fullfill all demands, to try karo mid ko kam karne ki, ab dekho 
+            e = mid-1;
+        }
+    }
+    return ans;
+}
