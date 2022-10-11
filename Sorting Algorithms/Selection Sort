@@ -1,0 +1,34 @@
+ //TC: O(N*N)    |  Best Case: O(N*N) |  Worst Case: O(N*N0
+ //SC: O(1)
+ //--------------------------------------------
+class Solution
+{
+    public:
+    void selectionSort(int arr[], int n)
+    {
+       //code here
+       for(int i = 0;i<n-1;i++){
+          int minim = arr[i];
+          int minInd = i;
+          for(int j = i+1;j<n;j++){
+              if(arr[j]<minim)
+              {
+                  minim = arr[j];
+                  minInd = j;
+              }
+            }
+            swap(arr[i],arr[minInd]);
+       }
+    }
+};
+
+//{ Driver Code Starts.
+ 
+/* Function to print an array */
+void printArray(int arr[], int size)
+{
+    int i;
+    for (i=0; i < size; i++)
+        printf("%d ", arr[i]);
+    printf("\n");
+}
