@@ -1,0 +1,43 @@
+bool isPossible(int mid, vector<int> &stalls, int k){
+    int cowCount = 1;
+    int lastPos = stalls[0];
+    for(int i = 0;i<stalls.size();i++){
+        if(stalls[i]-lastPos>=mid){
+            cowCount++;//next cow rakho, s cowCount++
+            //ek baar check karlo ki cow count==k ho gaya hai k nahi
+            if(cowCount==k){
+                return true;//agar k cows rakhi gayi hain, to true return karlo, kyunki scheme valid hai
+            }
+            lastPos = stalls[i];//place the next cow here
+        }
+    }
+    return false;
+}
+int aggressiveCows(vector<int> &stalls, int k)
+{
+    //Write your code here.
+    int n = stalls.size();
+    sort(stalls.begin(),stalls.end());
+    int s = 0;
+    int e = 0;
+    int maxim = 0;
+    int minim = 0;
+    int ans = -1;
+    for(int i = 0;i<n;i++){
+        maxim = max(maxim,stalls[i]);
+        minim = min(minim,stalls[i]);
+    }
+    e = maxim-minim;
+    //minimum distance b/w 2 cows ki range hai s to e
+    while(s<=e){
+        int mid = s+(e-s)/2;
+        if(isPossible(mid,stalls,k)){
+            ans = mid;
+            s = mid+1;
+        }
+        else{
+            e = mid-1;
+        }
+    }
+    return ans;
+}
