@@ -1,4 +1,4 @@
-//TC: O(N*N)
+//TC: O(N*N)  | Best Case: O(N) becoz of optimisation(using swapped flag) | Worst Case: O(N*N) 
 //SC: O(1)
 //-----------------------------------
 class Solution
