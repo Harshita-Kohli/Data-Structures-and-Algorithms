@@ -1,4 +1,4 @@
-//TC: O(N*N)
+//TC: O(N*N)  | Best Case: O(N) | Worst Case: O(N*N)
 //SC: O(1) no extra space needed
 #include <bits/stdc++.h> 
 void insertionSort(int n, vector<int> &arr){
