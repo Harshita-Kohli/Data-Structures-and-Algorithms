@@ -1,0 +1,28 @@
+#include <bits/stdc++.h> 
+long long threeWaySplit(int n, vector<int> arr){
+    // Write your code here.
+    if(n==1) return 0;//no possible way
+    long long lsum = arr[0];
+    long long rsum = arr[n-1];
+    long long ans = 0;
+    int l = 0;
+    int r = n-1;
+    while(l<r){
+        if(lsum==rsum){
+            ans = lsum;//mil gaya to save karlo but ek baar right pe bhi dekho, kyunki maximum answer chahiye, l++ karke lsum me arr[l] ki value daal ke dekho sjayad ye better maximum value de sake
+            l++;
+            lsum+=arr[l];
+        }
+        if(lsum<rsum){
+            l++;
+            lsum+=arr[l];
+        }
+        else if(rsum<lsum)
+        {
+            r--;
+            rsum+=arr[r];
+        }
+        
+    }
+    return ans;
+}
