@@ -1,0 +1,34 @@
+//TC: O(N*N)
+//SC: O(1)
+//-----------------------------------
+class Solution
+{
+    public:
+    //Function to sort the array using bubble sort algorithm.
+    void bubbleSort(int arr[], int n)
+    {
+        // Your code here  
+        for(int i = 1;i<n;i++)//total n-1 passes honge
+        {
+            bool swapped = false;
+            //after every pass we will fix the ith largest element 
+            for(int j = 0;j<n-i;j++){ //j : (0 se n-i-1) tak jayega, kyunki last ke i no. of elements to sorted hi hain already
+            //soch agar i = 1 matlab pass = 1 hai to last ka 0 element sorted hai, isliye hume j ko 0 se n-2 tak hi leke jana hai
+                if(arr[j]>arr[j+1]){
+                    int temp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = temp;
+                    
+                    //Optimisation: agar swap hua hai to flag swapped ko true kardo
+                    swapped = true;
+                }
+            }
+            //ek baar check karo ki aisa to nahi ki is pass me kuch bhi swap nahi hua,
+            //agar aisa hai, to samajh jao sort ho chuki hai, so no need of further passes
+            if(swapped == false){
+                break;
+            }
+        }
+    }
+};
+
