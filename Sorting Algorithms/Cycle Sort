@@ -1,0 +1,22 @@
+//Cycle Sort: TC: O(N)    | Best: O(N)   | Worst: O(N)
+//SC: O(1) No extra space used
+//-----------------------------
+// IP:                      
+// 5
+// 3 5 2 1 4                  //OP:
+                            // 1 2 3 4 5 
+
+void cycleSort(vector<int>&nums){
+    int n = nums.size();
+    int i = 0;
+    while(i<n){
+        int correctInd = nums[i]-1;//the correct index for nums[i] is nums[i]-1
+        if(nums[i]==i+1){ //check if already at the correct position, then simply move forward
+            i++;
+        }
+        else{ 
+            swap(nums[i],nums[correctInd]);//arr[i] ko correct position pe bhejo by swapping
+        }
+    }
+    return;
+}
