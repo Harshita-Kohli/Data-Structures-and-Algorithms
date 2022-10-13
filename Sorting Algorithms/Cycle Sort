@@ -5,7 +5,7 @@
 // 5
 // 3 5 2 1 4                  //OP:
                             // 1 2 3 4 5 
-
+//It is useful when gievn array has range of elements from 1 to N
 void cycleSort(vector<int>&nums){
     int n = nums.size();
     int i = 0;
