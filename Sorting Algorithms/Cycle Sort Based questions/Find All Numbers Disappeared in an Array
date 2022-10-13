@@ -1,0 +1,57 @@
+//Cyclic Sort approach: (Kunal Kushwaha)
+//TC: O(N)
+//SC: O(1)
+//----------------------------------------------
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        vector<int>ans;
+        int n = nums.size();
+        int i = 0;
+        while(i<n){
+            int correctInd = nums[i]-1;//nums[i] should be at nums[i]-1 index
+            //2 should be at index = 1, 3 at index = 2, and so on
+            if(nums[i]==nums[correctInd])//if present at correct index, move forward
+            {
+                i++;//move forward since ith index has got the correct number
+            }
+            else{ //nums[i] ko correct index pe bhejdo by swapping
+                swap(nums[i],nums[correctInd]);
+            }
+            
+        }
+        //again iterate over the modified array and find all the missing numbers:
+        for(int i = 0;i<n;i++){
+            if(nums[i]!=i+1){
+                ans.push_back(i+1);
+            }
+        }
+        return ans;
+    }
+};
+//----------------------------------------------------
+//Treating array elements as indices:
+//TC: O(N)
+//SC: O(1)
+class Solution {
+public:
+    vector<int> findDisappearedNumbers(vector<int>& nums) {
+        vector<int> ans;
+        int n = nums.size();
+        for(int i = 0;i<n;i++)
+        {
+            if(nums[abs(nums[i])-1]>0)//if the number is visited for the first time ,make it negative
+            {
+                nums[abs(nums[i])-1] = -nums[abs(nums[i])-1];
+            }
+        }
+        for(int i = 0;i<n;i++)//if a number nums[i] is positive, it means that (i+1) is missing from the array. So push it into the ans vector
+        {
+            if(nums[i]>0)
+            {
+                ans.push_back(i+1);
+            } 
+        }
+        return ans;
+    }
+};
