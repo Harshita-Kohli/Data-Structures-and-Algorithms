@@ -1,0 +1,74 @@
+Set:
+TC: O(N)
+SC: O(N)
+// class Solution {
+// public:
+//     int missingNumber(vector<int>& nums) {
+//         unordered_set<int> s;
+//         int i;
+//         for(i = 0;i<nums.size();i++)
+//         {
+//             s.insert(nums[i]);
+//         }
+//         for(i = 0;i<nums.size();i++)
+//         {
+//             if(s.find(i)==s.end())
+//             {
+//                 break;
+//             }
+//         }
+//         return i;
+//     }
+// };
+//--------------------------------------------------------
+//CYCLIC SORT
+//TC: O(N)
+//SC: O(1)
+//--------------------------------------------------------
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        //Cycle Sort Approach:
+        int n = nums.size();
+        int i = 0;
+        while(i<n){
+            int correctInd = nums[i];//the correct index for nums[i] is nums[i] itself
+            if(correctInd==n){ //the n th index does not exist in array of size n
+                i++;
+                continue;
+            }
+            if(nums[i]==nums[correctInd]){
+                i++;
+            }
+            else{
+                swap(nums[i],nums[correctInd]);
+            }
+        }
+        //now simply iterate again
+        for(int i = 0;i<n;i++){
+            // int correctInd = nums[i];
+            if(nums[i]!=i){
+                return i;
+            }
+        }
+        //if the missing number was not in the range of array, then simply return n as the missing number
+        return n;
+    }
+};
+//-------------------------------------------------
+Simple Math Method
+//TC: O(N)
+//SC: O(1)
+class Solution {
+public:
+    int missingNumber(vector<int>& nums) {
+        //the sum of natural numbers 
+        int sum = 0;
+        int n = nums.size();
+        for(int i = 0;i<n;i++){
+            sum+=nums[i];
+        }
+        int ans = n*(n+1)/2 - sum; //the missing number will be the difference of sum of natural numbers and sum of given numbers
+        return ans;
+    }
+};
