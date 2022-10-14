@@ -1,0 +1,45 @@
+
+// class Solution {
+// public:
+//     int findDuplicate(vector<int>& nums) {
+//         int n = nums.size();
+//         int ans = 0;
+//         for(int i = 0;i<n;i++){
+//             ans = ans^nums[i]; //ans = 1^3^4^2^2 , ab hum isme se 1, 2, 3,4 ko hatana chahte hain, to iska xor karlo 1^2^3^4 ke saath
+// //Hoga kya ki 1 do baar hoga, 3 do baar hoga, 4 do baar hoga, to cancel out ho jayenge, but 2 teen baar hoga isliye 2^2^2 = 0^2 = 2, to apne paas 2 reh jayega 
+//         }
+//         for(int i = 1;i<=n;i++){
+//             ans = ans^i;
+//         }
+//         return ans;
+//     }
+// };
+//---------------------------------------
+// Cyclic Sort:
+//TC: O(N)
+//SC: O(1)
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int n = nums.size();
+        int i = 0;
+        int ans = 0;
+        while(i<n){
+            int correctInd = nums[i]-1;
+            if(nums[i]==nums[correctInd]){
+                i++;//move forward
+            }
+            else{
+                swap(nums[i],nums[correctInd]);
+            }
+        }
+        //now iterate over the modified array and find the duplicate:
+        for(int i = 0;i<n;i++){
+            if(nums[i]!=i+1){
+                ans = nums[i];//coz nums[i] is the duplicate jo abhi bhi galat jaga par baitha hai
+                break;
+            }
+        }
+        return ans;
+    }
+};
