@@ -11,7 +11,8 @@ public:
         while(i<n){
             //here int correctInd = nums[i]-1; can give runtime error saying int can't store < -2^31, so i have avoided it
             //check karo ki nums[i]-1 range me hai bhi ya nahi
-            //nums[i] should be positive >0 and <n, otherwise, gives 
+            //nums[i] should be positive >0 and <n, otherwise, gives error
+            //Ignore the numbers that are -ve and that exceed N, only do swap for the +ve numbers that are at incorrect index
             if(nums[i]>0 && nums[i]<n && nums[i]!=nums[nums[i]-1]){
                 swap(nums[i],nums[nums[i]-1]);//swap karo aur sahi jaga pe bhejo
             }
@@ -25,6 +26,7 @@ public:
                 return i+1;
             }
         }
+        eg: [0,1,2]
         return n+1;//if no number is missing from that range
     }
 };
