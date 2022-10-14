@@ -1,0 +1,46 @@
+class Solution {
+public:
+    vector<int> findDuplicates(vector<int>& nums) {
+        //Method 1: for each number in [1,n], compute the count of occurences every number
+        //Method 2: Using hashmap
+        //Method 3: Using Negation of array elements[ duplicates will be +ve, unique will be -ve ]
+    //     vector<int> findDuplicates(vector<int>& nums) {
+    //     int n = nums.size();
+    //     vector<int>ans;
+    //     //we use the negation method here
+    //     for(int i = 0;i<n;i++)
+    //     {
+    //         if(nums[abs(nums[i])-1]<0)//since the element at abs[nums[i]]-1 th index is already negative, it means that we are visiting it second time, so abs(nums[i]) is a duplicate number
+    //         {
+    //             ans.push_back(abs(nums[i]));
+    //         }
+    //         nums[abs(nums[i])-1] = -nums[abs(nums[i])-1];//we negate the element at abs(nums[i]-1)th index denoting that wewe visited abs(nums[i]) once
+    //     }
+    //     return ans;
+    // }
+        //-------------------------------------------------------------
+        //Method 4: Cyclic sort method : (Super COOLEST Method!! aur bahut universal hai..multiple problems solved by this: #KunalKushwaha)
+        // Identified it because of given range:[1,n]
+        int n = nums.size();
+        int i = 0;
+        while(i<n){
+            int correctInd = nums[i]-1;//the nums[i] number should be at nums[i]-1 index
+            //agar correct location pe already nums[i] hai, to theek hai, age bhado
+            if(nums[i]==nums[correctInd]){
+                i++;//move forward
+            }
+            //nums[i] ko correct location pe bhejo by swapping
+            else{
+                swap(nums[i],nums[correctInd]);
+            }
+        }
+        //now iterate again and find which all numbers are still not at the correct position, they are duplicates
+        vector<int>ans;
+        for(int i = 0;i<n;i++){
+            if(nums[i]!=i+1){
+                ans.push_back(nums[i]);
+            }
+        }
+        return ans;
+    }
+};
