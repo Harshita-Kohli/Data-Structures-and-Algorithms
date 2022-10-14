@@ -1,0 +1,29 @@
+class Solution {
+public:
+    //Cyclic Sort based hai bro!
+    //Simply pehle cycle sort karo
+    //TC: O(N)
+    //SC: O(1)
+    int firstMissingPositive(vector<int>& nums) {
+        int i = 0;
+        int n = nums.size();
+        while(i<n){
+            //here int correctInd = nums[i]-1; can give runtime error saying int can't store < -2^31, so i have avoided it
+            //check karo ki nums[i]-1 range me hai bhi ya nahi
+            //nums[i] should be positive >0 and <n, otherwise, gives 
+            if(nums[i]>0 && nums[i]<n && nums[i]!=nums[nums[i]-1]){
+                swap(nums[i],nums[nums[i]-1]);//swap karo aur sahi jaga pe bhejo
+            }
+            else{ //move forward
+                i++;
+            }
+        }
+        //iterate again over the array to see ki konsa aisa pehla index (i) hai jispe sahi number nahi hai, to i+1 hi missing number hai
+        for(int i = 0;i<n;i++){
+            if(nums[i]!=i+1){
+                return i+1;
+            }
+        }
+        return n+1;//if no number is missing from that range
+    }
+};
