@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
+vector<vector<int>>ans; //2d array
+void helper(vector<int>arr, int n)
+{
+    //base case:
+    if(n<1){
+        return;
+    }
+    
+    //recursive case:
+    vector<int>temp(n-1);
+    
+    for(int i = 0;i<n-1;i++){
+        temp[i] = (arr[i]+arr[i+1]);
+    }
+    helper(temp,n-1);
+    //at the end of all the recursive calls, we push the arr into the ans vector
+    ans.push_back(arr); 
+}
+int main() {
+	int n;
+	cin>>n;
+    vector<int>arr(n);
+	for(int i = 0;i<n;i++){
+	    cin>>arr[i];
+	}
+    helper(arr,n);
+    for(int i = 0;i<n;i++){
+	    for(int j = 0;j<ans[i].size();j++){
+	        cout<<ans[i][j]<<" ";
+	    }
+	    cout<<endl;
+	}
+}
