@@ -1,0 +1,15 @@
+int main() {	
+  string s;
+	cin>>s;
+    int idx = -1;
+    //Iterative:
+    for(int i = 0;i<s.length();i++){
+        if(isupper(s[i])) 
+        {
+            idx = i;
+            break;
+        }
+    }
+    cout<<idx;
+    return 0;
+}
