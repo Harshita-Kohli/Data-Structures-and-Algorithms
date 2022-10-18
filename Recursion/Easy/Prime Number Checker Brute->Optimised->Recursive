@@ -1,0 +1,68 @@
+//{ Driver Code Starts
+#include<bits/stdc++.h> 
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+public:
+    int isPrime(int N){
+        // code here
+        if(N<=1) return 0;//neither prime nor composite
+        int c = 2;
+        //check the numbers from 2 to N, if any of these is a factor of num, 
+        // then num is not a prime number
+
+        // while(c<N){
+        //     if(N%c==0){
+        //         return 0;//N is not a prime
+        //     }
+        //     else{
+        //         c++;//check for other values of c whether N is divisible by c or not
+        //     }
+        // }
+        // return 1;
+        
+        //Optimised Method:
+        //check all numbers from 2 to sqrt(N), if any of these are a factor of num
+        //Why check only uptill sqrt(N)??
+        //Coz, if we have checked 2*18, then no need to check 18*2, it is simply repitition
+        //we can check till √n because a larger factor of n must be a multiple of a smaller 
+        // factor that has been already checked.
+        while(c<=sqrt(N)){
+            if(N%c==0){
+                return 0;//N is not a prime
+            }
+            else{
+                c++;//check for other values of c whether N is divisible by c or not
+            }
+        }
+     return 1;
+    }
+};
+//----------------------------------------------------------
+//Recursive Method:
+//TC: O(N)
+//SC: Auxilliary stack space
+#include<bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
+int isPrime(int num, int c){
+    //base case
+    if(c>sqrt(num))//agar sabhi check ho gaye hain, aur koi bhi factor nahi hai:
+    {
+        return true;//agar 2 se leker sqrt(num) tak koi bhi number num ka factor nahi hai, to num is a prime number
+    }
+    //agar koi factor mil gaya hai:
+    if(num%c==0) return false;
+    //nahi to c ko increment karo aur dekho ki aage ja ke koi c ki value factor to nahi hai
+    c++;
+    //recursive:
+    return isPrime(num,c);
+}
+int main() {	
+    int n;
+    cin>>n;
+    cout<<isPrime(n,2); //we pass c = 2 as we will start checking from c = 2
+    return 0;
+}
