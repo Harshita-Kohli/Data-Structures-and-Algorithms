@@ -1,0 +1,21 @@
+//TC: O(N)
+//SC: Auxilliary stack space
+//----------------------------------------------
+#include<bits/stdc++.h>
+#include <iostream>
+using namespace std;
+// int len = 0;
+int helper(string s, int idx){
+    if(s[idx]=='\0')//we have exhausted the string
+    {
+        return 0;
+    }
+    return 1+helper(s,idx+1);//add one to length
+}
+int main() {	
+    string s;
+	  cin>>s;
+    cout<<helper(s, 0);
+    // cout<<len;
+    return 0;
+}
