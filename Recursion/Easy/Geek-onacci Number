@@ -1,0 +1,35 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+int helper(int A, int B, int C, int N)
+{
+    //iterative Approach:
+    // vector<int>temp(N);
+    // temp[0] = A;
+    // temp[1] = B;
+    // temp[2] = C;
+    // for(int i = 3;i<N;i++){
+    //     temp[i] = temp[i-1]+temp[i-2]+temp[i-3];
+    // }
+    // return temp[N-1];
+    //---------------------------------------------
+    //Recursive approach:
+    //base case:
+    if(N==1) return A;
+    if(N==2) return B;
+    if(N==3) return C;
+    //recursive:
+    return helper(A,B,C,N-1)+helper(A,B,C,N-2)+helper(A,B,C,N-3);
+}
+int main()
+ {
+	//code
+	int T;
+	cin>>T;
+	while(T--){
+	    int A, B, C, N;
+	    cin>>A>>B>>C>>N;
+	    cout<<helper(A,B,C,N)<<endl;
+	}
+	return 0;
+}
