@@ -1,0 +1,30 @@
+//Recursive Approach:
+//TC: O(logN base 2) coz we are dividing the number by 2 everytime
+//SC: 
+class Solution {
+public:
+    bool isPowerOfTwo(int n) {
+        //base case:
+        if(n==0){
+            return false;
+        }
+        
+        //agar hum repititive division karte karte n = 1 pe a gaye, to matlab given number is a power of 2
+        if(n==1) return true;//coz pow(2,0) = 1
+        
+        //agar n 2 se divisible nahi hai
+        if(n%2!=0)//if not divisible by 2, then cannot be a power of two as well
+        {
+            return false;
+        }
+        //recursive:
+        //otherwise, check for n/2
+        return isPowerOfTwo(n/2);
+    }
+};
+//-----------------------------------
+//Better Approach: Power of two wale numbers ki binary representation me sirf ek hi set bit hoti hai. Seedha count karlo no of set bits. Agar set bits 1 hi hai, to power of 2 hai
+if(n<=0) return false;
+if(n & (n-1)==0){//this clears the rightmost set bit, if on clearing that bit once, we get number = 0, it means this number had a single set bit, so it is a power of 2
+    return true;//coz a number that is power of two has just one set bit, which gets cleared by taking AND with n-1
+}
