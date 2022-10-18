@@ -1,0 +1,25 @@
+Write a function that reverses a string. The input string is given as an array of characters s.
+
+You must do this by modifying the input array in-place with O(1) extra memory.
+//--------------------------------------------------------
+//Recursive Approach:
+//TC: O(N) simply traversal using 2 pointers
+//SC: Auxilliary stack space coz of recursion
+class Solution {
+public:
+    void helper(vector<char>&s, int l, int r){
+        //base case:
+        if(l>=r){ //we have exhausted the string
+            return;
+        }
+        swap(s[l],s[r]);
+        l++;
+        r--;
+        //recursive:
+        helper(s,l,r);
+    }
+    void reverseString(vector<char>& s) {
+        int n = s.size();
+        helper(s,0,n-1);
+    }
+};
