@@ -1,0 +1,49 @@
+#include <iostream>
+using namespace std;
+//Not Optimised Approach: 
+//TC: O(2^N) because at every step, we divide into 2 and n<=10^9 so TLE
+//SC: auxilliary stack space
+// int helper(int a, int b, int n){
+//     //base case:
+//     if(n==0) return a;
+//     if(n==1) return b;
+//     //recursive:
+//     return helper(a,b,n-1)^helper(a,b,n-2);
+// }
+//------------------------------------
+//Better but gives TLE: Iterative: Bottom 
+//TC: O(N) but n<=10^9, so TLE
+//SC: O(1)
+// int helper(int a, int b, int n){
+//     while(n--){
+//         int c = a^b;
+//         a = b;
+//         b = c;
+//     }
+//     return a; //the nth fibonacci will be in a
+// }
+//---------------------------------
+//Best Method: Use XOR properties : x^x = 0 wali
+int helper(int a, int b, int n){
+    //base case:
+    if(n==0) return a;
+    if(n==1) return b;
+    
+    if(n==2) return a^b;
+    //recursive:
+    return helper(a,b,n%3);
+}
+int main() {
+	// your code goes here
+	int t;
+	cin>>t;
+	while(t--){
+	    int a, b, n;
+	    cin>>a;
+	    cin>>b;
+	    cin>>n;
+	    cout<<helper(a,b,n)<<endl;
+	}
+	return 0;
+}
+
