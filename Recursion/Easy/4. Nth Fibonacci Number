@@ -1,0 +1,17 @@
+// TC: O(((1+sqrt{5})/2)^n  => ~ O(1.6180)^n. Also known as the golden ratio
+// SC: auxilliary stack space
+class Solution {
+public:
+    int helper(int n){
+        //base case:
+        if(n==0 || n==1){
+            return n;
+        }
+        //for n>=2, we need to do recursion
+        //recursive:
+        return helper(n-1)+helper(n-2);
+    }
+    int fib(int n) {
+        return helper(n);
+    }
+};
