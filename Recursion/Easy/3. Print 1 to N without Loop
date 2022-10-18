@@ -1,0 +1,23 @@
+//Recursive:
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+    public:
+    //Complete this function
+    void print(int N, int num){
+        //base case:
+        if(num==0)
+        {
+            return;
+        }
+        //recursive:
+        print(N,num-1);
+        cout<<num<<" ";
+    }
+    void printNos(int N)
+    {
+        //Your code here
+        print(N,N);
+    }
+};
