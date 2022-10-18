@@ -1,5 +1,8 @@
-//TC: O(N)
+//TC: O(logN) because the number of digits in a number = floor[log(n)+1], eg: num = 12345, no of digits = floor[log(12345)+1] = floor[4+1] = 5
+Time Complexity: O(log(N)): The recursive function is called a total of log(N)+1 times as the number of digits in a number is floor(log(N) + 1). Hence the time complexity of the algorithm is O(log(N)).
+
 //SC: Auxilliary stack space
+Space Complexity: O(log(N)): The algorithm has an overhead of recursion. Recursion uses stack memory to save the recursive states. The function is called a total of floor(log(N) +1) (Number of digits in the number) times before any backtrack, hence the space complexity is O(log(N)).
 #include<bits/stdc++.h>
 #include <iostream>
 using namespace std;
