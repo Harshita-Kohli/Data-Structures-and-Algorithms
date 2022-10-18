@@ -1,0 +1,32 @@
+Given a string find its first uppercase letter
+Examples : 
+
+Input : geeksforgeeKs
+Output : K
+
+Input  : geekS
+Output : S
+//----------------------------------------------
+//Recursive way:
+//TC: O(N)
+//SC: Auxilliary stack space
+//---------------------------------------
+#include<bits/stdc++.h>
+#include <iostream>
+using namespace std;
+
+int helper(string s, int idx){
+    int n = s.length();
+    if(idx==n){
+        return -1; //if we exhausted the string and no uppercase was found
+    }
+    //recursive:
+    if(isupper(s[idx])) return idx;
+    return helper(s,idx+1);
+}
+int main() {	
+    string s;
+	cin>>s;
+    cout<<helper(s,0);
+    return 0;
+}
