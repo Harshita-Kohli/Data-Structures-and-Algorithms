@@ -4,6 +4,7 @@ using namespace std;
 //Recursion:
 //TC: O(log n)+1, where (logn)+1 is the no of digits of number
 //SC: Aux stack space
+//NOTE: num = 0000000 will give me answer as 1 and not as 
 int countZeroes(int n, int count){
     //base case:
     if(n==0)//we have processed the entire number
@@ -22,6 +23,11 @@ int main() {
 	// your code goes here
 	int n;
     cin>>n;
-    cout<<countZeroes(n,0);
+    //edge case: if number is 000000, return 1 coz it should be treated as a 0 only
+    if(n==0) cout<<1;
+    else{
+        cout<<countZeroes(n,0);
+    }
 	return 0;
 }
+
