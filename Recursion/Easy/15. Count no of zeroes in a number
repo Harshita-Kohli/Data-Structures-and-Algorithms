@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+#include <iostream>
+using namespace std;
+//Recursion:
+//TC: O(log n)+1, where (logn)+1 is the no of digits of number
+//SC: Aux stack space
+int countZeroes(int n, int count){
+    //base case:
+    if(n==0)//we have processed the entire number
+    {
+        return count; //return the count of the zeroes
+    }
+    //recursive case:
+    int dig = n%10;
+    
+    //increment count only if digit is 0
+    if(dig==0) count++;
+    n = n/10;
+    return countZeroes(n,count);
+}
+int main() {
+	// your code goes here
+	int n;
+    cin>>n;
+    cout<<countZeroes(n,0);
+	return 0;
+}
