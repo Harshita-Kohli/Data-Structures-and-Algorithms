@@ -1,0 +1,25 @@
+#include <cmath>
+#include <cstdio>
+#include <vector>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+//TC: O(n) coz we go from 5 to 4 to 3 to 2 to 1 linearly
+//SC: Auxilliary Stack Space
+//--------------------------------------------
+int factorial(int num){
+    //base case:
+    if(num==1){
+        return 1;
+    }
+    //recursive:
+    return num*factorial(num-1);
+}
+int main() {
+    /* Enter your code here. Read input from STDIN. Print output to STDOUT */  
+    int n;
+    cin>>n;
+    cout<< factorial(n);
+    return 0;
+}
