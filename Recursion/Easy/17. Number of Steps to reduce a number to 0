@@ -1,0 +1,30 @@
+class Solution {
+public:
+    //Recursion + Bit Manipulation:
+    //TC: O(logN base 2) coz we keep going untill all the bits get processed and the number becomnes 0
+    //the no of bits = logNbase2 + 1 
+    //SC: Aux stack space
+    //----------------------------------
+    int helper(int num, int count){
+        //base case:
+        if(num==0){ //if we have processed the entire number, simply return count
+            return count;  
+        }
+        
+        //recursive case:
+        if(!(num&1))//even number
+        {
+            return helper(num>>1,count+1); //left shift by 1 to divide by 2
+        }
+        // else odd number
+        return helper(num-1,count+1);
+        
+    }
+    int numberOfSteps(int num) {
+        //edge case:
+        if(num==0){
+            return 0;  
+        }
+        return helper(num,0);
+    }
+};
