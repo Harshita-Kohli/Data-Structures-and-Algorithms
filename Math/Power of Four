@@ -1,0 +1,26 @@
+//Count set bits:  if no of set bits = 1, and that set bit is in odd place, then it is a power of four
+TC: O ( 1 )    =>as we Only Traverse max 32 Bit 
+SC: O ( 1)   => No Extra Space
+
+class Solution {
+public:
+    bool isPowerOfFour(int n) {
+        int set = 0; //no of set bits
+        int pos = 1; //keeps pos of the bit
+        int one_pos = 0;//keeps the position of the set bit
+        //edge case:
+        //handle the negatives separately to avoid runtime error
+        if(n<0) return false;
+        while(n){
+            if(n&1){ //if rightmost bit is a set bit
+                set++;
+                one_pos = pos;
+            }
+            n = n>>1;//right shift kardo kyunki rightmost bit ko process karliya hai
+            pos+=1;
+        }
+        if(set==1 && one_pos%2!=0){ //if no of set bits = 1, and that set bit is in odd place, then it is a power of four
+            return true;
+        }
+        return false;
+    }
