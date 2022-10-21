@@ -1,0 +1,46 @@
+Given an array of 0s and 1s. Find the length of the largest subarray with equal number of 0s and 1s.
+Example 1:
+
+Input:
+N = 4
+A[] = {0,1,0,1}
+Output: 4
+//---------------------------------------------------------------
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+//TC: O(N)
+//SC: O(N) coz of map
+//---------------------------------------
+// } Driver Code Ends
+
+class Solution{
+  public:
+    int maxLen(int arr[], int N)
+    {
+        // Your code here
+        
+        unordered_map<int,int>mp;
+        mp.insert({0,-1});
+        int maxlen = 0;
+        int sum = 0;
+        for(int i = 0;i<N;i++){
+            if(arr[i]==0){ //if arr[i] = 0, then add -1 to sum
+                sum+=-1;
+            }
+            else sum+=1; //if arr[i] is 1, then add 1 to sum
+           
+           //if sum was not seen before, then simply push it {sum, index} into the map
+           if(mp.find(sum)==mp.end()){
+               mp[sum] = i;
+           }
+           //if sum was already seen in the past, then we have found a subarray of sum  = 0
+           //compute the length
+           else{
+               maxlen = max(maxlen, i-mp[sum]);
+           }
+            
+        }
+        return maxlen;
+    }
+};
