@@ -1,0 +1,82 @@
+//{ Driver Code Starts
+//Initial Template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+/*
+struct Node
+{
+    int data;
+    Node * next;
+    Node * prev;
+    Node (int x)
+    {
+        data=x;
+        next=NULL;
+        prev=NULL;
+    }
+        
+};
+*/
+Node* reverseDLL(Node * head)
+{
+    //Your code here
+    Node* temp = NULL;
+    Node* curr = head;
+    //edge case:
+    if(head==NULL || head->next==NULL){
+        return head;
+    }
+    //simply reverse the links of prev and next for each curr node
+    while(curr){
+        temp = curr->prev; //save the prev of curr
+        curr->prev = curr->next;//make the next of curr as its prev
+        curr->next = temp;//make the temp as next of curr
+        //update the pointers to move forward:
+        temp = curr; 
+        curr = curr->prev;
+    }
+    return temp;
+}
+
+
+//{ Driver Code Starts.
+
+int main() {
+	int t;
+	cin>>t;
+	while(t--)
+	{
+	    int n;
+	    cin>>n;
+	    Node *head=NULL, *tail=NULL;
+        int x;
+	    cin>>x;
+	    head = newNode(x);
+	    tail = head;
+	    
+	    for(int i=0;i<n - 1;i++)
+	    {
+	        cin>>x;
+	        Node* temp=newNode(x);
+	        tail->next=temp;
+	        temp->prev= tail;
+	        tail = temp;
+	    }
+	    head=reverseDLL(head);
+	    
+	    
+	    if(verify(head))
+	    displayList(head);
+	    else
+	    cout<<"Your pointers are not correctly connected";
+ 
+	    cout<<endl;
+	}
+	return 0;
+}
+
+
+// } Driver Code Ends
