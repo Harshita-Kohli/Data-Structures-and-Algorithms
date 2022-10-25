@@ -1,0 +1,25 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+//TC: O(N)
+//SC: O(N)
+class Solution{
+    public:
+    int findSubArraySum(int Arr[], int N, int k)
+    {
+        // code here
+        int count = 0;
+        unordered_map<int,vector<int>>mp; //key will be cumsum, value will be the indexes of occurences of cumsum
+        mp[0].push_back(-1);
+        int cumsum = 0;
+        for(int i = 0;i<N;i++){
+            cumsum+=Arr[i];
+            if(mp.find(cumsum-k)!=mp.end()){//agar cumsum-k mil gaya to matlab ek subarray hai jiska sum k ke equal hai
+                count+= mp[cumsum-k].size();//to count of such subarrays will be the size of mp[cumsum-k] vala vector
+            }
+            mp[cumsum].push_back(i);//uska index push back karle
+        }
+        return count;
+    }
+};
