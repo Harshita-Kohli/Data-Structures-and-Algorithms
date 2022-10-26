@@ -1,0 +1,29 @@
+//Brute Force:
+Use ordered Hashmap 
+//TC: O(N logN)
+//SC: O(N)
+//--------------------------------
+//Better:
+//TC: O(N)
+//SC: O(1)
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        //Using 2 pointers:
+        // Intuition: We can think of using two pointers ‘left’ and ‘right’, we move ‘right’ till we don’t get a number arr[right] which is different from arr[left]. As we got a unique number we will increase the left pointer and update its value by arr[right]. 
+        //Left will have the start of the duplicate, right will be compared with the left and  eg: 2,2,2,2, here left will be 
+        int n = nums.size();
+        int left = 0;
+        for(int right = 1;right<n;right++)
+        {
+            //the moment we find a right different from left wala element, we simply increment left by 1 and put right's value into it
+            if(nums[left]!=nums[right])//we found a unique number so left++ and then place that unique number at left index
+            {
+                left++;
+                nums[left] = nums[right];
+            }
+            
+        }
+        return left+1;//coz left is te last index till which all the unique elements are put, so length = left+1
+    }
+};
