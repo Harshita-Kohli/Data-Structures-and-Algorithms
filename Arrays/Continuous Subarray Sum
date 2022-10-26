@@ -1,0 +1,27 @@
+//Brute Force: TC: O(N*N) using nested loop
+//SC: O(1)
+//-------------------------------------------------------------------------------
+//TC: O(N)
+//SC: O(N) coz of map
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        int cumsum = 0;
+        unordered_map<int, int>mp;
+        mp.insert({0,-1});
+        
+        for(int i = 0;i<n;i++){
+            cumsum+=nums[i];
+            if(mp.find(cumsum%k)==mp.end())
+            {
+                 mp[cumsum%k] = i; //if remainder has occurrend for the 1st time, then simply put it into map along with the first occurrence wala index
+            }
+            //agar remainder repeat hua hai iska matlab ki jo ab tak ki subarray hai usme se agar pichli occurrence tak ke sum ko delete karien to jo bachi hui array hai uske sum ka rem = 0 hai, matlab wo array ka part k ka multiple hai!!
+            else if(i-mp[cumsum%k]>1){
+              return true;
+            }
+        }
+        return false;
+    }
+};
