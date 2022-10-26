@@ -1,0 +1,44 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+//TC: O(N)+O(N-(k%N)) coz we first iterate over the linked list and then we iterate ober the N-(K%N) nodes
+//SC: O(1)
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        //edge cases:
+        if(head==NULL || head->next==NULL || k==0) 
+        {
+            return head;//simply return the linked list as it is
+        }
+        //Step1: Find length of the list:
+        int len = 1;
+        ListNode* curr = head;
+        while(curr->next!=NULL)
+        {
+            curr = curr->next;
+            ++len;
+        }
+        //Step2: As now we have reached the last node, we simply make it point to the head to make it a circular linked list
+        curr->next = head;
+        
+        //Step3: We wanna reach the (len-k)th node of the linked list to make its next = NULL
+        k = k%len;
+        k = len-k;
+        // curr = head;
+        while(k--){
+            curr = curr->next;
+        }
+        head = curr->next;
+        curr->next = NULL;
+        
+        return head;
+    }
+};
