@@ -1,0 +1,27 @@
+class Solution {
+public:
+    string orderlyQueue(string s, int k) {
+        int n = s.length();
+        string ans = "";
+        if(k==1){
+            ans = s;
+            for(int i = 1;i<n;i++){
+               // "cba" -> "bac" -> "acb" -> "cba" -> ...
+            // we only have N swaps here 
+            // as it will become the original string after N swaps
+            // hence, we can try all N possible swaps and find the lexicographically smallest one
+                ans = min(ans,s.substr(i)+s.substr(0,i));
+            }
+        }
+        else{
+            //// if k > 1, we can move any character to any position by swapping two adjacent characters
+            // By swapping a number of times, 
+            // e.g. "cab" 
+            // eventually we could have "abc", "acb", "bca", "bac", "cba", "cab" (3 * 2 * 1 = 6 possible arrangements)
+            // so the lexicographically smallest string would be the sorted string using bubble sort
+            sort(s.begin(),s.end());
+            ans = s;
+        }
+        return ans;
+    }
+};
