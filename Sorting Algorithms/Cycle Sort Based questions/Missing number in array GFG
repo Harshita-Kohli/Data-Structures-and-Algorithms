@@ -1,0 +1,33 @@
+//{ Driver Code Starts
+// Initial template for C++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution{
+  public:
+    int MissingNumber(vector<int>& array, int n) {
+        // Your code goes here
+        //using cyclic sort technique:
+        int i = 0;
+        while(i<n-1){
+            int pos = array[i]-1;
+            // int curr = array[i];
+            if(array[i]<n && array[i]!=array[pos]){ //if curr is not at correct place
+                //send curr at its correct place by swapping
+                swap(array[i],array[pos]);
+            }
+            else{
+                i++;
+            }
+        }
+        //now simply iterate again to check which is missing:
+        for(int i = 0;i<n;i++){
+            if(array[i]!=i+1){
+                return i+1;//i+1 is the missing number
+            }
+        }
+        //if the missing number is not in the range of the array, then n is the missing number
+        return n;
+    }
+};
