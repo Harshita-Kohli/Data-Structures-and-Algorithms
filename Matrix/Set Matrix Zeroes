@@ -36,10 +36,12 @@ public:
                 }
             }
         }
+        //if (0,0)th cell is 0 then both the first orw and the first column should be all 0, so let us mark the isRow and isCol as true
         if(matrix[0][0] == 0){
             isCol = true;
             isRow = true;
         }
+        //now we update the first row and the first column using the markers isRow and isCol
         if(isRow==true){
             for(int j = 0;j<col;j++){
                 matrix[0][j] = 0;
